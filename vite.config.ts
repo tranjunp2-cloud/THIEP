@@ -60,7 +60,7 @@ export default defineConfig(async () => {
       {
         name: "rsvp-cloudflare-storage",
         enforce: "pre",
-        resolveId(source) {
+        resolveId(source: string) {
           const storagePath = fileURLToPath(new URL("./lib/rsvp-storage", import.meta.url));
           if (source === "@/lib/rsvp-storage" || source === storagePath || source === `${storagePath}.ts`) {
             return `${storagePath}.cloudflare.ts`;
