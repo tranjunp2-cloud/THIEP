@@ -66,7 +66,7 @@ export const WeddingMusic = forwardRef<WeddingMusicHandle>(function WeddingMusic
   }
 
   return <>
-    <audio ref={audioRef} src="/audio/canon-in-d-major.mp3" preload="none" loop
+    <audio ref={audioRef} src="/audio/canon-in-d-major-web.mp3" preload="none" loop
       onPlaying={() => {
         if (!wanted.current) { audioRef.current?.pause(); return; }
         setPlaying(true); setLoading(false); setMessage("");

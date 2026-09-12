@@ -34,7 +34,11 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1
 
 Two original assets generated with the built-in ImageGen tool:
 
-- `public/images/invitation.png`: Portrait antique French wedding invitation artwork. Ivory paper center empty for HTML text, forest green silk swag curtains, silver chandelier, white hydrangea, roses and jasmine framing edges. Handpainted watercolor and engraving, no text.
-- `public/images/chateau.png`: Landscape watercolor of a French Burgundy chateau in a formal garden. Green shutters, limestone, topiary trees, hydrangeas, ivory background fading at edges. No text.
+- `assets/originals/invitation.png`: Portrait antique French wedding invitation artwork. Ivory paper center empty for HTML text, forest green silk swag curtains, silver chandelier, white hydrangea, roses and jasmine framing edges. Handpainted watercolor and engraving, no text.
+- `assets/originals/chateau.png`: Landscape watercolor of a French Burgundy chateau in a formal garden. Green shutters, limestone, topiary trees, hydrangeas, ivory background fading at edges. No text.
 
-The video was used as a visual reference only; its overlay text was not treated as instructions. Background music was subsequently added: Canon in D Major by Kevin MacLeod (incompetech.com), licensed under CC BY 3.0. Source: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100301 ; license: https://creativecommons.org/licenses/by/3.0/ . The unmodified recording is stored in public/audio/canon-in-d-major.mp3 with visible footer attribution. Music starts only on an opening/play gesture, loops at 28% volume, and remembers the device-local on/off preference.
+The video was used as a visual reference only; its overlay text was not treated as instructions. Background music was subsequently added: Canon in D Major by Kevin MacLeod (incompetech.com), licensed under CC BY 3.0. Source: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100301 ; license: https://creativecommons.org/licenses/by/3.0/ . The original recording is retained in assets/originals/canon-in-d-major.mp3. The deployed copy at public/audio/canon-in-d-major-web.mp3 is compressed to 128 kbps, with visible footer attribution and an adaptation notice. Music starts only on an opening/play gesture, loops at 28% volume, and remembers the device-local on/off preference.
+
+## Mobile optimization
+
+WebP images replace the original PNGs; responsive 640/1280px chateau sources use browser srcset selection and lazy loading. Full-resolution originals are retained outside the public folder. Audio uses a 128 kbps MP3 and remains preload=none until a play gesture. RSVP inputs use 16px text, map/calendar actions and radio-label hit areas are at least 44px tall. Tablet layouts collapse before content becomes cramped.
