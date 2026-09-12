@@ -1,0 +1,114 @@
+[
+  {
+    "name": "guests",
+    "path": "/tmp/wedding-art-v2/guests.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Wide 3:2 composition of six full-body joyful adults dancing, three men in black tuxedos and three women in ivory, sage, dark green flowing evening gowns, holding champagne glasses. Full figures with feet visible, slim refined hand-painted editorial figures.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-280eb784-2a34-42b1-bcf0-8ff805787284.png"
+  },
+  {
+    "name": "leafy-garland",
+    "path": "/tmp/wedding-art-v2/leafy-garland.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Very wide low horizontal garland of dense forest-green leaves, white flowers, delicate hanging floral vines along bottom. Only garland, nothing else, width fills composition.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-fbb71100-b59d-4776-901c-6ac92fa26d77.png"
+  },
+  {
+    "name": "candles",
+    "path": "/tmp/wedding-art-v2/candles.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Wide low row of varied-height lit white pillar candles in front of a lush low hedge of white flowers and forest green leaves.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-8fb96911-31db-49d1-9e66-00b8145613cf.png"
+  },
+  {
+    "name": "chapel",
+    "path": "/tmp/wedding-art-v2/chapel.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Small French pale stone chapel facade, pitched roof small cross, arched dark green double door, small conical shrub left white flowers right. Square centered full object.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-b143dbf5-ed1b-4bef-9435-4351f61e3a92.png"
+  },
+  {
+    "name": "rings",
+    "path": "/tmp/wedding-art-v2/rings.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Two silver interlocked wedding rings nestled in forest green foliage and small white flowers. Square centered full object.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-753d1081-0474-4323-8c7c-100a34ac2f18.png"
+  },
+  {
+    "name": "cocktail",
+    "path": "/tmp/wedding-art-v2/cocktail.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: One delicate coupe glass containing pale drink with green olive, little foliage at base. Square centered full object.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-7cf576ae-b6c6-4dde-801a-d9741ca34f8c.png"
+  },
+  {
+    "name": "disco",
+    "path": "/tmp/wedding-art-v2/disco.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: One silver mirrored disco ball hanging from short thin chain, sprig of greenery at top and lower side. Square centered full object.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-02226a87-7624-4872-bd7a-56620c5f3374.png"
+  },
+  {
+    "name": "champagne",
+    "path": "/tmp/wedding-art-v2/champagne.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Two elegant clinking champagne flutes with pale gold champagne, small silver crescent moon nearby. Square centered full objects.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-a0bf957d-f2dd-4885-b46f-0f93fc6aa93b.png"
+  },
+  {
+    "name": "recovery-building",
+    "path": "/tmp/wedding-art-v2/recovery-building.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Symmetric two-story French restaurant facade white stone green shutters, central balcony and draped ivory and green bunting, arched entrances, lush white flowers at base. Landscape full building.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-e6e3e426-b563-4280-a8b6-b8bd82996c90.png"
+  },
+  {
+    "name": "gifts-frame",
+    "path": "/tmp/wedding-art-v2/gifts-frame.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Portrait 2:3 ornate silver scalloped rectangular border, thin leafy white-flower vines just inside border, silver bow top center, enormous EMPTY center reserved for live text, center at least 70% width and 75% height. Frame fully in image.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-98084b6a-8a5d-4d32-80b0-73ee93d102f7.png"
+  },
+  {
+    "name": "envelope",
+    "path": "/tmp/wedding-art-v2/envelope.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Ivory silver closed envelope with silver round wax seal, small green-white flowering sprig at lower left. Square full envelope centered.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-7a15c0aa-e4a8-42f7-b92d-82c1dce33fcd.png"
+  },
+  {
+    "name": "topiary",
+    "path": "/tmp/wedding-art-v2/topiary.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Portrait conical dark green topiary tree in ornate silver urn ringed with white flowers, on stone pedestal and two steps with white flowers at bottom-right, full object no cropping.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-c9c7c9ec-a63f-4e39-b3d9-f48086ec91cb.png"
+  },
+  {
+    "name": "estate-panorama",
+    "path": "/tmp/wedding-art-v2/estate-panorama.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Very wide low panorama French pale stone country estate off-center left, green and white striped awnings, landscaped lawn and formal garden extending right, painted horizon fading into empty background, no sky fill.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-63d02f60-97bf-4ff5-a16f-c2ec6d383f2a.png"
+  },
+  {
+    "name": "ceremony-frame",
+    "path": "/tmp/wedding-art-v2/ceremony-frame.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Tall portrait 2:3 scalloped silver border with deep forest green fabric along OUTER sides, lush white flowers asymmetric outer corners. EMPTY center at least 60% width and 80% height reserved for live text. All ornament confined to perimeter.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-fa6670e7-85cd-4907-81de-b0a36afa4d36.png"
+  },
+  {
+    "name": "floral-side",
+    "path": "/tmp/wedding-art-v2/floral-side.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Portrait dense white hydrangeas and white roses forest-green leafy branches, narrow vertical border foliage growing in from LEFT, irregular inner edge, entire RIGHT HALF empty transparent. No other objects.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-19bfb05f-ebcb-4168-83f0-ed1375dd9266.png"
+  },
+  {
+    "name": "silver-seal",
+    "path": "/tmp/wedding-art-v2/silver-seal.png",
+    "prompt": "Use case: illustration-story. Asset type: isolated wedding stationery artwork. Refined hand-painted watercolor and gouache, detailed delicate pencil edges, restrained French wedding stationery, forest green and sage leaves, ivory white flowers, silver details. Genuine transparent background with alpha; if impossible flat warm ivory #f6f2ed. No text, lettering, logo, watermark, UI or screenshot. Full composition uncut, modest close-fit empty margins. Primary request: Portrait 5:6 ornate scalloped oval silver plaque with subtle embossed edging, EMPTY center for live monogram overlay, no letters or text. Full plaque centered.",
+    "mode": "built-in image_gen",
+    "source": "/Users/tranthibichdung/.codex/generated_images/01a094eb-31d1-7472-999b-926fa001726a/exec-9f0ff8c9-dfda-4fb3-953a-f9420447a5d4.png"
+  }
+]

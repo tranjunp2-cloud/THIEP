@@ -1,0 +1,89 @@
+{
+  "guests": {
+    "width": 1400,
+    "height": 933,
+    "bytes": 325542,
+    "smallWidth": 640
+  },
+  "leafy-garland": {
+    "width": 1600,
+    "height": 533,
+    "bytes": 300782,
+    "smallWidth": 640
+  },
+  "candles": {
+    "width": 1600,
+    "height": 800,
+    "bytes": 318134,
+    "smallWidth": 640
+  },
+  "chapel": {
+    "width": 320,
+    "height": 320,
+    "bytes": 29220
+  },
+  "rings": {
+    "width": 320,
+    "height": 320,
+    "bytes": 44974
+  },
+  "cocktail": {
+    "width": 320,
+    "height": 320,
+    "bytes": 27498
+  },
+  "disco": {
+    "width": 320,
+    "height": 320,
+    "bytes": 31980
+  },
+  "champagne": {
+    "width": 320,
+    "height": 320,
+    "bytes": 46672
+  },
+  "recovery-building": {
+    "width": 1000,
+    "height": 667,
+    "bytes": 236752,
+    "smallWidth": 640
+  },
+  "gifts-frame": {
+    "width": 1000,
+    "height": 1500,
+    "bytes": 329458,
+    "smallWidth": 640
+  },
+  "envelope": {
+    "width": 500,
+    "height": 500,
+    "bytes": 45200
+  },
+  "topiary": {
+    "width": 500,
+    "height": 750,
+    "bytes": 102866
+  },
+  "estate-panorama": {
+    "width": 1600,
+    "height": 640,
+    "bytes": 312538,
+    "smallWidth": 640
+  },
+  "ceremony-frame": {
+    "width": 1024,
+    "height": 1536,
+    "bytes": 252142,
+    "smallWidth": 640
+  },
+  "floral-side": {
+    "width": 600,
+    "height": 900,
+    "bytes": 151694
+  },
+  "silver-seal": {
+    "width": 400,
+    "height": 480,
+    "bytes": 59784
+  }
+}

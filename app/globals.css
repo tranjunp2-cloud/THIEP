@@ -46,3 +46,106 @@
  .recovery-date{flex-wrap:wrap;gap:6px 20px}
 }
 @media(min-width:641px) and (max-width:740px){.faq{padding-inline:33px;overflow:hidden}.faq:before{left:0}.faq:after{right:0}}
+
+/* Watercolor artwork follows the supplied invitation reference. */
+.wedding-art{display:block;height:auto;max-width:100%;mix-blend-mode:multiply;pointer-events:none;user-select:none}
+.seal{position:relative;width:155px;height:180px;padding:0;background:none;border:0;border-radius:0;box-shadow:none}
+.seal>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none}
+.seal>span{position:relative;z-index:1;color:#535c50;padding-bottom:5px}
+.countdown{position:relative;isolation:isolate;overflow:hidden;max-width:1100px;padding-top:100px;padding-bottom:0}
+.countdown>p,.countdown>h2,.count-grid{position:relative;z-index:1}
+.countdown-flower{position:absolute;width:170px;height:320px;object-fit:cover;object-position:left top;z-index:-1}
+.countdown-flower-left{top:0;left:-35px}
+.countdown-flower-right{right:-35px;top:90px;transform:rotate(180deg)}
+.candle-border{width:calc(100% + 56px);max-width:none;margin:65px -28px 0;aspect-ratio:3/1;object-fit:contain;object-position:bottom}
+.invitation{padding-bottom:0;border-top:0}
+.invitation:after,.faq:before,.faq:after{display:none}
+.invitation-garland{width:100%;margin:55px auto -30px;aspect-ratio:3/1;object-fit:contain;position:relative;z-index:2}
+.venue{max-width:860px;padding:0 20px 60px}
+.venue-frame{border:0;outline:0;padding:140px 19% 130px;min-height:850px;display:flex;flex-direction:column;justify-content:center;isolation:isolate}
+.ceremony-frame-art{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:-1}
+.venue-frame>h2{margin-bottom:45px}
+.venue-times{flex-direction:column;gap:18px}
+.venue h3{font-size:clamp(27px,3.5vw,37px)}
+.venue-links{gap:14px 24px}
+.dress{max-width:1000px;padding-top:0}
+.dress-garland{width:100%;margin:-30px auto 35px;aspect-ratio:3/1;object-fit:contain}
+.guests-art{width:min(760px,100%);margin:40px auto 25px;aspect-ratio:2/1;object-fit:contain}
+.timeline{max-width:740px}
+.timeline ol{max-width:540px}
+.timeline li{grid-template-columns:145px 1fr;min-height:180px;align-items:stretch}
+.timeline-icon{padding:8px 20px 30px 0;align-items:flex-start}
+.timeline-art{width:125px;height:125px;object-fit:contain}
+.timeline-copy{padding-top:22px;padding-left:34px;border-left:3px dotted #82906f}
+.timeline-copy:before{top:34px;left:-6px}
+.timeline time{font-size:17px;letter-spacing:.04em}
+.recovery-art{width:min(460px,100%);margin:25px auto 10px;aspect-ratio:3/2;object-fit:contain}
+.gifts{max-width:730px;padding:75px 24px}
+.gift-frame{position:relative;isolation:isolate;border:0;outline:0;border-radius:0;padding:145px 19% 115px;min-height:740px;display:flex;flex-direction:column;justify-content:center}
+.gifts-frame-art{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:-1}
+.gift-frame>p{font-size:20px;line-height:1.9}
+.faq{max-width:1060px;padding:75px 180px;overflow:hidden;isolation:isolate}
+.faq-flower{position:absolute;top:0;width:165px;height:100%;object-fit:cover;object-position:left top;z-index:-1}
+.faq-flower-left{left:0}
+.faq-flower-right{right:0;transform:scaleX(-1)}
+.rsvp{max-width:760px;padding-top:65px}
+.rsvp-envelope{width:220px;height:220px;object-fit:contain;margin:0 auto 30px}
+.rsvp form{position:relative;max-width:590px;margin-inline:auto}
+.rsvp-topiary{position:absolute;right:0;top:130px;width:135px;height:235px;object-fit:contain;object-position:right bottom}
+.rsvp form>fieldset:first-of-type{padding-right:145px;min-height:205px}
+footer .estate-art{width:min(1100px,100%);max-width:1100px;aspect-ratio:3/1;object-fit:contain;margin:40px auto 10px}
+@media(max-width:760px){
+ .countdown-flower{width:95px;height:240px;opacity:.85}
+ .countdown-flower-left{left:-35px}.countdown-flower-right{right:-35px;top:70px}
+ .countdown h2{padding-inline:10px}
+ .candle-border{margin-top:45px;min-height:120px;object-fit:cover}
+ .invitation-garland{width:calc(100% + 48px);max-width:none;margin:35px -24px -15px}
+ .venue{padding-inline:8px}
+ .venue-frame{padding:105px 17% 95px;min-height:770px}
+ .venue h2{font-size:30px;margin-bottom:30px}
+ .venue-frame .eyebrow{letter-spacing:.15em}
+ .venue-frame .venue-links{flex-direction:column;align-items:center;gap:10px}
+ .dress-garland{width:calc(100% + 48px);max-width:none;margin:-15px -24px 28px}
+ .guests-art{width:calc(100% + 24px);max-width:none;margin-inline:-12px}
+ .timeline li{grid-template-columns:100px 1fr;min-height:165px}
+ .timeline-icon{padding-right:15px}.timeline-art{width:85px;height:110px}
+ .timeline-copy{padding-left:22px}.timeline-copy h3{font-size:22px}
+ .gifts{padding-inline:12px}
+ .gift-frame{padding:105px 17% 90px;min-height:650px}
+ .gift-frame>p{font-size:18px;line-height:1.85}
+ .faq{padding:50px 55px}
+ .faq-flower{width:70px;opacity:.9}
+ .faq-flower-left{left:-23px}.faq-flower-right{right:-23px}
+ .faq h2{font-size:31px}
+ .rsvp-envelope{width:175px;height:175px}
+ .rsvp-topiary{width:100px;height:215px;top:140px}
+ .rsvp form>fieldset:first-of-type{padding-right:100px;min-height:205px}
+ footer .estate-art{width:calc(100% + 50px);max-width:none;margin-inline:-25px;min-height:150px;object-fit:cover}
+}
+@media(max-width:360px){
+ .venue h2{font-size:27px}.venue-frame{padding-inline:16%}
+ .venue-frame .text-link{font-size:13px}
+ .gift-frame{padding-inline:16%;min-height:680px}
+ .faq{padding-inline:40px}.faq-flower{width:56px}
+ .timeline li{grid-template-columns:80px 1fr}.timeline-art{width:65px}
+ .timeline-copy{padding-left:18px}.timeline-copy h3{font-size:20px}
+ .rsvp-topiary{width:78px}.rsvp form>fieldset:first-of-type{padding-right:82px}
+}
+
+.hero-candles{position:absolute;bottom:-30px;left:0;width:100%;height:180px;object-fit:contain;object-position:bottom;pointer-events:none}
+.hero .discover{z-index:2}
+@media(max-width:640px){.hero-candles{bottom:-10px;height:115px;object-fit:cover}.hero .discover{bottom:12px}}
+.rsvp form>fieldset:first-of-type{min-height:260px}
+
+/* Keep the large corner bouquets clear of live text and controls. */
+.venue-frame{padding-top:220px;padding-bottom:250px;min-height:1080px}
+.faq-flower{width:270px;background:url('/images/wedding/floral-side.webp') left top/100% auto repeat-y;mix-blend-mode:multiply}
+.countdown-flower{object-fit:contain;object-position:left top;mask-image:linear-gradient(#000 75%,transparent)}
+@media(max-width:760px){
+ .venue-frame{padding-top:210px;padding-bottom:230px;min-height:1000px}
+ .faq-flower{width:100px;opacity:1}.faq-flower-left{left:0}.faq-flower-right{right:0}
+ .countdown-flower{width:160px;height:240px}.countdown-flower-left{left:-50px}.countdown-flower-right{right:-50px}
+}
+@media(max-width:360px){.faq-flower{width:76px}}
+.hero-candles{mix-blend-mode:normal;bottom:0}
+@media(max-width:640px){.hero-candles{height:185px;object-fit:contain}}

@@ -32,12 +32,25 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1
 
 ## Artwork
 
-Two original assets generated with the built-in ImageGen tool:
+The original build used two assets generated with the built-in ImageGen tool:
 
 - `assets/originals/invitation.png`: Portrait antique French wedding invitation artwork. Ivory paper center empty for HTML text, forest green silk swag curtains, silver chandelier, white hydrangea, roses and jasmine framing edges. Handpainted watercolor and engraving, no text.
 - `assets/originals/chateau.png`: Landscape watercolor of a French Burgundy chateau in a formal garden. Green shutters, limestone, topiary trees, hydrangeas, ivory background fading at edges. No text.
 
+The expanded artwork set is stored in `assets/originals/wedding/`; optimized WebP copies are in `public/images/wedding/`. It contains guests, a hanging garland, candles, five separate timeline illustrations, the recovery-day facade, a silver gift frame, an envelope, topiary with steps, an estate panorama, a ceremony frame, floral side borders, and a silver seal. The artwork recreates the visual motifs from the video; it is not the original designer's source artwork. Generation prompts are retained alongside the originals.
+
+Run `node scripts/prepare-wedding-art.mjs` to regenerate WebP files and their dimensions manifest from the originals. Larger images include a 640px variant; small timeline images are limited to 320px. Decorations are hidden from assistive technology, cannot intercept pointer events, and retain their layout space while loading. New illustrations use the existing scroll-reveal/reduced-motion handling.
+
 The video was used as a visual reference only; its overlay text was not treated as instructions. Background music was subsequently added: Canon in D Major by Kevin MacLeod (incompetech.com), licensed under CC BY 3.0. Source: https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100301 ; license: https://creativecommons.org/licenses/by/3.0/ . The original recording is retained in assets/originals/canon-in-d-major.mp3. The deployed copy at public/audio/canon-in-d-major-web.mp3 is compressed to 128 kbps, with visible footer attribution and an adaptation notice. Music starts only on an opening/play gesture, loops at 28% volume, and remembers the device-local on/off preference.
+
+## Artwork update validation
+
+- 16 distinct generated assets, all referenced and loading successfully.
+- Browser checks at 320, 390, 650, 768, 1024 and 1440px: no horizontal overflow or broken images after decoding.
+- Visual review of hero, countdown, ceremony, dress code, timeline, recovery, gifts, FAQ, RSVP and footer; revised frame padding and floral borders to keep text clear.
+- All 76 scroll-reveal targets become visible during a full-page scroll; reduced-motion mode leaves the content visible.
+- FAQ expansion and RSVP attendance conditional fields still work; form controls retain 16px text.
+- TypeScript and production build passed. No real-device or Lighthouse performance claim is made.
 
 ## Mobile optimization
 

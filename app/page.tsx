@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useScrollReveal } from "./use-scroll-reveal";
 import Celebration from "./celebration";
+import { WeddingArt } from "./wedding-art";
 import { WeddingMusic, type WeddingMusicHandle } from "./wedding-music";
 import { ArrowDown } from "lucide-react";
 export default function Home() {
@@ -16,13 +17,13 @@ export default function Home() {
  <WeddingMusic ref={musicRef}/>
  <nav className="desktop-nav" aria-label="Invitation navigation"><a href="#top" className="nav-monogram">C <i>&</i> A</a><div><a href="#celebration">The celebration</a><a href="#details">The details</a><a href="#rsvp">RSVP</a></div><span>12 . 06 . 2027</span></nav>
  <section className={`hero ${opened?'is-open':''}`} aria-label="Wedding invitation">
- <div className="hero-paper"><div className="hero-copy"><p className="eyebrow">The wedding of</p><h1>Camille <span>&</span> Antoine</h1><p className="hero-date">Saturday, 12 June 2027</p><p className="script">Burgundy, France</p></div></div>
+ <div className="hero-paper"><div className="hero-copy"><p className="eyebrow">The wedding of</p><h1>Camille <span>&</span> Antoine</h1><p className="hero-date">Saturday, 12 June 2027</p><p className="script">Burgundy, France</p></div><WeddingArt name="candles" className="hero-candles" width={1536} height={768}/></div>
  <div className="door door-left" aria-hidden="true"/><div className="door door-right" aria-hidden="true"/>
- <div className="envelope-copy"><p className="script">A beautiful day.<br/>A lifetime together.</p><button className="seal" onClick={openInvitation} aria-label="Open wedding invitation"><span>C<small>&</small>A</span></button><p className="eyebrow">You are cordially invited</p><button className="open-invitation" onClick={openInvitation}>Open the invitation <ArrowDown size={14}/></button></div>
+ <div className="envelope-copy"><p className="script">A beautiful day.<br/>A lifetime together.</p><button className="seal" onClick={openInvitation} aria-label="Open wedding invitation"><img src="/images/wedding/silver-seal.webp" alt="" aria-hidden="true" width="1024" height="1228"/><span>C<small>&</small>A</span></button><p className="eyebrow">You are cordially invited</p><button className="open-invitation" onClick={openInvitation}>Open the invitation <ArrowDown size={14}/></button></div>
  {opened&&<a className="discover" href="#celebration">Discover <ArrowDown size={15}/></a>}
  </section>
- <section className="countdown section" id="celebration"><p className="script">Every moment brings us closer</p><h2>Counting down to forever</h2><div className="count-grid">{count.map((v,i)=><div key={i}><strong>{String(v).padStart(2,'0')}</strong><span>{['Days','Hours','Minutes','Seconds'][i]}</span></div>)}</div></section>
- <section className="invitation section"><p className="script">Together with their families</p><h2>Camille Lefèvre<span className="script">and</span>Antoine Marchand</h2><p className="script">invite you to celebrate their marriage</p><p className="eyebrow">Saturday, 12 June 2027</p><div className="fine-rule"/><p>Surrounded by the gardens of Burgundy,<br/>and the people we love most.</p></section>
+ <section className="countdown section" id="celebration"><WeddingArt name="floral-side" className="countdown-flower countdown-flower-left"/><WeddingArt name="floral-side" className="countdown-flower countdown-flower-right"/><p className="script">Every moment brings us closer</p><h2>Counting down to forever</h2><div className="count-grid">{count.map((v,i)=><div key={i}><strong>{String(v).padStart(2,'0')}</strong><span>{['Days','Hours','Minutes','Seconds'][i]}</span></div>)}</div><WeddingArt name="candles" className="candle-border" width={1536} height={512}/></section>
+ <section className="invitation section"><p className="script">Together with their families</p><h2>Camille Lefèvre<span className="script">and</span>Antoine Marchand</h2><p className="script">invite you to celebrate their marriage</p><p className="eyebrow">Saturday, 12 June 2027</p><div className="fine-rule"/><p>Surrounded by the gardens of Burgundy,<br/>and the people we love most.</p><WeddingArt name="leafy-garland" className="invitation-garland" width={1536} height={512}/></section>
  <Celebration/>
  </main>
 }

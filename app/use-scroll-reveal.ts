@@ -22,7 +22,7 @@ const groups: [string, string, MotionKind, number][] = [
   [".rsvp", ":scope > h2, :scope > p, :scope > form", "rise", 110],
   [".rsvp", ":scope > svg", "icon", 0],
   ["footer", ":scope > p, :scope > h2, :scope > a", "rise", 100],
-  ["main", ".chateau, .recovery-art, footer img", "image", 0],
+  ["main", ".recovery-art, .guests-art, .rsvp-envelope, .rsvp-topiary, .candle-border, .invitation-garland, .dress-garland, footer img", "image", 0],
   ["main", ".fine-rule", "line", 0],
 ];
 
