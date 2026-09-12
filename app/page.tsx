@@ -1,12 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useScrollReveal } from "./use-scroll-reveal";
 import Celebration from "./celebration";
 import { ArrowDown } from "lucide-react";
 export default function Home() {
+ const rootRef=useRef<HTMLElement>(null);
+ useScrollReveal(rootRef);
  const [opened,setOpened]=useState(false);
  const [count,setCount]=useState([0,0,0,0]);
  useEffect(()=>{const tick=()=>{const n=Math.max(0,new Date('2027-06-12T17:00:00+02:00').getTime()-Date.now());setCount([Math.floor(n/86400000),Math.floor(n/3600000)%24,Math.floor(n/60000)%60,Math.floor(n/1000)%60])};tick();const id=setInterval(tick,1000);return()=>clearInterval(id)},[]);
- return <main id="top">
+ return <main id="top" ref={rootRef}>
  <nav className="desktop-nav" aria-label="Invitation navigation"><a href="#top" className="nav-monogram">C <i>&</i> A</a><div><a href="#celebration">The celebration</a><a href="#details">The details</a><a href="#rsvp">RSVP</a></div><span>12 . 06 . 2027</span></nav>
  <section className={`hero ${opened?'is-open':''}`} aria-label="Wedding invitation">
  <div className="hero-paper"><div className="hero-copy"><p className="eyebrow">The wedding of</p><h1>Camille <span>&</span> Antoine</h1><p className="hero-date">Saturday, 12 June 2027</p><p className="script">Burgundy, France</p></div></div>
