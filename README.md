@@ -5,8 +5,10 @@ A responsive wedding invitation recreated from the supplied 25-second video. The
 ## Run locally
 
 - `npm ci`
-- `npm run dev` (http://localhost:5173)
+- `npm run dev` (Next.js, http://localhost:3000)
 - `npm run build`
+
+For Vercel deployment and RSVP database setup, see [VERCEL.md](VERCEL.md). The repo now defaults to standard Next.js; original Sites commands are retained as `dev:sites`, `build:sites`, and `start:sites`.
 
 Content is in `app/wedding.ts`, `app/page.tsx` and `app/celebration.tsx`; visual tokens and responsive styles are in `app/globals.css`.
 
@@ -14,9 +16,9 @@ The app includes opening envelope animation, a real countdown, venue map links, 
 
 ## RSVP
 
-POST `/api/rsvp` validates input on the server and stores responses in the Sites D1 `DB` binding. The UUID prevents duplicate inserts on network retries. Guest replies are not exposed through a public GET endpoint. Browser storage is not used for RSVP records. The current deployment is private to the site owner; sharing access must be configured before real guests can open it.
+POST `/api/rsvp` validates input on the server. On Vercel it stores responses through the server-only Supabase adapter; on Sites it uses the D1 `DB` binding. GET `/api/rsvp` reports configuration availability only, never guest records. The UUID prevents duplicate inserts on network retries. Guest replies are not exposed through a public endpoint. Browser storage is not used for RSVP records. The current deployment is private to the site owner; sharing access must be configured before real guests can open it.
 
-Generate schema changes with `npm run db:generate`. For a local database after building:
+Generate schema changes with `npm run db:generate`. For a local Sites database after `npm run build:sites`:
 
 ```
 node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1 execute DB --local --config dist/server/wrangler.json --persist-to .wrangler/state --file drizzle/0000_shocking_purple_man.sql

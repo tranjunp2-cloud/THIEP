@@ -1,4 +1,5 @@
 import vinext from "vinext";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
@@ -56,6 +57,16 @@ export default defineConfig(async () => {
       ...(isCodexSeatbeltSandbox ? { watch: { useFsEvents: false, usePolling: true } } : {}),
     },
     plugins: [
+      {
+        name: "rsvp-cloudflare-storage",
+        enforce: "pre",
+        resolveId(source) {
+          const storagePath = fileURLToPath(new URL("./lib/rsvp-storage", import.meta.url));
+          if (source === "@/lib/rsvp-storage" || source === storagePath || source === `${storagePath}.ts`) {
+            return `${storagePath}.cloudflare.ts`;
+          }
+        },
+      },
       vinext(),
       sites({ mockAuth: !managedLinux }),
       cloudflare({
