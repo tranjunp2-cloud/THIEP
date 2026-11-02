@@ -57,7 +57,7 @@ function CopyButton({ text }: { text: string }) {
 
 /* ---------------- RSVP ---------------- */
 
-function Rsvp({ w, guest }: { w: Wedding; guest?: Guest }) {
+function Rsvp({ w, guest, preview }: { w: Wedding; guest?: Guest; preview?: boolean }) {
   const [available, setAvailable] = useState<boolean | null>(null);
   const [attendance, setAttendance] = useState<"yes" | "no">("yes");
   const [status, setStatus] = useState<"idle" | "sending" | "saved" | "demo" | "error">("idle");
@@ -65,23 +65,21 @@ function Rsvp({ w, guest }: { w: Wedding; guest?: Guest }) {
   const key = useRef("");
 
   useEffect(() => {
+    if (preview) return;
     const c = new AbortController();
     fetch("/api/rsvp", { signal: c.signal, cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
       .then((d) => setAvailable(d?.available === true))
       .catch(() => !c.signal.aborted && setAvailable(false));
     return () => c.abort();
-  }, []);
+  }, [preview]);
 
   async function send(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (status === "sending") return;
     const data = new FormData(e.currentTarget);
-    if (!available) {
-      // Thiệp demo chưa nối cơ sở dữ liệu: không giả vờ đã lưu.
-      setStatus("demo");
-      return;
-    }
+    if (preview) return;
+    // Luôn gửi lên server: server tự báo nếu là thiệp demo (không lưu) hoặc chưa cấu hình nơi lưu.
     if (!key.current) key.current = crypto.randomUUID();
     setStatus("sending");
     setError("");
@@ -102,7 +100,8 @@ function Rsvp({ w, guest }: { w: Wedding; guest?: Guest }) {
         }),
       });
       if (!r.ok) throw new Error("Chưa gửi được phản hồi. Bạn thử lại sau ít phút nhé.");
-      setStatus("saved");
+      const res = await r.json().catch(() => ({}));
+      setStatus(res?.demo ? "demo" : "saved");
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Vui lòng thử lại.");
@@ -203,8 +202,10 @@ function Rsvp({ w, guest }: { w: Wedding; guest?: Guest }) {
               {error}
             </p>
           )}
-          {available === false && <p className="form-note">Bản demo: phản hồi sẽ không được lưu.</p>}
-          <button type="submit" className="submit-rsvp" disabled={status === "sending"}>
+          {preview && <p className="form-note">Bản xem trước — khách sẽ gửi xác nhận tại đây.</p>}
+          {!preview && !w.demo && available === false && <p className="form-note">Hệ thống chưa sẵn sàng lưu phản hồi.</p>}
+          {!preview && w.demo && <p className="form-note">Thiệp demo: phản hồi sẽ không được lưu.</p>}
+          <button type="submit" className="submit-rsvp" disabled={status === "sending" || preview}>
             {status === "sending" ? "Đang gửi…" : "Gửi xác nhận"}
           </button>
         </form>
@@ -215,7 +216,17 @@ function Rsvp({ w, guest }: { w: Wedding; guest?: Guest }) {
 
 /* ---------------- Các phần còn lại ---------------- */
 
-export function EventsAndDetails({ wedding: w, guest, couple }: { wedding: Wedding; guest?: Guest; couple: string }) {
+export function EventsAndDetails({
+  wedding: w,
+  guest,
+  couple,
+  preview,
+}: {
+  wedding: Wedding;
+  guest?: Guest;
+  couple: string;
+  preview?: boolean;
+}) {
   const main = mainEvent(w);
   const others = w.events.filter((e) => e.id !== main.id);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -346,7 +357,7 @@ export function EventsAndDetails({ wedding: w, guest, couple }: { wedding: Weddi
         </div>
       </section>
 
-      <Rsvp w={w} guest={guest} />
+      <Rsvp w={w} guest={guest} preview={preview} />
 
       <footer>
         <p className="script">Hẹn gặp {guest ? guest.name : "bạn"} trong ngày vui</p>

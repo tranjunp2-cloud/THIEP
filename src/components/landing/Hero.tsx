@@ -121,13 +121,12 @@ export function Hero() {
           </p>
           <div className="hero-ctas">
             <Magnetic>
-              <a href="#bat-dau" className="btn btn--dark">
+              <a href="/tao-thiep" className="btn btn--dark">
                 Tạo thiệp miễn phí
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
               </a>
             </Magnetic>
             {/* Tải lại toàn trang để CSS của landing và của thiệp không chồng lên nhau. */}
-            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <a href="/thiep/quan-mai?k=co-lan" className="btn btn--ghost">Xem thiệp demo</a>
           </div>
           <ul className="hero-trust">

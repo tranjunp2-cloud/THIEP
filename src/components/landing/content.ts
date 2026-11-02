@@ -42,11 +42,12 @@ export const templates: {
   id: TemplateTheme;
   name: string;
   mood: string;
-  badge?: string;
+  /** Đã có bản thiệp hoàn chỉnh để tạo. Các mẫu khác mới là bản thiết kế. */
+  ready?: boolean;
 }[] = [
-  { id: "truc", name: "Trúc Xanh", mood: "Thanh nhã · Á Đông", badge: "Được chọn nhiều" },
+  { id: "nga", name: "Ngà Botanical", mood: "Màu nước · Cổ điển", ready: true },
+  { id: "truc", name: "Trúc Xanh", mood: "Thanh nhã · Á Đông" },
   { id: "lua", name: "Lụa Đỏ", mood: "Truyền thống · Song Hỷ" },
-  { id: "nga", name: "Ngà Botanical", mood: "Màu nước · Cổ điển", badge: "Mới" },
   { id: "sen", name: "Sen Hồng", mood: "Dịu dàng · Thuần Việt" },
   { id: "sao", name: "Đêm Sao", mood: "Lãng mạn · Ánh kim" },
   { id: "toi", name: "Tối Giản", mood: "Hiện đại · Tạp chí" },

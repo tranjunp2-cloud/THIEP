@@ -29,25 +29,20 @@ function useCountdown(iso: string) {
   return count;
 }
 
-/** Khách được nhận diện qua ?k= trong đường link riêng. */
-function useGuest(w: Wedding) {
-  const [guest, setGuest] = useState<Guest | undefined>();
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
-    const key = new URLSearchParams(window.location.search).get("k");
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- chỉ đọc URL ở máy khách
-    setGuest(w.guests.find((g) => g.key === key));
-    setReady(true);
-  }, [w]);
-  return { guest, ready };
-}
+type Props = {
+  wedding: Wedding;
+  /** Khách nhận diện từ ?k= ở server — tên hiện ngay trên bìa, không nháy. */
+  guest?: Guest;
+  /** Bản xem trước trong trang tạo thiệp: không phát nhạc, không gửi RSVP. */
+  preview?: boolean;
+  startOpen?: boolean;
+};
 
-export function Invitation({ wedding: w }: { wedding: Wedding }) {
+export function Invitation({ wedding: w, guest, preview = false, startOpen = false }: Props) {
   const rootRef = useRef<HTMLElement>(null);
   useScrollReveal(rootRef);
   const musicRef = useRef<MusicHandle>(null);
-  const [opened, setOpened] = useState(false);
-  const { guest, ready } = useGuest(w);
+  const [opened, setOpened] = useState(startOpen);
   const main = mainEvent(w);
   const count = useCountdown(main.start);
   const couple = `${w.groom.short} & ${w.bride.short}`;
@@ -55,12 +50,12 @@ export function Invitation({ wedding: w }: { wedding: Wedding }) {
 
   function openInvitation() {
     setOpened(true);
-    musicRef.current?.startOnOpen();
+    if (!preview) musicRef.current?.startOnOpen();
   }
 
   return (
     <main id="top" ref={rootRef} className="thiep">
-      <Music ref={musicRef} />
+      {!preview && <Music ref={musicRef} />}
 
       <nav className="desktop-nav" aria-label="Điều hướng thiệp">
         <a href="#top" className="nav-monogram">
@@ -90,7 +85,7 @@ export function Invitation({ wedding: w }: { wedding: Wedding }) {
         <div className="door door-right" aria-hidden="true" />
         <div className="envelope-copy">
           <p className="script">Trân trọng kính mời</p>
-          <p className={`guest-name ${ready ? "is-ready" : ""}`}>{guest?.name ?? "Quý khách"}</p>
+          <p className="guest-name is-ready">{guest?.name ?? "Quý khách"}</p>
           <button className="seal" onClick={openInvitation} aria-label="Mở thiệp cưới">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/thiep/images/silver-seal.webp" alt="" aria-hidden="true" width="400" height="480" />
@@ -159,7 +154,7 @@ export function Invitation({ wedding: w }: { wedding: Wedding }) {
         <Art name="leafy-garland" className="invitation-garland" />
       </section>
 
-      <EventsAndDetails wedding={w} guest={guest} couple={couple} />
+      <EventsAndDetails wedding={w} guest={guest} couple={couple} preview={preview} />
     </main>
   );
 }

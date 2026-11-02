@@ -1,4 +1,18 @@
 -- Chạy một lần trong Supabase SQL Editor. Chỉ server (service role) đọc/ghi được.
+
+-- Thiệp do người dùng tạo. `data` là dữ liệu form đã kiểm tra; token quản lý chỉ lưu dạng băm.
+create table if not exists public.weddings (
+  slug text primary key check (slug ~ '^[a-z0-9-]{3,80}$'),
+  data jsonb not null,
+  edit_token_hash text not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+alter table public.weddings enable row level security;
+revoke all on public.weddings from anon, authenticated;
+grant select, insert, update on public.weddings to service_role;
+
+-- Phản hồi xác nhận tham dự.
 create table if not exists public.wedding_rsvps (
   id uuid primary key,
   wedding text not null,

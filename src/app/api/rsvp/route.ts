@@ -1,28 +1,19 @@
-import { weddings } from "@/lib/wedding/demo";
-import { isRsvpConfigured, saveRsvp } from "@/lib/rsvp-storage";
+import { readJson, noStore } from "@/lib/http";
+import { getWedding, saveRsvp, storeMode } from "@/lib/store";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const str = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max + 1) : "");
 
 export async function GET() {
   // Chỉ báo có lưu được hay không — không bao giờ trả danh sách khách.
-  return Response.json({ available: isRsvpConfigured() }, { headers: { "Cache-Control": "no-store" } });
+  return Response.json({ available: storeMode() !== null }, { headers: noStore });
 }
 
 export async function POST(request: Request) {
-  const origin = request.headers.get("origin");
-  if (origin && origin !== new URL(request.url).origin) return Response.json({ error: "Invalid origin" }, { status: 403 });
-  const raw = await request.text();
-  if (raw.length > 10000) return Response.json({ error: "Request too large" }, { status: 413 });
+  const parsed = await readJson(request, 10000);
+  if (!parsed.ok) return parsed.res;
+  const body = (parsed.body ?? {}) as Record<string, unknown>;
 
-  let body: Record<string, unknown>;
-  try {
-    body = JSON.parse(raw);
-  } catch {
-    return Response.json({ error: "Invalid request" }, { status: 400 });
-  }
-
-  const wedding = weddings[str(body.wedding, 80)];
   const id = str(body.id, 36);
   const name = str(body.name, 150);
   const attendance = body.attendance === "yes" || body.attendance === "no" ? body.attendance : null;
@@ -32,6 +23,8 @@ export async function POST(request: Request) {
   const guestKey = str(body.guestKey, 80);
 
   if (str(body.website, 1)) return Response.json({ saved: true }, { status: 201 }); // bẫy bot
+
+  const wedding = await getWedding(str(body.wedding, 80)).catch(() => null);
   if (
     !wedding ||
     !UUID.test(id) ||
@@ -46,7 +39,9 @@ export async function POST(request: Request) {
     return Response.json({ error: "Vui lòng kiểm tra lại thông tin." }, { status: 400 });
   }
 
-  if (!isRsvpConfigured()) return Response.json({ error: "RSVP chưa được cấu hình." }, { status: 503 });
+  // Thiệp demo công khai: không lưu để tránh rác, báo rõ cho trình duyệt.
+  if (wedding.demo) return Response.json({ saved: false, demo: true }, { status: 200 });
+  if (!storeMode()) return Response.json({ error: "RSVP chưa được cấu hình." }, { status: 503 });
 
   try {
     await saveRsvp({

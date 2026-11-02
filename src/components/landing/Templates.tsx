@@ -110,29 +110,45 @@ export function Templates() {
             {templates.map((t, i) => (
               <li key={t.id} className="tpl-item">
                 <div className="tpl-card-inner">
-                  <a href={t.id === "nga" ? "/thiep/quan-mai" : "#bat-dau"} className="tpl-card" aria-label={t.id === "nga" ? `Xem thiệp demo mẫu ${t.name}` : `Dùng mẫu ${t.name}`}>
-                    <div className="tpl-tilt">
-                      <InviteCard theme={t.id} />
-                      <span className="tpl-shine" aria-hidden="true" />
+                  {t.ready ? (
+                    <a href="/thiep/quan-mai" className="tpl-card" aria-label={`Xem thiệp demo mẫu ${t.name}`}>
+                      <div className="tpl-tilt">
+                        <InviteCard theme={t.id} />
+                        <span className="tpl-shine" aria-hidden="true" />
+                      </div>
+                      <span className="tpl-badge">Dùng được ngay</span>
+                    </a>
+                  ) : (
+                    <div className="tpl-card is-soon">
+                      <div className="tpl-tilt">
+                        <InviteCard theme={t.id} />
+                        <span className="tpl-shine" aria-hidden="true" />
+                      </div>
+                      <span className="tpl-badge">Sắp ra mắt</span>
                     </div>
-                    {t.badge && <span className="tpl-badge">{t.badge}</span>}
-                  </a>
+                  )}
                   <div className="tpl-meta">
                     <span className="tpl-no">{String(i + 1).padStart(2, "0")}</span>
                     <div>
                       <h3>{t.name}</h3>
                       <p>{t.mood}</p>
                     </div>
-                    <span className="tpl-cta">Dùng mẫu →</span>
+                    {t.ready ? (
+                      <a href="/tao-thiep" className="tpl-cta">
+                        Dùng mẫu này →
+                      </a>
+                    ) : (
+                      <span className="tpl-cta">Đang hoàn thiện</span>
+                    )}
                   </div>
                 </div>
               </li>
             ))}
             <li className="tpl-item tpl-item--more">
-              <a href="#bat-dau" className="tpl-more">
+              <a href="/tao-thiep" className="tpl-more">
                 <span className="tpl-more-num">+</span>
                 <span>Nhiều mẫu mới đang được vẽ</span>
-                <span className="tpl-cta">Xem toàn bộ kho →</span>
+                <span className="tpl-cta">Bắt đầu với mẫu Ngà Botanical →</span>
               </a>
             </li>
           </ul>

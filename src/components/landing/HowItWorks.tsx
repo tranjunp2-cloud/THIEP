@@ -11,13 +11,13 @@ function ScreenPick() {
       <p className="scr-title">Chọn mẫu thiệp</p>
       <div className="scr-pick-grid">
         {templates.slice(0, 4).map((t, i) => (
-          <div key={t.id} className={`scr-pick-item ${i === 1 ? "is-chosen" : ""}`}>
+          <div key={t.id} className={`scr-pick-item ${i === 0 ? "is-chosen" : ""}`}>
             <InviteCard theme={t.id} className="invite--mini" />
             <span>{t.name}</span>
           </div>
         ))}
       </div>
-      <span className="scr-btn">Dùng mẫu Lụa Đỏ</span>
+      <span className="scr-btn">Dùng mẫu Ngà Botanical</span>
     </div>
   );
 }

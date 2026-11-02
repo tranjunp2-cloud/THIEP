@@ -25,7 +25,12 @@ const script = Great_Vibes({
   display: "swap",
 });
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000");
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Duyên — Thiệp cưới online sang trọng",
   description:
     "Tạo thiệp cưới online trong 15 phút. Gửi link riêng cho từng vị khách qua Zalo, Messenger, kèm xác nhận tham dự, sổ lời chúc và QR mừng cưới.",

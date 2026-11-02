@@ -2958,3 +2958,18 @@ p {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Mẫu chưa sẵn sàng */
+.tpl-card.is-soon .tpl-tilt {
+  filter: saturate(0.8) brightness(0.92);
+}
+
+.tpl-card.is-soon .tpl-badge {
+  background: rgba(247, 241, 231, 0.18);
+  color: var(--ivory);
+  backdrop-filter: blur(6px);
+}
+
+a.tpl-cta {
+  text-decoration: none;
+}

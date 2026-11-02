@@ -32,7 +32,7 @@ export function Pricing() {
         <h2 className="h2">
           Một lần trả, <em>trọn vẹn</em> ngày vui
         </h2>
-        <p className="lead">Không thu phí theo số khách. Không gia hạn tự động.</p>
+        <p className="lead">Không thu phí theo số khách. Không gia hạn tự động. Trong giai đoạn thử nghiệm, mọi tính năng đều đang miễn phí.</p>
       </div>
       <div className="price-grid">
         {pricing.map((p) => (
@@ -46,7 +46,7 @@ export function Pricing() {
                 <li key={f}>{f}</li>
               ))}
             </ul>
-            <a href="#bat-dau" className={`btn ${p.highlight ? "btn--gold" : "btn--ghost"}`}>{p.cta}</a>
+            <a href="/tao-thiep" className={`btn ${p.highlight ? "btn--gold" : "btn--ghost"}`}>{p.cta}</a>
           </article>
         ))}
       </div>
@@ -127,7 +127,7 @@ export function FinalCta() {
         <p className="cta-sub">Tạo bản nháp miễn phí, chỉ trả phí khi bạn đã thật sự ưng ý.</p>
         <div className="cta-actions">
           <Magnetic>
-            <a href="#" className="btn btn--gold btn--lg">Tạo thiệp miễn phí</a>
+            <a href="/tao-thiep" className="btn btn--gold btn--lg">Tạo thiệp miễn phí</a>
           </Magnetic>
           <a href="#mau-thiep" className="btn btn--line">Xem lại kho mẫu</a>
         </div>

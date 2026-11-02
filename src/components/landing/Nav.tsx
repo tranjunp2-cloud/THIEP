@@ -43,9 +43,9 @@ export function Nav() {
           ))}
         </nav>
         <div className="nav-actions">
-          <a href="#" className="nav-login">Đăng nhập</a>
+          <a href="/quan-ly" className="nav-login">Thiệp của tôi</a>
           <Magnetic>
-            <a href="#bat-dau" className="btn btn--dark btn--sm">Tạo thiệp miễn phí</a>
+            <a href="/tao-thiep" className="btn btn--dark btn--sm">Tạo thiệp miễn phí</a>
           </Magnetic>
           <button
             type="button"
@@ -66,7 +66,10 @@ export function Nav() {
             {l.label}
           </a>
         ))}
-        <a href="#bat-dau" className="btn btn--dark" onClick={() => setOpen(false)}>
+        <a href="/quan-ly" style={{ "--i": navLinks.length } as React.CSSProperties}>
+          Thiệp của tôi
+        </a>
+        <a href="/tao-thiep" className="btn btn--dark" onClick={() => setOpen(false)}>
           Tạo thiệp miễn phí
         </a>
       </div>
