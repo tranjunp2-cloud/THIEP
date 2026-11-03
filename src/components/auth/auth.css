@@ -207,7 +207,7 @@
   display: block;
 }
 
-.auth-pw input {
+span.auth-pw > input {
   padding-right: 46px;
 }
 

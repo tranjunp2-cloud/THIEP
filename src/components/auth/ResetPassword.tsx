@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { AppTop } from "../app/ui";
 import { viError } from "./AuthModal";
+import { PasswordInput, PW_MIN } from "./PasswordInput";
 
 /** Đặt mật khẩu mới sau khi bấm link trong email (phiên khôi phục đã được /auth/callback tạo). */
 export function ResetPassword() {
@@ -27,7 +28,7 @@ export function ResetPassword() {
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-    if (pw.length < 8) return setError("Mật khẩu cần ít nhất 8 ký tự.");
+    if (pw.length < PW_MIN) return setError(`Mật khẩu cần ít nhất ${PW_MIN} ký tự.`);
     if (pw !== pw2) return setError("Hai mật khẩu chưa khớp nhau.");
     setBusy(true);
     const { error } = await supabaseBrowser()!.auth.updateUser({ password: pw });
@@ -66,12 +67,12 @@ export function ResetPassword() {
               <form onSubmit={submit} style={{ display: "grid", gap: 14, marginTop: 16 }}>
                 <label className="field">
                   <span>Mật khẩu mới</span>
-                  <input type="password" value={pw} onChange={(e) => setPw(e.target.value)} autoComplete="new-password" minLength={8} required />
-                  <small>Ít nhất 8 ký tự.</small>
+                  <PasswordInput value={pw} onChange={(e) => setPw(e.target.value)} autoComplete="new-password" required />
+                  <small>Ít nhất {PW_MIN} ký tự.</small>
                 </label>
                 <label className="field">
                   <span>Nhập lại mật khẩu mới</span>
-                  <input type="password" value={pw2} onChange={(e) => setPw2(e.target.value)} autoComplete="new-password" required />
+                  <PasswordInput value={pw2} onChange={(e) => setPw2(e.target.value)} autoComplete="new-password" required />
                 </label>
                 {error && <p className="issues" style={{ listStyle: "none", margin: 0 }}>{error}</p>}
                 <button type="submit" className="btn btn-dark" disabled={busy}>

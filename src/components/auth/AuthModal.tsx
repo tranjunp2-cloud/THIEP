@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { BrandMark } from "../site/BrandMark";
 import "./auth.css";
+import { PasswordInput, PW_MIN } from "./PasswordInput";
 
 export type AuthMode = "login" | "register" | "forgot";
 type View = AuthMode | "check-email" | "reset-sent";
@@ -33,7 +34,7 @@ export function viError(message: string) {
   if (m.includes("email not confirmed")) return "Bạn cần bấm link xác nhận trong email trước khi đăng nhập.";
   if (m.includes("provider is not enabled") || m.includes("unsupported provider")) return "Đăng nhập bằng mạng xã hội này chưa được bật.";
   if (m.includes("rate limit") || m.includes("too many") || m.includes("security purposes")) return "Bạn thao tác hơi nhanh, vui lòng thử lại sau ít phút.";
-  if (m.includes("password") && (m.includes("at least") || m.includes("weak") || m.includes("short"))) return "Mật khẩu cần ít nhất 8 ký tự, nên có cả chữ và số.";
+  if (m.includes("password") && (m.includes("at least") || m.includes("weak") || m.includes("short"))) return `Mật khẩu cần ít nhất ${PW_MIN} ký tự.`;
   if (m.includes("invalid email") || m.includes("unable to validate email")) return "Email chưa đúng định dạng.";
   if (m.includes("not authorized") || m.includes("sending recovery") || m.includes("sending confirmation") || m.includes("error sending"))
     return "Hệ thống chưa gửi được email lúc này. Bạn thử lại sau hoặc liên hệ SayIDo để được hỗ trợ.";
@@ -61,14 +62,6 @@ const FacebookIcon = () => (
   </svg>
 );
 
-const Eye = ({ open }: { open: boolean }) => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" aria-hidden="true">
-    <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" />
-    <circle cx="12" cy="12" r="3" />
-    {!open && <path d="M4 4l16 16" />}
-  </svg>
-);
-
 type Props = {
   initialMode: AuthMode;
   next?: string;
@@ -83,7 +76,6 @@ export function AuthModal({ initialMode, next, initialError, onClose, onSignedIn
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [showPw, setShowPw] = useState(false);
   const [remember, setRemember] = useState(true);
   const [agree, setAgree] = useState(false);
   const [busy, setBusy] = useState<"" | "email" | "google" | "facebook">("");
@@ -144,7 +136,7 @@ export function AuthModal({ initialMode, next, initialError, onClose, onSignedIn
       if (name.trim().length < 2) return setError("Bạn nhập họ và tên giúp mình nhé.");
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) return setError("Email chưa đúng định dạng.");
       if (!normalizePhone(phone)) return setError("Số điện thoại chưa đúng (10 số, ví dụ 0912 345 678).");
-      if (password.length < 8) return setError("Mật khẩu cần ít nhất 8 ký tự.");
+      if (password.length < PW_MIN) return setError(`Mật khẩu cần ít nhất ${PW_MIN} ký tự.`);
       if (!agree) return setError("Bạn cần đồng ý với Điều khoản dịch vụ và Chính sách bảo mật.");
     }
 
@@ -261,20 +253,13 @@ export function AuthModal({ initialMode, next, initialError, onClose, onSignedIn
                     </button>
                   )}
                 </span>
-                <span className="auth-pw">
-                  <input
-                    type={showPw ? "text" : "password"}
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    autoComplete={view === "login" ? "current-password" : "new-password"}
-                    minLength={view === "register" ? 8 : undefined}
-                    required
-                  />
-                  <button type="button" onClick={() => setShowPw((v) => !v)} aria-label={showPw ? "Ẩn mật khẩu" : "Hiện mật khẩu"}>
-                    <Eye open={showPw} />
-                  </button>
-                </span>
-                {view === "register" && <small>Ít nhất 8 ký tự.</small>}
+                <PasswordInput
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete={view === "login" ? "current-password" : "new-password"}
+                  required
+                />
+                {view === "register" && <small>Ít nhất {PW_MIN} ký tự.</small>}
               </label>
             )}
             {view === "login" && (
