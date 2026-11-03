@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/config";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { BrandMark } from "../site/BrandMark";
 import "./auth.css";
@@ -11,10 +12,20 @@ type View = AuthMode | "check-email" | "reset-sent";
 
 /**
  * Công tắc tính năng:
- * - NEXT_PUBLIC_AUTH_SOCIAL=1 : hiện nút Google / Facebook (mặc định TẮT — cần bật provider trên Supabase)
+ * - Google / Facebook: nút tự hiện khi provider tương ứng đã bật trên Supabase (đọc /auth/v1/settings).
  * - NEXT_PUBLIC_AUTH_RESET=0  : ẩn “Quên mật khẩu?” (mặc định BẬT — gửi email qua Supabase; nên có SMTP riêng khi chạy thật)
  */
-const SOCIAL = process.env.NEXT_PUBLIC_AUTH_SOCIAL === "1";
+type Provider = "google" | "facebook";
+let providersCache: Promise<Provider[]> | null = null;
+
+/** Provider mạng xã hội đang bật trên Supabase — hỏi một lần mỗi lần tải trang. */
+export function enabledProviders(): Promise<Provider[]> {
+  providersCache ??= fetch(`${SUPABASE_URL}/auth/v1/settings`, { headers: { apikey: SUPABASE_ANON_KEY } })
+    .then((r) => (r.ok ? r.json() : { external: {} }))
+    .then((j: { external?: Record<string, boolean> }) => (["google", "facebook"] as const).filter((p) => j.external?.[p]))
+    .catch(() => []);
+  return providersCache;
+}
 const RESET = process.env.NEXT_PUBLIC_AUTH_RESET !== "0";
 
 /** Số di động Việt Nam: bỏ khoảng trắng/dấu chấm, +84 → 0. Trả "" nếu không hợp lệ. */
@@ -77,6 +88,14 @@ export function AuthModal({ initialMode, next, initialError, onClose, onSignedIn
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(true);
+  const [providers, setProviders] = useState<Provider[]>([]);
+  useEffect(() => {
+    let alive = true;
+    enabledProviders().then((p) => alive && setProviders(p));
+    return () => {
+      alive = false;
+    };
+  }, []);
   const [agree, setAgree] = useState(false);
   const [busy, setBusy] = useState<"" | "email" | "google" | "facebook">("");
   const [error, setError] = useState(initialError ? viError(initialError) : "");
@@ -110,7 +129,7 @@ export function AuthModal({ initialMode, next, initialError, onClose, onSignedIn
   const callbackUrl = (target?: string) =>
     `${window.location.origin}/auth/callback?next=${encodeURIComponent(target ?? next ?? window.location.pathname)}`;
 
-  async function oauth(provider: "google" | "facebook") {
+  async function oauth(provider: Provider) {
     if (!sb) return setError(viError("not_configured"));
     setBusy(provider);
     setError("");
@@ -200,15 +219,19 @@ export function AuthModal({ initialMode, next, initialError, onClose, onSignedIn
         <h2 id="auth-title">{title}</h2>
         <p className="auth-sub">{subtitle}</p>
 
-        {SOCIAL && (view === "login" || view === "register") && (
+        {providers.length > 0 && (view === "login" || view === "register") && (
           <>
             <div className="auth-social">
-              <button type="button" onClick={() => oauth("google")} disabled={Boolean(busy)}>
-                <GoogleIcon /> {busy === "google" ? "Đang mở…" : "Google"}
-              </button>
-              <button type="button" onClick={() => oauth("facebook")} disabled={Boolean(busy)}>
-                <FacebookIcon /> {busy === "facebook" ? "Đang mở…" : "Facebook"}
-              </button>
+              {providers.includes("google") && (
+                <button type="button" onClick={() => oauth("google")} disabled={Boolean(busy)}>
+                  <GoogleIcon /> {busy === "google" ? "Đang mở…" : providers.length === 1 ? "Tiếp tục với Google" : "Google"}
+                </button>
+              )}
+              {providers.includes("facebook") && (
+                <button type="button" onClick={() => oauth("facebook")} disabled={Boolean(busy)}>
+                  <FacebookIcon /> {busy === "facebook" ? "Đang mở…" : providers.length === 1 ? "Tiếp tục với Facebook" : "Facebook"}
+                </button>
+              )}
             </div>
             <div className="auth-divider">
               <span>hoặc dùng email</span>

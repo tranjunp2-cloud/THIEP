@@ -68,7 +68,7 @@ bằng email + mật khẩu; “ghi nhớ thiết bị”. Số điện thoại 
 Trên Supabase cần **tắt “Confirm email”** (Authentication → Sign In / Providers → Email) để không phải gửi email.
 
 Công tắc (đặt biến rồi deploy lại):
-- `NEXT_PUBLIC_AUTH_SOCIAL=1` — bật nút Google / Facebook (bật provider tương ứng trên Supabase).
+- Google / Facebook: nút tự hiện khi provider tương ứng được bật trên Supabase (Authentication → Sign In / Providers).
 - `NEXT_PUBLIC_AUTH_RESET=0` — ẩn “Quên mật khẩu?” (mặc định bật; email gửi qua Supabase — nên có tên miền + SMTP riêng).
 
 Tài khoản chỉ bật khi có hai biến công khai

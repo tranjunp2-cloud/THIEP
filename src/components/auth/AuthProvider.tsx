@@ -4,7 +4,7 @@ import type { User } from "@supabase/supabase-js";
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { authEnabled } from "@/lib/supabase/config";
 import { supabaseBrowser } from "@/lib/supabase/client";
-import { AuthModal, type AuthMode } from "./AuthModal";
+import { AuthModal, enabledProviders, type AuthMode } from "./AuthModal";
 
 type AuthCtx = {
   enabled: boolean;
@@ -45,6 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const sb = supabaseBrowser();
     if (!sb) return;
     let active = true;
+    void enabledProviders(); // hỏi trước để nút Google có sẵn khi mở modal
 
     (async () => {
       // “Không ghi nhớ thiết bị”: phiên chỉ sống trong phiên trình duyệt hiện tại.
