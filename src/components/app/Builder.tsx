@@ -5,6 +5,7 @@ import { demoInput } from "@/lib/wedding/demo";
 import { EVENT_TITLES, toWedding, uniqueGuestKey, weddingInputSchema, type WeddingInput } from "@/lib/wedding/schema";
 import { absolute, readMine, rememberMine, tokenFromHash } from "./mine";
 import { AppTop, LinkRow } from "./ui";
+import { useAuth } from "../auth/AuthProvider";
 
 /* ---------------- Dữ liệu khởi tạo ---------------- */
 
@@ -114,6 +115,8 @@ export function Builder() {
   const [sheet, setSheet] = useState(false);
   const [newGuest, setNewGuest] = useState({ name: "", tone: "peer" as "peer" | "elder", side: "Nhà trai" as "Nhà trai" | "Nhà gái" });
   const [bulk, setBulk] = useState("");
+  const auth = useAuth();
+  const needLogin = auth.enabled && !auth.loading && !auth.user && mode === "new";
   const frames = useRef<Set<HTMLIFrameElement>>(new Set());
   const loaded = useRef(false);
 
@@ -230,6 +233,11 @@ export function Builder() {
     setServerError("");
     setNotice("");
     if (!validation.success) return;
+    if (needLogin) {
+      // Bản nháp đã tự lưu trên trình duyệt nên không mất khi đăng nhập (kể cả qua Google/Facebook).
+      auth.openAuth("register", "/tao-thiep");
+      return;
+    }
     setBusy(true);
     try {
       if (mode === "edit" && edit) {
@@ -249,6 +257,10 @@ export function Builder() {
           body: JSON.stringify(validation.data),
         });
         const d = await r.json().catch(() => ({}));
+        if (r.status === 401 && d?.login) {
+          auth.openAuth("login", "/tao-thiep");
+          throw new Error("Phiên đăng nhập đã hết, bạn đăng nhập lại để xuất bản nhé.");
+        }
         if (!r.ok) throw new Error(d?.error ?? "Chưa xuất bản được thiệp.");
         rememberMine({ slug: d.slug, token: d.token, title: `${input.groom.short} & ${input.bride.short}`, savedAt: new Date().toISOString() });
         try {
@@ -299,8 +311,9 @@ export function Builder() {
             <div className="secret">
               <b>Link quản lý — chỉ dành cho hai bạn</b>
               <p style={{ margin: "6px 0 0", fontSize: 14 }}>
-                Dùng để sửa thiệp và xem ai đã xác nhận. Ai có link này đều sửa được thiệp, đừng gửi cho khách. Hãy lưu lại (gửi
-                vào Zalo “My Documents” chẳng hạn) — link cũng được nhớ trên trình duyệt này.
+                {auth.user
+                  ? "Thiệp đã được lưu vào tài khoản của bạn. Link này để chia sẻ quyền quản lý với người còn lại (chú rể / cô dâu) mà không cần chung tài khoản — đừng gửi cho khách."
+                  : "Dùng để sửa thiệp và xem ai đã xác nhận. Ai có link này đều sửa được thiệp, đừng gửi cho khách. Hãy lưu lại (gửi vào Zalo “My Documents” chẳng hạn) — link cũng được nhớ trên trình duyệt này."}
               </p>
               <LinkRow url={manage} label="Chép link quản lý" />
             </div>
@@ -559,7 +572,7 @@ export function Builder() {
             {step === 4 && (
               <>
                 <h1>Mừng cưới &amp; hỏi đáp</h1>
-                <p className="panel-lead">Thông tin tài khoản hiển thị kèm nút chép số. Duyên không giữ hay xử lý tiền mừng.</p>
+                <p className="panel-lead">Thông tin tài khoản hiển thị kèm nút chép số. SayIDo không giữ hay xử lý tiền mừng.</p>
                 <Field label="Lời nhắn" invalid={bad("gifts.message")}>
                   <textarea value={input.gifts.message} onChange={(e) => set((d) => void (d.gifts.message = e.target.value))} />
                 </Field>
@@ -754,6 +767,11 @@ export function Builder() {
                   </li>
                   <li>{input.guests.length} khách có link riêng</li>
                 </ul>
+                {needLogin && (
+                  <p className="notice is-warn">
+                    Bạn cần tạo tài khoản hoặc đăng nhập để xuất bản — thiệp sẽ được lưu vào tài khoản để mở lại trên mọi thiết bị.
+                  </p>
+                )}
                 {available === false && (
                   <p className="notice is-warn">Máy chủ chưa cấu hình nơi lưu thiệp nên chưa thể xuất bản. Bản nháp vẫn được giữ trên trình duyệt này.</p>
                 )}
@@ -780,7 +798,7 @@ export function Builder() {
                     <span />
                   )}
                   <button type="button" className="btn btn-gold" onClick={submit} disabled={busy || available === false}>
-                    {busy ? "Đang lưu…" : mode === "edit" ? "Lưu thay đổi" : "Xuất bản thiệp"}
+                    {busy ? "Đang lưu…" : mode === "edit" ? "Lưu thay đổi" : needLogin ? "Đăng nhập & xuất bản" : "Xuất bản thiệp"}
                   </button>
                 </div>
               </>

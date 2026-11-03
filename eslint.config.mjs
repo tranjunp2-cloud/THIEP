@@ -8,7 +8,7 @@ const eslintConfig = defineConfig([
   {
     // Landing, thiệp và trang quản lý dùng CSS riêng theo route; điều hướng giữa chúng cố ý tải lại
     // toàn trang bằng <a> để style không chồng lên nhau.
-    rules: { "@next/next/no-html-link-for-pages": "off" },
+    rules: { "@next/next/no-html-link-for-pages": "off", "@next/next/no-location-assign-relative-destination": "off" },
   },
   // Override default ignores of eslint-config-next.
   globalIgnores([

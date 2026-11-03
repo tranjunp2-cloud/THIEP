@@ -1,15 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { BrandMark } from "../site/BrandMark";
+import { AccountMenu } from "../auth/AccountMenu";
 
 export function AppTop({ children }: { children?: React.ReactNode }) {
   return (
     <header className="app-top">
-      <a href="/" className="app-logo" aria-label="Duyên — trang chủ">
-        <b>Duyên</b>
+      <a href="/" className="app-logo" aria-label="SayIDo — trang chủ">
+        <b>
+          <BrandMark />
+        </b>
         <i />
       </a>
-      <div className="app-top-actions">{children}</div>
+      <div className="app-top-actions">
+        {children}
+        <AccountMenu />
+      </div>
     </header>
   );
 }

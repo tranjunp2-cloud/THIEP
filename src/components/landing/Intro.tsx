@@ -3,8 +3,9 @@
 import { useRef } from "react";
 import { gsap, markIntroDone, useGSAP } from "./gsap";
 import { brand } from "./content";
+import { BrandMark } from "../site/BrandMark";
 
-/** Màn mở đầu: chữ "Duyên" hiện ra như được viết, đường chỉ vàng, rồi hai tấm màn kéo lên. */
+/** Màn mở đầu: logo "SayIDo" hiện ra như được viết, đường chỉ vàng, rồi hai tấm màn kéo lên. */
 export function Intro() {
   const root = useRef<HTMLDivElement>(null);
 
@@ -52,7 +53,9 @@ export function Intro() {
       <div className="intro-panel intro-panel--gold" />
       <div className="intro-panel">
         <div className="intro-inner">
-          <span className="intro-word">{brand.name}</span>
+          <span className="intro-word">
+            <BrandMark />
+          </span>
           <span className="intro-line" />
           <span className="intro-sub">{brand.tagline}</span>
         </div>

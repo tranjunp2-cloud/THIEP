@@ -1,9 +1,9 @@
 // Toàn bộ nội dung landing page. Đổi tên thương hiệu, giá, câu chữ tại đây.
 
 export const brand = {
-  name: "Duyên",
+  name: "SayIDo",
   tagline: "Thiệp cưới online",
-  demoLink: "duyen.vn/quan-mai",
+  demoLink: "sayido.vn/quan-mai",
 };
 
 /** Cặp đôi mẫu dùng trong các bản xem trước. */
@@ -84,7 +84,7 @@ export const pricing = [
     name: "Thử nghiệm",
     price: "0đ",
     note: "Miễn phí trọn đời",
-    features: ["1 mẫu thiệp cơ bản", "Tối đa 10 ảnh", "Link chung cho mọi khách", "Có logo Duyên"],
+    features: ["1 mẫu thiệp cơ bản", "Tối đa 10 ảnh", "Link chung cho mọi khách", "Có logo SayIDo"],
     cta: "Bắt đầu miễn phí",
   },
   {
@@ -129,7 +129,7 @@ export const faqs = [
     a: "Có. Bạn chỉ nhập ngày dương lịch, thiệp tự hiển thị ngày âm tương ứng theo lịch Việt Nam.",
   },
   {
-    q: "Tiền mừng qua QR có đi qua Duyên không?",
+    q: "Tiền mừng qua QR có đi qua SayIDo không?",
     a: "Không. Mã QR dẫn thẳng đến tài khoản ngân hàng của hai bạn theo chuẩn VietQR, chúng mình không giữ hay xử lý khoản tiền nào.",
   },
   {

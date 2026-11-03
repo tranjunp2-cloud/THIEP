@@ -1,4 +1,4 @@
-# Duyên — Thiệp cưới online
+# SayIDo — Thiệp cưới online
 
 Nền tảng thiệp cưới online (bản dựng thử nghiệm): landing page giới thiệu sản phẩm và thiệp cưới mẫu đầu tiên
 phát triển từ giao diện "Ngà Botanical" trước đây của repo này.
@@ -61,6 +61,33 @@ Node 20.9+ (đã thử với Node 24). Next.js 16 (App Router, Cache Components)
 API kiểm tra nguồn gửi, giới hạn kích thước, kiểm tra dữ liệu bằng zod, có bẫy chống bot và chống gửi trùng bằng UUID.
 `GET /api/rsvp` và `GET /api/weddings` chỉ báo đã cấu hình hay chưa; dữ liệu khách chỉ trả khi có token quản lý.
 
+## Tài khoản (đăng nhập / đăng ký)
+
+Supabase Auth. Mặc định (không phát sinh phí): đăng ký bằng **họ tên, email, số điện thoại, mật khẩu**; đăng nhập
+bằng email + mật khẩu; “ghi nhớ thiết bị”. Số điện thoại lưu trong hồ sơ (`user_metadata.phone`), không xác minh bằng SMS.
+Trên Supabase cần **tắt “Confirm email”** (Authentication → Sign In / Providers → Email) để không phải gửi email.
+
+Bật thêm khi cần (đặt biến rồi deploy lại):
+- `NEXT_PUBLIC_AUTH_SOCIAL=1` — nút Google / Facebook (bật provider tương ứng trên Supabase).
+- `NEXT_PUBLIC_AUTH_RESET=1` — “Quên mật khẩu?” (gửi email — nên có tên miền + SMTP riêng). Bật khi có hai biến công khai
+`NEXT_PUBLIC_SUPABASE_URL` và `NEXT_PUBLIC_SUPABASE_ANON_KEY`; khi chưa có, trang chạy như trước (xuất bản ẩn danh bằng
+link quản lý).
+
+Khi đã bật: nút “Tạo thiệp” trên landing mở modal Tạo tài khoản nếu chưa đăng nhập; xuất bản yêu cầu đăng nhập; thiệp gắn
+với tài khoản (`weddings.owner_id`). Link quản lý bí mật vẫn hoạt động (để chia sẻ quyền với người còn lại) và thiệp cũ có
+nút “Lưu vào tài khoản”.
+
+| Đường dẫn | Nội dung |
+|---|---|
+| `/auth/callback` | Quay về sau Google/Facebook, link xác nhận email, link đặt lại mật khẩu |
+| `/dat-lai-mat-khau` | Đặt mật khẩu mới |
+| `/dieu-khoan`, `/bao-mat` | Điều khoản dịch vụ, Chính sách bảo mật (bản nháp) |
+
+Cấu hình: chạy `supabase/migrations/002_accounts.sql` (nếu đã chạy `schema.sql` bản cũ); Supabase → Authentication →
+URL Configuration: Site URL = tên miền production, Redirect URLs thêm `https://<tên-miền>/auth/callback` và
+`http://localhost:3000/auth/callback`; bật provider Google/Facebook nếu dùng. Email của Supabase mặc định bị giới hạn số
+lượng mỗi giờ — khi chạy thật nên cấu hình SMTP riêng (Resend, SendGrid…).
+
 ## Triển khai Vercel
 
 Framework Preset: **Next.js**, để mặc định Build/Output/Install command. Đã bỏ `vercel.json` cũ (cấu hình Vite).
@@ -68,6 +95,10 @@ Framework Preset: **Next.js**, để mặc định Build/Output/Install command.
 ## Bản quyền & nội dung
 
 - Tên, địa chỉ, số tài khoản trong thiệp demo và giá trên landing đều mang tính minh họa.
-- Nhạc nền: *Canon in D Major* — Kevin MacLeod (incompetech.com), CC BY 3.0, có ghi nguồn ở cuối thiệp.
+- Nhạc trong thiệp: *Canon in D Major* — Kevin MacLeod (incompetech.com), CC BY 3.0, có ghi nguồn ở cuối thiệp.
+- Nhạc nền trang SayIDo (landing, tạo thiệp, quản lý): *Gymnopédie No. 1* (Erik Satie) — Kevin MacLeod (incompetech.com,
+  ISRC USUAN1100787), CC BY 4.0, ghi nguồn ở footer landing. Bản gốc 320 kbps tải tại incompetech; bản trong
+  `public/audio/` đã nén 128 kbps và thêm fade đầu/cuối để lặp mượt. Đổi bài: thay file và hằng `SRC` trong
+  `src/components/site/SiteMusic.tsx`.
 - Tranh màu nước trong `public/thiep/images` lấy từ bản thiệp trước của repo (được tạo theo một video tham khảo);
   nên thay bằng bộ tranh tự thiết kế trước khi thương mại hóa.

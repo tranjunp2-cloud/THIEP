@@ -40,7 +40,7 @@ export function Manifesto() {
   return (
     <section ref={root} className="manifesto container">
       <Sprig className="manifesto-sprig" color="#6f8b67" />
-      <p className="eyebrow">Vì sao là Duyên</p>
+      <p className="eyebrow">Vì sao là SayIDo</p>
       <p className="manifesto-text">{manifesto}</p>
     </section>
   );

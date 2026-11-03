@@ -121,7 +121,7 @@ export function Hero() {
           </p>
           <div className="hero-ctas">
             <Magnetic>
-              <a href="/tao-thiep" className="btn btn--dark">
+              <a href="/tao-thiep" data-require-auth className="btn btn--dark">
                 Tạo thiệp miễn phí
                 <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
               </a>

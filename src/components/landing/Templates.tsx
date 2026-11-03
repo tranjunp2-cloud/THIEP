@@ -134,7 +134,7 @@ export function Templates() {
                       <p>{t.mood}</p>
                     </div>
                     {t.ready ? (
-                      <a href="/tao-thiep" className="tpl-cta">
+                      <a href="/tao-thiep" data-require-auth className="tpl-cta">
                         Dùng mẫu này →
                       </a>
                     ) : (
@@ -145,7 +145,7 @@ export function Templates() {
               </li>
             ))}
             <li className="tpl-item tpl-item--more">
-              <a href="/tao-thiep" className="tpl-more">
+              <a href="/tao-thiep" data-require-auth className="tpl-more">
                 <span className="tpl-more-num">+</span>
                 <span>Nhiều mẫu mới đang được vẽ</span>
                 <span className="tpl-cta">Bắt đầu với mẫu Ngà Botanical →</span>

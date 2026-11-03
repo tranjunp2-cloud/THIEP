@@ -9,7 +9,7 @@ export default function NotFound() {
           <p className="script">Có thể đường link đã bị gõ nhầm. Bạn thử hỏi lại cô dâu chú rể nhé.</p>
           <p style={{ marginTop: 28 }}>
             <a href="/" className="text-link">
-              Về trang chủ Duyên
+              Về trang chủ SayIDo
             </a>
           </p>
         </div>

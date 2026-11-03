@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { brand, navLinks } from "./content";
 import { Magnetic } from "./Magnetic";
+import { BrandMark } from "../site/BrandMark";
+import { AccountMenu } from "../auth/AccountMenu";
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
@@ -32,7 +34,9 @@ export function Nav() {
     <header className={`nav ${scrolled ? "is-scrolled" : ""} ${hidden && !open ? "is-hidden" : ""} ${open ? "is-open" : ""}`}>
       <div className="nav-inner">
         <a href="#top" className="logo" aria-label={`${brand.name} — về đầu trang`}>
-          <span className="logo-script">{brand.name}</span>
+          <span className="logo-script">
+            <BrandMark />
+          </span>
           <span className="logo-dot" />
         </a>
         <nav aria-label="Điều hướng chính" className="nav-links">
@@ -43,9 +47,11 @@ export function Nav() {
           ))}
         </nav>
         <div className="nav-actions">
-          <a href="/quan-ly" className="nav-login">Thiệp của tôi</a>
+          <span className="nav-acct">
+            <AccountMenu fallback={<a href="/quan-ly" className="nav-login">Thiệp của tôi</a>} />
+          </span>
           <Magnetic>
-            <a href="/tao-thiep" className="btn btn--dark btn--sm">Tạo thiệp miễn phí</a>
+            <a href="/tao-thiep" data-require-auth className="btn btn--dark btn--sm">Tạo thiệp miễn phí</a>
           </Magnetic>
           <button
             type="button"
@@ -69,7 +75,7 @@ export function Nav() {
         <a href="/quan-ly" style={{ "--i": navLinks.length } as React.CSSProperties}>
           Thiệp của tôi
         </a>
-        <a href="/tao-thiep" className="btn btn--dark" onClick={() => setOpen(false)}>
+        <a href="/tao-thiep" data-require-auth className="btn btn--dark" onClick={() => setOpen(false)}>
           Tạo thiệp miễn phí
         </a>
       </div>

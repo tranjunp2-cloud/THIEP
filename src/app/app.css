@@ -861,3 +861,47 @@ textarea {
     display: none;
   }
 }
+
+/* Logo SayIDo: chữ "I" serif nghiêng màu vàng giữa hai phần viết tay */
+.brand-i {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.9em;
+  color: var(--gold);
+  margin: 0 0.04em 0 0.02em;
+}
+
+/* Trang văn bản */
+.legal {
+  max-width: 760px;
+}
+
+.legal h1 {
+  margin: 6px 0 12px;
+  font-family: var(--font-display), serif;
+  font-weight: 500;
+  font-size: clamp(34px, 4vw, 48px);
+  color: var(--forest);
+}
+
+.legal h2 {
+  margin: 28px 0 8px;
+  font-family: var(--font-display), serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: var(--forest);
+}
+
+.legal p,
+.legal li {
+  color: #3d4a40;
+}
+
+.legal-note {
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #f6ead2;
+  color: #6f5018 !important;
+  font-size: 14px;
+}

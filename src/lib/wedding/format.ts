@@ -46,9 +46,9 @@ export function icsFile(w: Wedding, e: WeddingEvent) {
   return [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Duyen//Thiep cuoi//VI",
+    "PRODID:-//SayIDo//Thiep cuoi//VI",
     "BEGIN:VEVENT",
-    `UID:${w.slug}-${e.id}@duyen`,
+    `UID:${w.slug}-${e.id}@sayido`,
     `DTSTAMP:${icsStamp(e.start)}`,
     `DTSTART:${icsStamp(e.start)}`,
     `DTEND:${icsStamp(e.end)}`,

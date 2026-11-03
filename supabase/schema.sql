@@ -28,3 +28,7 @@ create index if not exists wedding_rsvps_wedding_idx on public.wedding_rsvps (we
 alter table public.wedding_rsvps enable row level security;
 revoke all on public.wedding_rsvps from anon, authenticated;
 grant select, insert on public.wedding_rsvps to service_role;
+
+-- Tài khoản (Supabase Auth): mỗi thiệp có thể thuộc một người dùng.
+alter table public.weddings add column if not exists owner_id uuid references auth.users (id) on delete set null;
+create index if not exists weddings_owner_idx on public.weddings (owner_id, created_at desc);

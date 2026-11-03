@@ -5,6 +5,7 @@ import { brand, faqs, navLinks, pricing } from "./content";
 import { gsap, MOTION_OK, SplitText, useGSAP } from "./gsap";
 import { Magnetic } from "./Magnetic";
 import { Petals } from "./Petals";
+import { BrandMark } from "../site/BrandMark";
 
 export function Pricing() {
   const root = useRef<HTMLElement>(null);
@@ -46,7 +47,7 @@ export function Pricing() {
                 <li key={f}>{f}</li>
               ))}
             </ul>
-            <a href="/tao-thiep" className={`btn ${p.highlight ? "btn--gold" : "btn--ghost"}`}>{p.cta}</a>
+            <a href="/tao-thiep" data-require-auth className={`btn ${p.highlight ? "btn--gold" : "btn--ghost"}`}>{p.cta}</a>
           </article>
         ))}
       </div>
@@ -127,7 +128,7 @@ export function FinalCta() {
         <p className="cta-sub">Tạo bản nháp miễn phí, chỉ trả phí khi bạn đã thật sự ưng ý.</p>
         <div className="cta-actions">
           <Magnetic>
-            <a href="/tao-thiep" className="btn btn--gold btn--lg">Tạo thiệp miễn phí</a>
+            <a href="/tao-thiep" data-require-auth className="btn btn--gold btn--lg">Tạo thiệp miễn phí</a>
           </Magnetic>
           <a href="#mau-thiep" className="btn btn--line">Xem lại kho mẫu</a>
         </div>
@@ -142,7 +143,9 @@ export function Footer() {
       <div className="container footer-grid">
         <div>
           <a href="#top" className="logo logo--light">
-            <span className="logo-script">{brand.name}</span>
+            <span className="logo-script">
+              <BrandMark />
+            </span>
             <span className="logo-dot" />
           </a>
           <p className="footer-tag">Thiệp cưới online, trao bằng cả trái tim.</p>
@@ -159,6 +162,16 @@ export function Footer() {
       </div>
       <p className="footer-bottom container">
         © 2026 {brand.name}. Bản dựng thử nghiệm — nội dung và giá mang tính minh họa.
+        <br />
+        Nhạc nền:{" "}
+        <a href="https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100787" target="_blank" rel="noreferrer">
+          Gymnopédie No. 1 (Erik Satie) · Kevin MacLeod
+        </a>{" "}
+        · giấy phép{" "}
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noreferrer">
+          CC BY 4.0
+        </a>{" "}
+        · đã nén để phát trên web.
       </p>
     </footer>
   );

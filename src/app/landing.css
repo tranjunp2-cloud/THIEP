@@ -1,7 +1,7 @@
 
 
 /* ============================================================
-   Duyên — landing page
+   SayIDo — landing page
    ============================================================ */
 
 :root {
@@ -310,8 +310,8 @@ p {
 .intro-word {
   font-family: var(--font-script), cursive;
   font-size: clamp(88px, 16vw, 168px);
-  line-height: 1;
-  padding: 0 0.2em;
+  line-height: 1.2;
+  padding: 0.12em 0.25em 0.08em; /* chừa chỗ cho nét bay của chữ thảo, tránh bị cắt */
   background: linear-gradient(120deg, var(--gold-3), var(--gold-2) 50%, var(--gold-3));
   -webkit-background-clip: text;
   background-clip: text;
@@ -2972,4 +2972,34 @@ p {
 
 a.tpl-cta {
   text-decoration: none;
+}
+
+.footer-bottom a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-bottom a:hover {
+  color: var(--gold-2);
+}
+
+/* Logo SayIDo: chữ "I" serif nghiêng màu vàng giữa hai phần viết tay */
+.brand-i {
+  font-family: var(--font-display), Georgia, serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 0.9em;
+  color: var(--gold);
+  margin: 0 0.04em 0 0.02em;
+}
+
+.nav-acct {
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (max-width: 899px) {
+  .nav-acct .acct-login {
+    font-size: 13px;
+  }
 }

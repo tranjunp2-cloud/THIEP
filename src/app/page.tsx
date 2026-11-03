@@ -9,11 +9,13 @@ import { Marquee } from "@/components/landing/Marquee";
 import { Nav } from "@/components/landing/Nav";
 import { Personalize } from "@/components/landing/Personalize";
 import { SmoothScroll } from "@/components/landing/SmoothScroll";
+import { SiteMusic } from "@/components/site/SiteMusic";
+import { AuthProvider } from "@/components/auth/AuthProvider";
 import { Templates } from "@/components/landing/Templates";
 
 export default function Home() {
   return (
-    <>
+    <AuthProvider>
       <SmoothScroll />
       <Intro />
       <Nav />
@@ -30,6 +32,7 @@ export default function Home() {
         <FinalCta />
       </main>
       <Footer />
-    </>
+      <SiteMusic />
+    </AuthProvider>
   );
 }

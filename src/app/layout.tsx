@@ -31,7 +31,7 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Duyên — Thiệp cưới online sang trọng",
+  title: "SayIDo — Thiệp cưới online sang trọng",
   description:
     "Tạo thiệp cưới online trong 15 phút. Gửi link riêng cho từng vị khách qua Zalo, Messenger, kèm xác nhận tham dự, sổ lời chúc và QR mừng cưới.",
 };

@@ -20,7 +20,7 @@ export default function NotFound() {
         </h1>
         <p style={{ color: "#5d685d", margin: "0 0 24px" }}>Có thể đường link đã bị gõ nhầm hoặc đã được đổi.</p>
         <a href="/" style={{ display: "inline-block", padding: "12px 22px", borderRadius: 999, background: "#1f3b2d", color: "#f7f1e7", textDecoration: "none" }}>
-          Về trang chủ Duyên
+          Về trang chủ SayIDo
         </a>
       </div>
     </div>

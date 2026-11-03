@@ -5,6 +5,7 @@ import { dotDate, longDate, mainEvent } from "@/lib/wedding/format";
 import type { Wedding } from "@/lib/wedding/types";
 import { absolute, forgetMine, readMine, rememberMine, tokenFromHash, type MineEntry } from "./mine";
 import { AppTop, CopyButton, LinkRow } from "./ui";
+import { useAuth } from "../auth/AuthProvider";
 
 type Rsvp = {
   id: string;
@@ -38,11 +39,15 @@ function downloadCsv(w: Wedding, rsvps: Rsvp[]) {
 }
 
 export function Manage({ slug }: { slug: string }) {
+  const auth = useAuth();
   const [token, setToken] = useState("");
-  const [data, setData] = useState<{ wedding: Wedding; rsvps: Rsvp[] } | null>(null);
+  const [data, setData] = useState<{ wedding: Wedding; rsvps: Rsvp[]; canClaim?: boolean; mine?: boolean } | null>(null);
   const [error, setError] = useState("");
+  const [claimMsg, setClaimMsg] = useState("");
+  const [reload, setReload] = useState(0);
 
   useEffect(() => {
+    if (auth.loading) return; // đợi biết đã đăng nhập hay chưa
     const t = tokenFromHash() || readMine().find((m) => m.slug === slug)?.token || "";
     fetch(`/api/weddings/${encodeURIComponent(slug)}/rsvps`, { headers: { Authorization: `Bearer ${t}` }, cache: "no-store" })
       .then(async (r) => {
@@ -54,7 +59,20 @@ export function Manage({ slug }: { slug: string }) {
         if (window.location.hash) history.replaceState(null, "", window.location.pathname); // giấu token khỏi thanh địa chỉ
       })
       .catch((e) => setError(e.message));
-  }, [slug]);
+  }, [slug, auth.loading, auth.user, reload]);
+
+  async function claim() {
+    setClaimMsg("");
+    const r = await fetch(`/api/weddings/${encodeURIComponent(slug)}/claim`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+      body: "{}",
+    });
+    const d = await r.json().catch(() => ({}));
+    if (!r.ok) return setClaimMsg(d?.error ?? "Chưa lưu được.");
+    setClaimMsg("Đã lưu thiệp vào tài khoản của bạn.");
+    setReload((n) => n + 1);
+  }
 
   const stats = useMemo(() => {
     if (!data) return null;
@@ -79,10 +97,20 @@ export function Manage({ slug }: { slug: string }) {
         <div className="center-page">
           <div className="panel">
             <h1>Không mở được trang quản lý</h1>
-            <p className="panel-lead">{error} Hãy mở lại bằng đúng link quản lý bạn nhận khi xuất bản thiệp.</p>
-            <a href="/quan-ly" className="btn btn-dark">
-              Thiệp của tôi
-            </a>
+            <p className="panel-lead">
+              {error} {auth.enabled && !auth.user ? "Nếu thiệp nằm trong tài khoản của bạn, hãy đăng nhập. " : ""}Hoặc mở lại bằng đúng link
+              quản lý bạn nhận khi xuất bản thiệp.
+            </p>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              {auth.enabled && !auth.user && (
+                <button type="button" className="btn btn-dark" onClick={() => auth.openAuth("login", `/quan-ly/${slug}`)}>
+                  Đăng nhập
+                </button>
+              )}
+              <a href="/quan-ly" className="btn btn-ghost">
+                Thiệp của tôi
+              </a>
+            </div>
           </div>
         </div>
       </>
@@ -136,6 +164,16 @@ export function Manage({ slug }: { slug: string }) {
             </button>
           </div>
         </div>
+
+        {data.canClaim && (
+          <div className="notice is-warn" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap", marginTop: 0, marginBottom: 20 }}>
+            <span>Thiệp này đang được quản lý bằng link bí mật. Lưu vào tài khoản để mở lại trên mọi thiết bị.</span>
+            <button type="button" className="btn btn-dark btn-sm" onClick={claim}>
+              Lưu vào tài khoản
+            </button>
+          </div>
+        )}
+        {claimMsg && <p className="notice" style={{ marginTop: 0, marginBottom: 20 }}>{claimMsg}</p>}
 
         <div className="stats">
           <div className="stat is-dark">
@@ -243,10 +281,41 @@ export function Manage({ slug }: { slug: string }) {
   );
 }
 
+type Owned = { slug: string; title: string; date: string };
+
 export function MineList() {
+  const auth = useAuth();
   const [items, setItems] = useState<MineEntry[] | null>(null);
+  const [owned, setOwned] = useState<Owned[] | null>(null);
+  const [msg, setMsg] = useState("");
+  const [tick, setTick] = useState(0);
+
   // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage chỉ có ở trình duyệt
-  useEffect(() => setItems(readMine()), []);
+  useEffect(() => setItems(readMine()), [tick]);
+
+  useEffect(() => {
+    if (!auth.user) return;
+    fetch("/api/me/weddings", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject()))
+      .then((d) => setOwned(d.weddings))
+      .catch(() => setOwned([]));
+  }, [auth.user, tick]);
+
+  async function claim(m: MineEntry) {
+    setMsg("");
+    const r = await fetch(`/api/weddings/${encodeURIComponent(m.slug)}/claim`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${m.token}` },
+      body: "{}",
+    });
+    const d = await r.json().catch(() => ({}));
+    setMsg(r.ok ? `Đã lưu “${m.title}” vào tài khoản.` : (d?.error ?? "Chưa lưu được."));
+    setTick((n) => n + 1);
+  }
+
+  const ownedSlugs = new Set((owned ?? []).map((o) => o.slug));
+  const deviceOnly = (items ?? []).filter((m) => !ownedSlugs.has(m.slug));
+  const dmy = (d: string) => d.split("-").reverse().join("/");
 
   return (
     <>
@@ -256,24 +325,73 @@ export function MineList() {
         </a>
       </AppTop>
       <div className="center-page">
-        <div className="panel" style={{ maxWidth: 680 }}>
+        <div className="panel" style={{ maxWidth: 720 }}>
           <h1>Thiệp của tôi</h1>
-          <p className="panel-lead">
-            Các thiệp đã tạo hoặc mở bằng link quản lý trên trình duyệt này. Trên thiết bị khác, hãy mở lại bằng link quản lý bạn đã lưu.
+
+          {auth.enabled && !auth.loading && !auth.user && (
+            <div className="notice is-warn" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+              <span>Đăng nhập để xem thiệp trong tài khoản trên mọi thiết bị.</span>
+              <button type="button" className="btn btn-dark btn-sm" onClick={() => auth.openAuth("login")}>
+                Đăng nhập
+              </button>
+            </div>
+          )}
+          {msg && <p className="notice">{msg}</p>}
+
+          {auth.user && (
+            <>
+              <h2 className="section-gap">Trong tài khoản</h2>
+              {owned === null ? (
+                <p className="panel-lead">Đang tải…</p>
+              ) : owned.length === 0 ? (
+                <p className="empty">
+                  Chưa có thiệp nào trong tài khoản. <a href="/tao-thiep">Tạo thiệp đầu tiên</a>
+                </p>
+              ) : (
+                <ul className="mine-list">
+                  {owned.map((o) => (
+                    <li key={o.slug}>
+                      <div>
+                        <b>{o.title}</b>
+                        <div className="wish-meta">
+                          {o.date ? dmy(o.date) + " · " : ""}/thiep/{o.slug}
+                        </div>
+                      </div>
+                      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                        <a className="btn btn-ghost btn-sm" href={`/thiep/${o.slug}`} target="_blank" rel="noreferrer">
+                          Xem
+                        </a>
+                        <a className="btn btn-dark btn-sm" href={`/quan-ly/${o.slug}`}>
+                          Quản lý
+                        </a>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </>
+          )}
+
+          <h2 className="section-gap">{auth.user ? "Chỉ có trên thiết bị này" : "Trên thiết bị này"}</h2>
+          <p className="panel-lead" style={{ marginBottom: 0 }}>
+            Thiệp mở bằng link quản lý trên trình duyệt này{auth.user ? " nhưng chưa thuộc tài khoản" : ""}.
           </p>
-          {items === null ? null : items.length === 0 ? (
-            <p className="empty">
-              Chưa có thiệp nào trên thiết bị này. <a href="/tao-thiep">Tạo thiệp đầu tiên</a>
-            </p>
+          {items === null ? null : deviceOnly.length === 0 ? (
+            <p className="empty">Không có thiệp nào.</p>
           ) : (
             <ul className="mine-list">
-              {items.map((m) => (
+              {deviceOnly.map((m) => (
                 <li key={m.slug}>
                   <div>
                     <b>{m.title}</b>
                     <div className="wish-meta">/thiep/{m.slug}</div>
                   </div>
-                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                    {auth.user && (
+                      <button type="button" className="btn btn-ghost btn-sm" onClick={() => claim(m)}>
+                        Lưu vào tài khoản
+                      </button>
+                    )}
                     <a className="btn btn-dark btn-sm" href={`/quan-ly/${m.slug}`}>
                       Quản lý
                     </a>
@@ -282,7 +400,7 @@ export function MineList() {
                       className="btn-link btn-danger"
                       onClick={() => {
                         forgetMine(m.slug);
-                        setItems(readMine());
+                        setTick((n) => n + 1);
                       }}
                     >
                       Bỏ khỏi thiết bị

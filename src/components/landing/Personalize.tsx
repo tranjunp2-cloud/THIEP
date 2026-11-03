@@ -90,7 +90,7 @@ export function Personalize() {
             Mỗi vị khách, <em>một lời mời riêng</em>
           </h2>
           <p className="lead">
-            Không còn một đường link chung cho cả trăm người. Duyên tạo cho mỗi khách một lời mời mang tên họ — trang trọng
+            Không còn một đường link chung cho cả trăm người. SayIDo tạo cho mỗi khách một lời mời mang tên họ — trang trọng
             như trao thiệp tận tay.
           </p>
           <ul className="pz-points">
