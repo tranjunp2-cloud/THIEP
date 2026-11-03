@@ -67,9 +67,11 @@ Supabase Auth. Mặc định (không phát sinh phí): đăng ký bằng **họ 
 bằng email + mật khẩu; “ghi nhớ thiết bị”. Số điện thoại lưu trong hồ sơ (`user_metadata.phone`), không xác minh bằng SMS.
 Trên Supabase cần **tắt “Confirm email”** (Authentication → Sign In / Providers → Email) để không phải gửi email.
 
-Bật thêm khi cần (đặt biến rồi deploy lại):
-- `NEXT_PUBLIC_AUTH_SOCIAL=1` — nút Google / Facebook (bật provider tương ứng trên Supabase).
-- `NEXT_PUBLIC_AUTH_RESET=1` — “Quên mật khẩu?” (gửi email — nên có tên miền + SMTP riêng). Bật khi có hai biến công khai
+Công tắc (đặt biến rồi deploy lại):
+- `NEXT_PUBLIC_AUTH_SOCIAL=1` — bật nút Google / Facebook (bật provider tương ứng trên Supabase).
+- `NEXT_PUBLIC_AUTH_RESET=0` — ẩn “Quên mật khẩu?” (mặc định bật; email gửi qua Supabase — nên có tên miền + SMTP riêng).
+
+Tài khoản chỉ bật khi có hai biến công khai
 `NEXT_PUBLIC_SUPABASE_URL` và `NEXT_PUBLIC_SUPABASE_ANON_KEY`; khi chưa có, trang chạy như trước (xuất bản ẩn danh bằng
 link quản lý).
 

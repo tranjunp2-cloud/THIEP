@@ -9,12 +9,12 @@ export type AuthMode = "login" | "register" | "forgot";
 type View = AuthMode | "check-email" | "reset-sent";
 
 /**
- * Công tắc tính năng có thể phát sinh chi phí/cấu hình thêm (mặc định TẮT):
- * - NEXT_PUBLIC_AUTH_SOCIAL=1 : hiện nút Google / Facebook (cần bật provider trên Supabase)
- * - NEXT_PUBLIC_AUTH_RESET=1  : hiện “Quên mật khẩu?” (cần gửi email — nên có SMTP riêng)
+ * Công tắc tính năng:
+ * - NEXT_PUBLIC_AUTH_SOCIAL=1 : hiện nút Google / Facebook (mặc định TẮT — cần bật provider trên Supabase)
+ * - NEXT_PUBLIC_AUTH_RESET=0  : ẩn “Quên mật khẩu?” (mặc định BẬT — gửi email qua Supabase; nên có SMTP riêng khi chạy thật)
  */
 const SOCIAL = process.env.NEXT_PUBLIC_AUTH_SOCIAL === "1";
-const RESET = process.env.NEXT_PUBLIC_AUTH_RESET === "1";
+const RESET = process.env.NEXT_PUBLIC_AUTH_RESET !== "0";
 
 /** Số di động Việt Nam: bỏ khoảng trắng/dấu chấm, +84 → 0. Trả "" nếu không hợp lệ. */
 export function normalizePhone(v: string) {
@@ -35,6 +35,8 @@ export function viError(message: string) {
   if (m.includes("rate limit") || m.includes("too many") || m.includes("security purposes")) return "Bạn thao tác hơi nhanh, vui lòng thử lại sau ít phút.";
   if (m.includes("password") && (m.includes("at least") || m.includes("weak") || m.includes("short"))) return "Mật khẩu cần ít nhất 8 ký tự, nên có cả chữ và số.";
   if (m.includes("invalid email") || m.includes("unable to validate email")) return "Email chưa đúng định dạng.";
+  if (m.includes("not authorized") || m.includes("sending recovery") || m.includes("sending confirmation") || m.includes("error sending"))
+    return "Hệ thống chưa gửi được email lúc này. Bạn thử lại sau hoặc liên hệ SayIDo để được hỗ trợ.";
   if (m.includes("expired") || m.includes("otp")) return "Link đã hết hạn hoặc đã được dùng. Bạn thử lại nhé.";
   if (m.includes("code verifier")) return "Link cần được mở trên đúng trình duyệt bạn đã dùng để đăng ký / đăng nhập. Bạn đăng nhập lại nhé.";
   if (m.includes("missing_code") || m.includes("access_denied")) return "Đăng nhập chưa hoàn tất. Bạn thử lại nhé.";
