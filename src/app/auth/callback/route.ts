@@ -6,7 +6,7 @@ import { supabaseServer } from "@/lib/supabase/server";
 /**
  * Điểm quay về sau khi:
  * - đăng nhập Google / Facebook (?code=…)
- * - bấm link xác nhận email hoặc đặt lại mật khẩu (?code=… hoặc ?token_hash=…&type=…)
+ * - bấm link xác nhận email hoặc đặt lại mật khẩu (?code=…, ?token_hash=…&type=…, hoặc #access_token=… → /auth/hoan-tat)
  */
 export async function GET(request: Request) {
   const url = new URL(request.url);
@@ -29,7 +29,9 @@ export async function GET(request: Request) {
     const { error } = await sb.auth.verifyOtp({ type, token_hash: tokenHash });
     if (error) return fail(error.message);
   } else {
-    return fail("missing_code");
+    // Không có ?code / ?token_hash: phiên (hoặc lỗi) có thể nằm trong #hash mà server không thấy.
+    // Trình duyệt giữ nguyên #hash qua chuyển hướng, nên để trang client đọc tiếp.
+    return NextResponse.redirect(new URL(`/auth/hoan-tat?next=${encodeURIComponent(next)}`, url.origin));
   }
 
   const dest = type === "recovery" ? "/dat-lai-mat-khau" : next;

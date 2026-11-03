@@ -37,6 +37,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [modal, setModal] = useState<{ mode: AuthMode; next?: string; error?: string } | null>(null);
 
   useEffect(() => {
+    // Supabase trả phiên trong #hash (link email kiểu cũ, hoặc rơi về Site URL) → để /auth/hoan-tat xử lý.
+    if (/(^#|&)(access_token|error_code)=/.test(window.location.hash) && authEnabled) {
+      window.location.replace(`/auth/hoan-tat${window.location.hash}`);
+      return;
+    }
     const sb = supabaseBrowser();
     if (!sb) return;
     let active = true;
