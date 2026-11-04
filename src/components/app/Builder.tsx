@@ -1,15 +1,20 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { DEFAULT_TEMPLATE, isReadyTemplate } from "@/lib/templates/registry";
 import { demoInput } from "@/lib/wedding/demo";
-import { EVENT_TITLES, toWedding, uniqueGuestKey, weddingInputSchema, type WeddingInput } from "@/lib/wedding/schema";
+import { EVENT_TITLES, stripDemoPhotos, toWedding, uniqueGuestKey, weddingInputSchema, type WeddingInput } from "@/lib/wedding/schema";
 import { absolute, readMine, rememberMine, tokenFromHash } from "./mine";
+import { PhotoStep } from "./PhotoStep";
+import { TemplatePicker } from "./TemplatePicker";
 import { AppTop, LinkRow } from "./ui";
 import { useAuth } from "../auth/AuthProvider";
 
 /* ---------------- Dữ liệu khởi tạo ---------------- */
 
 const blankInput = (): WeddingInput => ({
+  template: DEFAULT_TEMPLATE,
+  photos: { album: [] },
   groom: { name: "", short: "" },
   bride: { name: "", short: "" },
   city: "",
@@ -26,14 +31,14 @@ const blankInput = (): WeddingInput => ({
   gifts: { message: demoInput.gifts.message, accounts: [] },
   faqs: [
     { q: "Có chỗ gửi xe không?", a: "Có, nhà hàng có bãi gửi xe miễn phí cho khách." },
-    { q: "Mình có thể đưa bé đi cùng không?", a: "Rất hoan nghênh các bé! Bạn ghi số người đi cùng trong phần xác nhận nhé." },
+    { q: "Mình có thể đưa bé đi cùng không?", a: "Rất hoan nghênh các bé! Bạn nhắn trước số người đi cùng cho chúng mình nhé." },
   ],
   rsvpDeadline: "",
   guests: [],
 });
 
-const STEPS = ["Cô dâu & chú rể", "Gia đình", "Lễ cưới", "Lịch trình", "Mừng cưới", "Khách mời", "Xuất bản"] as const;
-const STEP_OF: Record<string, number> = { groom: 0, bride: 0, city: 0, families: 1, events: 2, mainIndex: 2, rsvpDeadline: 2, timeline: 3, dress: 3, gifts: 4, faqs: 4, guests: 5 };
+const STEPS = ["Cô dâu & chú rể", "Ảnh cưới", "Gia đình", "Lễ cưới", "Lịch trình", "Mừng cưới", "Khách mời", "Xuất bản"] as const;
+const STEP_OF: Record<string, number> = { groom: 0, bride: 0, city: 0, photos: 1, families: 2, events: 3, mainIndex: 3, rsvpDeadline: 3, timeline: 4, dress: 4, gifts: 5, faqs: 5, guests: 6 };
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 const TIME = /^([01]\d|2[0-3]):[0-5]\d$/;
@@ -66,7 +71,6 @@ const LABELS: Record<string, string> = {
   "bride.name": "Họ tên đầy đủ của cô dâu",
   "bride.short": "Tên gọi của cô dâu",
   city: "Thành phố",
-  rsvpDeadline: "Hạn xác nhận tham dự",
 };
 
 function issueLabel(path: PropertyKey[]) {
@@ -130,7 +134,9 @@ export function Builder() {
 
   /* --- Khởi tạo: chế độ sửa (?sua=slug#t=token) hoặc bản nháp --- */
   useEffect(() => {
-    const slug = new URLSearchParams(window.location.search).get("sua");
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("sua");
+    const mau = params.get("mau");
     fetch("/api/weddings", { cache: "no-store" })
       .then((r) => r.json())
       .then((d) => setAvailable(d?.available === true))
@@ -142,7 +148,11 @@ export function Builder() {
         .then(async (r) => {
           const d = await r.json();
           if (!r.ok) throw new Error(d?.error ?? "Không mở được thiệp.");
-          setInput(d.input);
+          setInput({
+            ...d.input,
+            template: isReadyTemplate(d.input?.template) ? d.input.template : DEFAULT_TEMPLATE,
+            photos: d.input?.photos ?? { album: [] },
+          });
           setIsSample(false);
           setMode("edit");
           setEdit({ slug, token });
@@ -162,10 +172,19 @@ export function Builder() {
         typeof d.gifts === "object" && Array.isArray(d.gifts.accounts) && typeof d.dress === "object";
       if (ok) {
         // eslint-disable-next-line react-hooks/set-state-in-effect -- khôi phục nháp từ localStorage (chỉ có ở trình duyệt)
-        setInput(draft.input);
+        setInput({
+          ...draft.input,
+          template: isReadyTemplate(draft.input.template) ? draft.input.template : DEFAULT_TEMPLATE,
+          photos: draft.input.photos ?? { album: [] },
+        });
         setIsSample(Boolean(draft.sample));
       }
     } catch {}
+    // Đến từ nút "Dùng mẫu này" ở kho mẫu: /tao-thiep?mau=<mã mẫu>
+    if (mau && isReadyTemplate(mau)) {
+      setInput((prev) => ({ ...prev, template: mau }));
+      history.replaceState(null, "", "/tao-thiep");
+    }
     loaded.current = true;
   }, []);
 
@@ -209,7 +228,7 @@ export function Builder() {
   const validation = useMemo(() => weddingInputSchema.safeParse(input), [input]);
   const issues = validation.success ? [] : validation.error.issues;
   const errorPaths = new Set(issues.map((i) => i.path.join(".")));
-  const stepErrors = new Set(issues.map((i) => STEP_OF[String(i.path[0])] ?? 6));
+  const stepErrors = new Set(issues.map((i) => STEP_OF[String(i.path[0])] ?? 7));
 
   const bad = (path: string) => showErrors && errorPaths.has(path);
 
@@ -244,7 +263,7 @@ export function Builder() {
         const r = await fetch(`/api/weddings/${edit.slug}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${edit.token}` },
-          body: JSON.stringify(validation.data),
+          body: JSON.stringify(stripDemoPhotos(validation.data)),
         });
         const d = await r.json().catch(() => ({}));
         if (!r.ok) throw new Error(d?.error ?? "Chưa lưu được thay đổi.");
@@ -254,7 +273,7 @@ export function Builder() {
         const r = await fetch("/api/weddings", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(validation.data),
+          body: JSON.stringify(stripDemoPhotos(validation.data)),
         });
         const d = await r.json().catch(() => ({}));
         if (r.status === 401 && d?.login) {
@@ -313,7 +332,7 @@ export function Builder() {
               <p style={{ margin: "6px 0 0", fontSize: 14 }}>
                 {auth.user
                   ? "Thiệp đã được lưu vào tài khoản của bạn. Link này để chia sẻ quyền quản lý với người còn lại (chú rể / cô dâu) mà không cần chung tài khoản — đừng gửi cho khách."
-                  : "Dùng để sửa thiệp và xem ai đã xác nhận. Ai có link này đều sửa được thiệp, đừng gửi cho khách. Hãy lưu lại (gửi vào Zalo “My Documents” chẳng hạn) — link cũng được nhớ trên trình duyệt này."}
+                  : "Dùng để sửa thiệp. Ai có link này đều sửa được thiệp, đừng gửi cho khách. Hãy lưu lại (gửi vào Zalo “My Documents” chẳng hạn) — link cũng được nhớ trên trình duyệt này."}
               </p>
               <LinkRow url={manage} label="Chép link quản lý" />
             </div>
@@ -360,6 +379,7 @@ export function Builder() {
 
       <div className="builder">
         <div>
+          <TemplatePicker value={input.template} onChange={(id) => set((d) => void (d.template = id))} />
           <nav className="steps" aria-label="Các bước">
             {STEPS.map((s, i) => (
               <button
@@ -378,7 +398,7 @@ export function Builder() {
           <div className="panel">
             {isSample && mode === "new" && (
               <div className="sample-banner">
-                <span>Đang hiển thị dữ liệu mẫu để bạn hình dung — hãy thay bằng thông tin của hai bạn.</span>
+                <span>Đang hiển thị dữ liệu mẫu để bạn hình dung — hãy thay bằng thông tin của hai bạn. Ảnh cưới trong bản xem trước là ảnh minh hoạ, sẽ không được đăng kèm thiệp.</span>
                 <button
                   type="button"
                   className="btn btn-sm btn-ghost"
@@ -418,6 +438,10 @@ export function Builder() {
             )}
 
             {step === 1 && (
+              <PhotoStep photos={input.photos} onChange={(fn) => setInput((prev) => ({ ...prev, photos: fn(prev.photos) }))} edit={edit} />
+            )}
+
+            {step === 2 && (
               <>
                 <h1>Gia đình hai bên</h1>
                 <p className="panel-lead">Hiển thị trong phần “Cùng gia đình hai bên trân trọng báo tin”. Có thể để trống.</p>
@@ -442,7 +466,7 @@ export function Builder() {
               </>
             )}
 
-            {step === 2 && (
+            {step === 3 && (
               <>
                 <h1>Lễ cưới</h1>
                 <p className="panel-lead">Tối đa 3 sự kiện. Ngày âm lịch được tính tự động. Sự kiện chính dùng cho bìa thiệp và đồng hồ đếm ngược.</p>
@@ -520,15 +544,10 @@ export function Builder() {
                     + Thêm sự kiện
                   </button>
                 )}
-                <div className="grid-2 section-gap">
-                  <Field label="Hạn xác nhận tham dự" invalid={bad("rsvpDeadline")}>
-                    <input type="date" value={input.rsvpDeadline} onChange={(e) => set((d) => void (d.rsvpDeadline = e.target.value))} />
-                  </Field>
-                </div>
               </>
             )}
 
-            {step === 3 && (
+            {step === 4 && (
               <>
                 <h1>Lịch trình &amp; trang phục</h1>
                 <p className="panel-lead">Tối đa 6 mốc. Mỗi mốc có một hình minh hoạ màu nước riêng.</p>
@@ -569,7 +588,7 @@ export function Builder() {
               </>
             )}
 
-            {step === 4 && (
+            {step === 5 && (
               <>
                 <h1>Mừng cưới &amp; hỏi đáp</h1>
                 <p className="panel-lead">Thông tin tài khoản hiển thị kèm nút chép số. SayIDo không giữ hay xử lý tiền mừng.</p>
@@ -642,7 +661,7 @@ export function Builder() {
               </>
             )}
 
-            {step === 5 && (
+            {step === 6 && (
               <>
                 <h1>Khách mời</h1>
                 <p className="panel-lead">
@@ -753,13 +772,13 @@ export function Builder() {
               </>
             )}
 
-            {step === 6 && (
+            {step === 7 && (
               <>
                 <h1>{mode === "edit" ? "Lưu thay đổi" : "Xuất bản thiệp"}</h1>
                 <p className="panel-lead">
                   {mode === "edit"
                     ? "Thay đổi áp dụng ngay trên mọi đường link đã gửi."
-                    : "Bạn sẽ nhận link thiệp để gửi khách và một link quản lý bí mật để sửa thiệp, xem xác nhận tham dự."}
+                    : "Bạn sẽ nhận link thiệp để gửi khách và một link quản lý bí mật để sửa thiệp."}
                 </p>
                 <ul style={{ margin: 0, paddingLeft: 18, color: "var(--muted)" }}>
                   <li>
@@ -779,7 +798,7 @@ export function Builder() {
                   <ul className="issues">
                     {issues.slice(0, 8).map((iss, k) => (
                       <li key={k}>
-                        <button type="button" onClick={() => setStep(STEP_OF[String(iss.path[0])] ?? 6)}>
+                        <button type="button" onClick={() => setStep(STEP_OF[String(iss.path[0])] ?? 7)}>
                           {issueLabel(iss.path)}
                         </button>
                         : {iss.message}
@@ -804,7 +823,7 @@ export function Builder() {
               </>
             )}
 
-            {step < 6 && (
+            {step < 7 && (
               <div className="step-nav">
                 <button type="button" className="btn btn-ghost" disabled={step === 0} onClick={() => setStep(step - 1)}>
                   ← Quay lại

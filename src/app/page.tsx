@@ -1,5 +1,5 @@
 import "./landing.css";
-import { Faq, FinalCta, Footer, Pricing } from "@/components/landing/Closing";
+import { Faq, FinalCta, Footer } from "@/components/landing/Closing";
 import { Features } from "@/components/landing/Features";
 import { Hero } from "@/components/landing/Hero";
 import { HowItWorks } from "@/components/landing/HowItWorks";
@@ -27,7 +27,6 @@ export default function Home() {
         <HowItWorks />
         <Personalize />
         <Features />
-        <Pricing />
         <Faq />
         <FinalCta />
       </main>

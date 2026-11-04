@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import { templates } from "./content";
+import { ALL_TEMPLATES, FEATURED_FAMILIES, familyDefault, templateHref } from "@/lib/templates/registry";
 import { DESKTOP, gsap, MOTION_OK, useGSAP } from "./gsap";
-import { InviteCard } from "./InviteCard";
+import { TemplateThumb } from "@/components/gallery/TemplateThumb";
 
 export function Templates() {
   const root = useRef<HTMLElement>(null);
@@ -107,48 +107,46 @@ export function Templates() {
         </div>
         <div className="tpl-viewport">
           <ul className="tpl-track">
-            {templates.map((t, i) => (
-              <li key={t.id} className="tpl-item">
-                <div className="tpl-card-inner">
-                  {t.ready ? (
-                    <a href="/thiep/quan-mai" className="tpl-card" aria-label={`Xem thiệp demo mẫu ${t.name}`}>
+            {FEATURED_FAMILIES.map((f, i) => {
+              const t = familyDefault(f);
+              const ready = f.status === "ready";
+              return (
+                <li key={f.id} className="tpl-item">
+                  <div className="tpl-card-inner">
+                    <a href={templateHref(t.id)} className={`tpl-card${ready ? "" : " is-soon"}`} aria-label={`Xem chi tiết mẫu ${f.name}`}>
                       <div className="tpl-tilt">
-                        <InviteCard theme={t.id} />
+                        <span className="tpl-screen">
+                          <TemplateThumb t={t} sizes="300px" />
+                        </span>
                         <span className="tpl-shine" aria-hidden="true" />
                       </div>
-                      <span className="tpl-badge">Dùng được ngay</span>
+                      <span className="tpl-badge">{ready ? `${f.variants.length} màu` : "Sắp ra mắt"}</span>
                     </a>
-                  ) : (
-                    <div className="tpl-card is-soon">
-                      <div className="tpl-tilt">
-                        <InviteCard theme={t.id} />
-                        <span className="tpl-shine" aria-hidden="true" />
+                    <div className="tpl-meta">
+                      <span className="tpl-no">{String(i + 1).padStart(2, "0")}</span>
+                      <div>
+                        <h3>{f.name}</h3>
+                        <p>{f.tagline}</p>
                       </div>
-                      <span className="tpl-badge">Sắp ra mắt</span>
+                      {ready ? (
+                        <a href={`/tao-thiep?mau=${t.id}`} data-require-auth className="tpl-cta">
+                          Dùng mẫu này →
+                        </a>
+                      ) : (
+                        <a href={templateHref(t.id)} className="tpl-cta">
+                          Xem chi tiết →
+                        </a>
+                      )}
                     </div>
-                  )}
-                  <div className="tpl-meta">
-                    <span className="tpl-no">{String(i + 1).padStart(2, "0")}</span>
-                    <div>
-                      <h3>{t.name}</h3>
-                      <p>{t.mood}</p>
-                    </div>
-                    {t.ready ? (
-                      <a href="/tao-thiep" data-require-auth className="tpl-cta">
-                        Dùng mẫu này →
-                      </a>
-                    ) : (
-                      <span className="tpl-cta">Đang hoàn thiện</span>
-                    )}
                   </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
             <li className="tpl-item tpl-item--more">
-              <a href="/tao-thiep" data-require-auth className="tpl-more">
-                <span className="tpl-more-num">+</span>
-                <span>Nhiều mẫu mới đang được vẽ</span>
-                <span className="tpl-cta">Bắt đầu với mẫu Ngà Botanical →</span>
+              <a href="/mau-thiep" className="tpl-more">
+                <span className="tpl-more-num">{ALL_TEMPLATES.length}</span>
+                <span>Xem trọn kho mẫu thiệp</span>
+                <span className="tpl-cta">Khám phá tất cả mẫu →</span>
               </a>
             </li>
           </ul>

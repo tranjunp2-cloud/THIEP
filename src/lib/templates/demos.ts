@@ -1,0 +1,233 @@
+/**
+ * Thiệp demo theo từng dòng mẫu — mỗi mẫu là câu chuyện của MỘT cặp đôi:
+ * tên, gia đình, ngày cưới, địa điểm, lịch trình và một bộ ảnh cùng buổi chụp.
+ * Mọi tên, địa chỉ, tài khoản đều là giả định. Ảnh: Pexels (giấy phép Pexels).
+ */
+import { demoInput, demoPhoto, DEMO_SLUG } from "../wedding/demo";
+import { toWedding, type WeddingInput } from "../wedding/schema";
+import type { Wedding } from "../wedding/types";
+import { findTemplate } from "./registry";
+
+type Persona = {
+  input: Partial<WeddingInput>;
+  dressPalette?: string[];
+};
+
+const PERSONAS: Record<string, Persona> = {
+  /* ---------- Ngà Botanical: tiệc cưới sân vườn ---------- */
+  "nga-botanical": {
+    input: {},
+  },
+
+  /* ---------- Lụa Đỏ: lễ vu quy truyền thống, áo dài & cổng hoa đỏ ---------- */
+  "lua-do": {
+    input: {
+      faqs: [
+        { q: "Lễ rước dâu bắt đầu lúc mấy giờ?", a: "Lễ gia tiên bắt đầu 7:30 tại tư gia nhà gái, đoàn nhà trai rước dâu khoảng 8:30." },
+        { q: "Tiệc mừng tổ chức ở đâu?", a: "Tại Trung tâm tiệc cưới Kinh Bắc Palace, đón khách từ 10:30, lễ thành hôn lúc 11:00." },
+        { q: "Có chỗ gửi xe không?", a: "Trung tâm tiệc cưới có bãi gửi ô tô và xe máy miễn phí." },
+      ],
+      groom: { name: "Trần Đức Anh", short: "Đức Anh", title: "Trưởng nam" },
+      bride: { name: "Nguyễn Phương Thảo", short: "Phương Thảo", title: "Thứ nữ" },
+      city: "Bắc Ninh",
+      families: [
+        { father: "Ông Trần Văn Hải", mother: "Bà Đỗ Thị Hoa", address: "Từ Sơn, Bắc Ninh" },
+        { father: "Ông Nguyễn Văn Thịnh", mother: "Bà Lê Thị Hằng", address: "Yên Phong, Bắc Ninh" },
+      ],
+      events: [
+        {
+          title: "Lễ Vu Quy",
+          subtitle: "Lễ rước dâu tại tư gia nhà gái",
+          date: "2026-12-27",
+          start: "07:30",
+          end: "09:00",
+          venue: "Tư gia nhà gái",
+          address: "Thôn Đông Xuyên, Yên Phong, Bắc Ninh",
+          note: "Hai họ làm lễ gia tiên, trao trầu cau và rước dâu về nhà trai.",
+        },
+        {
+          title: "Lễ Thành Hôn",
+          subtitle: "Lễ thành hôn & tiệc mừng",
+          date: "2026-12-27",
+          start: "11:00",
+          end: "14:00",
+          venue: "Trung tâm tiệc cưới Kinh Bắc Palace",
+          address: "Số 25 đường Lý Thái Tổ, Từ Sơn, Bắc Ninh",
+          note: "",
+        },
+      ],
+      mainIndex: 1,
+      timeline: [
+        { time: "07:30", title: "Lễ gia tiên", detail: "Thắp hương báo cáo tổ tiên hai họ" },
+        { time: "08:30", title: "Rước dâu", detail: "Đoàn nhà trai đón cô dâu về" },
+        { time: "11:00", title: "Lễ thành hôn", detail: "Trao nhẫn, rót rượu hợp cẩn" },
+        { time: "11:30", title: "Khai tiệc", detail: "Nâng ly chúc mừng cùng hai họ" },
+        { time: "13:30", title: "Tiễn khách", detail: "Cảm ơn quý khách đã đến chung vui" },
+      ],
+      dress: { title: "Áo dài & sắc đỏ", note: "Rất mong quý khách chọn áo dài hoặc trang phục tông đỏ, kem, vàng để ngày vui thêm rộn ràng." },
+      gifts: {
+        message: "Sự có mặt của quý khách là niềm vinh hạnh của gia đình. Nếu ở xa, quý khách có thể gửi lời chúc mừng qua thông tin dưới đây.",
+        accounts: [
+          { side: "Nhà trai", bank: "Ngân hàng ABC (demo)", number: "0211 345 678", holder: "TRAN DUC ANH" },
+          { side: "Nhà gái", bank: "Ngân hàng XYZ (demo)", number: "0987 222 111", holder: "NGUYEN PHUONG THAO" },
+        ],
+      },
+      photos: {
+        cover: demoPhoto("lua", 1, 1200, 1796, "Cô dâu chú rể áo dài trước cổng hoa đỏ"),
+        groom: demoPhoto("lua", 1, 1200, 1796, "Chú rể trong áo dài trắng", "80% 30%", 2.3),
+        bride: demoPhoto("lua", 1, 1200, 1796, "Cô dâu trong áo dài trắng", "20% 34%", 2.3),
+        album: [
+          demoPhoto("lua", 2, 1200, 1800, "Hai bạn đọc lời thề trước bàn thờ gia tiên"),
+          demoPhoto("lua", 3, 1200, 800, "Chụp ảnh trước phông chữ Hỷ"),
+          demoPhoto("lua", 5, 1200, 800, "Nụ hôn trong lễ rước dâu"),
+          demoPhoto("lua", 9, 1200, 1800, "Chú rể quỳ dưới cổng hoa"),
+          demoPhoto("lua", 4, 1200, 800, "Ôm bó hoa cưới"),
+          demoPhoto("lua", 6, 1200, 800, "Đoàn rước dâu"),
+          demoPhoto("lua", 10, 1200, 800, "Bạn bè chào đón cô dâu chú rể"),
+          demoPhoto("lua", 8, 1200, 798, "Dạo bước sau lễ"),
+        ],
+        credit: "Ảnh minh hoạ: Pexels.",
+      },
+      rsvpDeadline: "2026-12-20",
+    },
+    dressPalette: ["#8e1f2b", "#c9a45c", "#f3e2c4", "#fbf4ea", "#5a111d"],
+  },
+
+  /* ---------- Tối Giản: phong cách tạp chí, studio trắng & bờ hồ ---------- */
+  "toi-gian": {
+    input: {
+      faqs: [
+        { q: "Mình nên đến lúc mấy giờ?", a: "Đón khách từ 17:30 với welcome drink và photobooth, nghi thức bắt đầu lúc 18:15." },
+        { q: "Dress code thế nào?", a: "Đen, trắng hoặc be — đơn giản là đẹp nhất." },
+        { q: "Có chỗ đỗ xe không?", a: "Toà nhà có hầm gửi xe, bạn báo bảo vệ là khách dự tiệc cưới nhé." },
+      ],
+      groom: { name: "Phạm Gia Huy", short: "Gia Huy", title: "Con trai út" },
+      bride: { name: "Đỗ Khánh Linh", short: "Khánh Linh", title: "Con gái đầu" },
+      city: "TP. Hồ Chí Minh",
+      families: [
+        { father: "Ông Phạm Quốc Bảo", mother: "Bà Võ Thị Mai", address: "Quận 3, TP. Hồ Chí Minh" },
+        { father: "Ông Đỗ Minh Trí", mother: "Bà Huỳnh Ngọc Lan", address: "Thủ Đức, TP. Hồ Chí Minh" },
+      ],
+      events: [
+        {
+          title: "Tiệc Cưới",
+          subtitle: "Tiệc cưới tối thân mật",
+          date: "2027-01-09",
+          start: "18:00",
+          end: "21:30",
+          venue: "White Hall · Sảnh Tầng 5",
+          address: "120 Nguyễn Văn Hưởng, Thảo Điền, Thủ Đức, TP. Hồ Chí Minh",
+          note: "",
+        },
+      ],
+      mainIndex: 0,
+      timeline: [
+        { time: "17:30", title: "Đón khách", detail: "Welcome drink & photobooth" },
+        { time: "18:15", title: "Nghi thức", detail: "Lời hứa của hai bạn" },
+        { time: "18:45", title: "Khai tiệc", detail: "Bữa tối và rượu vang" },
+        { time: "20:00", title: "First dance", detail: "Nhảy cùng chúng mình" },
+        { time: "21:30", title: "Kết thúc", detail: "Hẹn gặp lại" },
+      ],
+      dress: { title: "Black & White", note: "Dress code đen, trắng hoặc be. Chúng mình muốn mọi khung hình đều thật tinh gọn." },
+      gifts: {
+        message: "Món quà lớn nhất là bạn có mặt. Nếu muốn gửi lời chúc từ xa, bạn có thể dùng thông tin dưới đây.",
+        accounts: [
+          { side: "Nhà trai", bank: "Ngân hàng ABC (demo)", number: "0333 909 101", holder: "PHAM GIA HUY" },
+          { side: "Nhà gái", bank: "Ngân hàng XYZ (demo)", number: "0909 101 333", holder: "DO KHANH LINH" },
+        ],
+      },
+      photos: {
+        cover: demoPhoto("toi", 1, 1200, 801, "Hai bạn tựa trán vào nhau bên hồ", "50% 40%"),
+        groom: demoPhoto("toi", 2, 1200, 801, "Chú rể cầm bó hoa", "30% 30%", 1.25),
+        bride: demoPhoto("toi", 3, 1200, 801, "Cô dâu mỉm cười", "38% 32%", 1.35),
+        album: [
+          demoPhoto("toi", 6, 1200, 800, "Ôm nhau trước bức tường trái tim"),
+          demoPhoto("toi", 4, 1200, 801, "Chú rể trao hoa"),
+          demoPhoto("toi", 8, 1200, 800, "Trong khung trái tim"),
+          demoPhoto("toi", 10, 1200, 801, "Bên hồ"),
+          demoPhoto("toi", 5, 1200, 741, "Khiêu vũ dưới tán cây"),
+          demoPhoto("toi", 7, 1200, 800, "Cái ôm thật chặt"),
+          demoPhoto("toi", 9, 1200, 801, "Nắm tay"),
+          demoPhoto("toi", 12, 1200, 800, "Chạy về phía nhau"),
+        ],
+        credit: "Ảnh minh hoạ: Pexels.",
+      },
+      rsvpDeadline: "2026-12-30",
+    },
+    dressPalette: ["#161616", "#5c5a55", "#cfcbc2", "#efebe3", "#ffffff"],
+  },
+
+  /* ---------- Đêm Sao: tiệc tối khách sạn ---------- */
+  "dem-sao": {
+    input: {
+      faqs: [
+        { q: "Mình nên đến lúc mấy giờ?", a: "Cocktail đón khách từ 18:00 ở sân thượng, lễ thành hôn bắt đầu lúc 18:30." },
+        { q: "Có phần ngoài trời không?", a: "Có — sau cắt bánh mọi người cùng ra sân thượng ngắm biển đêm, bạn mang thêm áo khoác mỏng nhé." },
+        { q: "Khách sạn có chỗ gửi xe không?", a: "Khách sạn có hầm gửi xe miễn phí cho khách dự tiệc." },
+      ],
+      groom: { name: "Lê Tuấn Kiệt", short: "Tuấn Kiệt", title: "Trưởng nam" },
+      bride: { name: "Vũ Minh Châu", short: "Minh Châu", title: "Út nữ" },
+      city: "Đà Nẵng",
+      families: [
+        { father: "Ông Lê Văn Phúc", mother: "Bà Nguyễn Thị Thu", address: "Hải Châu, Đà Nẵng" },
+        { father: "Ông Vũ Đình Long", mother: "Bà Trần Thị Ngọc", address: "Sơn Trà, Đà Nẵng" },
+      ],
+      events: [
+        {
+          title: "Tiệc Cưới",
+          subtitle: "Dạ tiệc dưới trời sao",
+          date: "2026-12-26",
+          start: "18:30",
+          end: "22:00",
+          venue: "Starlight Ballroom · Khách sạn Biển Xanh",
+          address: "36 Võ Nguyên Giáp, Sơn Trà, Đà Nẵng",
+          note: "",
+        },
+      ],
+      mainIndex: 0,
+      timeline: [
+        { time: "18:00", title: "Đón khách", detail: "Cocktail ngoài sân thượng" },
+        { time: "18:30", title: "Lễ thành hôn", detail: "Trao nhẫn dưới vòm đèn" },
+        { time: "19:00", title: "Khai tiệc", detail: "Dạ tiệc & âm nhạc" },
+        { time: "20:30", title: "Cắt bánh", detail: "Rót rượu và cắt bánh cưới" },
+        { time: "21:30", title: "Pháo sáng", detail: "Cùng nhau ngắm biển đêm" },
+      ],
+      dress: { title: "Dạ tiệc", note: "Trang phục dạ tiệc tông xanh đêm, ánh kim hoặc đen. Tiệc có phần ngoài trời, mời bạn mang thêm áo khoác mỏng." },
+      gifts: {
+        message: "Cảm ơn bạn đã đến cùng chúng mình trong đêm đặc biệt này. Lời chúc từ xa có thể gửi qua thông tin bên dưới.",
+        accounts: [
+          { side: "Nhà trai", bank: "Ngân hàng ABC (demo)", number: "0905 123 456", holder: "LE TUAN KIET" },
+          { side: "Nhà gái", bank: "Ngân hàng XYZ (demo)", number: "0935 654 321", holder: "VU MINH CHAU" },
+        ],
+      },
+      photos: {
+        cover: demoPhoto("sao", 1, 1200, 1800, "Cô dâu chú rể ôm bó hoa trắng", "50% 30%"),
+        groom: demoPhoto("sao", 2, 1200, 1800, "Chân dung chú rể", "50% 25%"),
+        bride: demoPhoto("sao", 3, 1200, 1800, "Cô dâu mỉm cười", "45% 35%"),
+        album: [
+          demoPhoto("sao", 4, 1200, 1800, "Nụ hôn trước vòm hoa"),
+          demoPhoto("sao", 8, 1200, 800, "Vui cùng bạn bè trong đêm tiệc"),
+          demoPhoto("sao", 6, 1200, 1800, "Áo dài trắng trong lễ gia tiên"),
+          demoPhoto("sao", 5, 1200, 1800, "Đeo nhẫn cưới"),
+          demoPhoto("sao", 9, 1200, 800, "Nhận lì xì mừng cưới"),
+          demoPhoto("sao", 7, 1200, 1800, "Khoảnh khắc trong lễ rước dâu"),
+          demoPhoto("sao", 10, 1200, 1800, "Cười thật tươi"),
+          demoPhoto("sao", 1, 1200, 1800, "Bó hoa cưới trắng"),
+        ],
+        credit: "Ảnh minh hoạ: Pexels.",
+      },
+      rsvpDeadline: "2026-12-18",
+    },
+    dressPalette: ["#0f1a36", "#1c1530", "#d8b878", "#f1e6c8", "#161616"],
+  },
+};
+
+/** Thiệp demo đầy đủ của một mẫu (một biến thể màu). */
+export function demoWeddingFor(templateId: string): Wedding {
+  const t = findTemplate(templateId);
+  const persona = (t && PERSONAS[t.family.id]) ?? PERSONAS["nga-botanical"];
+  const input: WeddingInput = { ...demoInput, ...persona.input, template: templateId };
+  const w = toWedding(DEMO_SLUG, input, true);
+  if (persona.dressPalette) w.dress.palette = persona.dressPalette;
+  return w;
+}

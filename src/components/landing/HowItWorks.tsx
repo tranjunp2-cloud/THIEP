@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { guestNames, sampleCouple, steps, templates } from "./content";
+import { FEATURED_FAMILIES, familyDefault } from "@/lib/templates/registry";
+import { guestNames, sampleCouple, steps } from "./content";
 import { gsap, MOTION_OK, ScrollTrigger, useGSAP } from "./gsap";
 import { InviteCard } from "./InviteCard";
 
@@ -10,10 +11,10 @@ function ScreenPick() {
     <div className="scr scr-pick">
       <p className="scr-title">Chọn mẫu thiệp</p>
       <div className="scr-pick-grid">
-        {templates.slice(0, 4).map((t, i) => (
-          <div key={t.id} className={`scr-pick-item ${i === 0 ? "is-chosen" : ""}`}>
-            <InviteCard theme={t.id} className="invite--mini" />
-            <span>{t.name}</span>
+        {FEATURED_FAMILIES.slice(0, 4).map((f, i) => (
+          <div key={f.id} className={`scr-pick-item ${i === 0 ? "is-chosen" : ""}`}>
+            <InviteCard tpl={familyDefault(f)} className="invite--mini" />
+            <span>{f.name}</span>
           </div>
         ))}
       </div>
@@ -50,7 +51,7 @@ function ScreenEdit() {
 }
 
 function ScreenShare() {
-  const status = ["Đã xác nhận", "Đã mở thiệp", "Đã gửi", "Đã mở thiệp", "Đã gửi"];
+  const status = ["Nhà gái", "Nhà trai", "Nhà gái", "Nhà trai", "Nhà gái"];
   return (
     <div className="scr scr-share">
       <p className="scr-title">Danh sách khách mời</p>

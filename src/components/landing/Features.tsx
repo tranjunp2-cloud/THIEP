@@ -63,17 +63,26 @@ function FakeQR() {
 }
 
 const wishes = [
-  "Chúc hai bạn trăm năm hạnh phúc!",
-  "Mãi yêu thương như ngày đầu nha 💛",
-  "Sớm có tin vui nhé hai đứa!",
-  "Hạnh phúc thật nhiều nha Mai ơi",
-  "Đầu bạc răng long nhé!",
+  "Cánh cửa gỗ khép mở",
+  "Phong bì lụa và dấu son",
+  "Bầu trời sao tan dần",
+  "Trang tạp chí lật mở",
+  "Cánh hoa rơi",
+  "Ảnh hiện dần khi cuộn",
+];
+
+/** Thẻ "Đổi mẫu": vài mẫu tiêu biểu trong kho. */
+const SWITCH_TEMPLATES = [
+  { name: "Ngà Botanical", note: "Tranh màu nước, tiệc sân vườn" },
+  { name: "Lụa Đỏ", note: "Song Hỷ, lễ vu quy truyền thống" },
+  { name: "Đêm Sao", note: "Ánh kim, dạ tiệc buổi tối" },
+  { name: "Tối Giản", note: "Chữ lớn kiểu tạp chí" },
 ];
 
 export function Features() {
   const root = useRef<HTMLElement>(null);
   const [side, setSide] = useState<"trai" | "gai">("trai");
-  const [rsvp, setRsvp] = useState(true);
+  const [tpl, setTpl] = useState(0);
 
   useGSAP(
     (_, contextSafe) => {
@@ -124,20 +133,19 @@ export function Features() {
 
       <div className="bento">
         <article className="bento-card b-rsvp">
-          <h3>Xác nhận tham dự</h3>
-          <p>Khách trả lời ngay trên thiệp, bạn nhận danh sách tức thì.</p>
+          <h3>Đổi mẫu bất cứ lúc nào</h3>
+          <p>Nội dung giữ nguyên, chỉ đổi phong cách — từ Song Hỷ truyền thống đến tối giản hiện đại.</p>
           <div className="rsvp-demo">
-            <span className="rsvp-q">Bạn sẽ đến chung vui chứ?</span>
-            <div className="rsvp-opts" role="group" aria-label="Thử chọn">
-              <button type="button" className={rsvp ? "on" : ""} onClick={() => setRsvp(true)} aria-pressed={rsvp}>
-                Chắc chắn rồi
-              </button>
-              <button type="button" className={!rsvp ? "on" : ""} onClick={() => setRsvp(false)} aria-pressed={!rsvp}>
-                Tiếc quá, bận mất
-              </button>
+            <span className="rsvp-q">Thiệp của bạn mặc mẫu nào?</span>
+            <div className="rsvp-opts" role="group" aria-label="Thử chọn mẫu">
+              {SWITCH_TEMPLATES.map((t, i) => (
+                <button key={t.name} type="button" className={tpl === i ? "on" : ""} onClick={() => setTpl(i)} aria-pressed={tpl === i}>
+                  {t.name}
+                </button>
+              ))}
             </div>
-            <span className="rsvp-ok" key={String(rsvp)}>
-              {rsvp ? "✓ Cảm ơn bạn, hẹn gặp ở tiệc!" : "Cảm ơn bạn đã báo trước 💛"}
+            <span className="rsvp-ok" key={tpl}>
+              ✓ {SWITCH_TEMPLATES[tpl].note}
             </span>
           </div>
         </article>
@@ -163,8 +171,8 @@ export function Features() {
         </article>
 
         <article className="bento-card b-wish">
-          <h3>Sổ lời chúc</h3>
-          <p>Những lời thương được lưu lại mãi.</p>
+          <h3>Hiệu ứng mở thiệp</h3>
+          <p>Mỗi mẫu một cách mở thiệp riêng.</p>
           <div className="wish-stream" aria-hidden="true">
             {[...wishes, ...wishes].map((w, i) => (
               <span key={i} className="wish">{w}</span>

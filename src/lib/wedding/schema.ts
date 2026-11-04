@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DEFAULT_TEMPLATE, isReadyTemplate } from "../templates/registry";
 import type { TimelineItem, Wedding } from "./types";
 
 /**
@@ -14,9 +15,39 @@ const TIME = /^([01]\d|2[0-3]):[0-5]\d$/;
 export const EVENT_TITLES = ["Lễ Vu Quy", "Lễ Tân Hôn", "Lễ Thành Hôn", "Tiệc Cưới", "Tiệc Báo Hỷ"] as const;
 const SIDES = ["Nhà trai", "Nhà gái"] as const;
 
-const person = z.object({ name: required(80), short: required(40) });
+/**
+ * Chỉ nhận ảnh từ nguồn của SayIDo: ảnh demo (/thiep/demo), ảnh tải lên lúc dev (/api/anh)
+ * hoặc bucket ảnh trên Supabase Storage — không cho trỏ ảnh tới website bất kỳ.
+ */
+const SUPABASE_PHOTOS = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? `${process.env.NEXT_PUBLIC_SUPABASE_URL.replace(/\/$/, "")}/storage/v1/object/public/wedding-photos/`
+  : null;
+export function isAllowedPhotoSrc(src: string) {
+  if (/^\/thiep\/demo\/[a-z0-9/-]+\.jpg$/.test(src)) return true;
+  if (/^\/api\/anh\/[a-z0-9-]{8,80}\.(jpg|webp|png)$/.test(src)) return true;
+  return Boolean(SUPABASE_PHOTOS && src.startsWith(SUPABASE_PHOTOS) && /^[a-z0-9-]{8,80}\.(jpg|webp|png)$/.test(src.slice(SUPABASE_PHOTOS.length)));
+}
+
+const person = z.object({ name: required(80), short: required(40), title: text(30).optional() });
+
+const photo = z.object({
+  src: z.string().trim().max(600).refine(isAllowedPhotoSrc, "Ảnh không hợp lệ"),
+  width: z.number().int().min(1).max(10000),
+  height: z.number().int().min(1).max(10000),
+  alt: text(160).optional(),
+  focus: z
+    .string()
+    .regex(/^\d{1,3}% \d{1,3}%$/)
+    .optional(),
+  zoom: z.number().min(1).max(3).optional(),
+});
 
 export const weddingInputSchema = z.object({
+  /** Mẫu thiệp. Thiệp tạo trước khi có kho mẫu không có trường này → mẫu mặc định. */
+  template: z
+    .string()
+    .default(DEFAULT_TEMPLATE)
+    .refine(isReadyTemplate, "Mẫu thiệp chưa sẵn sàng"),
   groom: person,
   bride: person,
   city: required(60),
@@ -50,7 +81,8 @@ export const weddingInputSchema = z.object({
       .max(2),
   }),
   faqs: z.array(z.object({ q: required(140), a: required(500) })).max(8),
-  rsvpDeadline: z.string().regex(DATE, "Ngày không hợp lệ"),
+  /** Không còn hiển thị trên thiệp (đã bỏ phần xác nhận tham dự); giữ để đọc thiệp cũ. */
+  rsvpDeadline: z.union([z.string().regex(DATE, "Ngày không hợp lệ"), z.literal("")]).default(""),
   guests: z
     .array(
       z.object({
@@ -61,11 +93,38 @@ export const weddingInputSchema = z.object({
       }),
     )
     .max(500),
+  /** Thiệp tạo trước khi có phần ảnh không có trường này. */
+  photos: z
+    .object({
+      cover: photo.optional(),
+      groom: photo.optional(),
+      bride: photo.optional(),
+      album: z.array(photo).max(24),
+      credit: text(300).optional(),
+    })
+    .default({ album: [] }),
 });
 
 export type WeddingInput = z.infer<typeof weddingInputSchema>;
 
 /* ---------- Tiện ích ---------- */
+
+const isDemoPhoto = (p?: { src: string }) => Boolean(p?.src.startsWith("/thiep/demo/"));
+
+/** Bỏ ảnh minh hoạ của thiệp mẫu — thiệp thật không bao giờ đăng kèm ảnh demo. */
+export function stripDemoPhotos(input: WeddingInput): WeddingInput {
+  const ph = input.photos;
+  return {
+    ...input,
+    photos: {
+      ...(ph.cover && !isDemoPhoto(ph.cover) ? { cover: ph.cover } : {}),
+      ...(ph.groom && !isDemoPhoto(ph.groom) ? { groom: ph.groom } : {}),
+      ...(ph.bride && !isDemoPhoto(ph.bride) ? { bride: ph.bride } : {}),
+      album: ph.album.filter((p) => !isDemoPhoto(p)),
+      ...(ph.credit && !ph.album.some(isDemoPhoto) ? { credit: ph.credit } : {}),
+    },
+  };
+}
 
 export function slugify(s: string) {
   return s
@@ -106,6 +165,7 @@ export function toWedding(slug: string, input: WeddingInput, demo = false): Wedd
   return {
     slug,
     demo,
+    template: input.template,
     groom: input.groom,
     bride: input.bride,
     monogram: `${initial(input.groom.short)} & ${initial(input.bride.short)}`,
@@ -121,6 +181,7 @@ export function toWedding(slug: string, input: WeddingInput, demo = false): Wedd
     gifts: input.gifts,
     faqs: input.faqs,
     rsvpDeadline: dmy(input.rsvpDeadline),
+    photos: input.photos,
     guests: input.guests.map((g) => {
       const key = seen.has(g.key) ? uniqueGuestKey(g.key, seen) : g.key;
       seen.add(key);

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { dotDate, icsFile, longDate, mainEvent, mapsUrl, time } from "@/lib/wedding/format";
 import type { Guest, Wedding, WeddingEvent } from "@/lib/wedding/types";
-import { Art } from "./Art";
+import { Ornament, TimelineIcon } from "./skins";
 
 const Pin = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
@@ -55,177 +55,16 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
-/* ---------------- RSVP ---------------- */
-
-function Rsvp({ w, guest, preview }: { w: Wedding; guest?: Guest; preview?: boolean }) {
-  const [available, setAvailable] = useState<boolean | null>(null);
-  const [attendance, setAttendance] = useState<"yes" | "no">("yes");
-  const [status, setStatus] = useState<"idle" | "sending" | "saved" | "demo" | "error">("idle");
-  const [error, setError] = useState("");
-  const key = useRef("");
-
-  useEffect(() => {
-    if (preview) return;
-    const c = new AbortController();
-    fetch("/api/rsvp", { signal: c.signal, cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((d) => setAvailable(d?.available === true))
-      .catch(() => !c.signal.aborted && setAvailable(false));
-    return () => c.abort();
-  }, [preview]);
-
-  async function send(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (status === "sending") return;
-    const data = new FormData(e.currentTarget);
-    if (preview) return;
-    // Luôn gửi lên server: server tự báo nếu là thiệp demo (không lưu) hoặc chưa cấu hình nơi lưu.
-    if (!key.current) key.current = crypto.randomUUID();
-    setStatus("sending");
-    setError("");
-    try {
-      const r = await fetch("/api/rsvp", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          id: key.current,
-          wedding: w.slug,
-          guestKey: guest?.key ?? "",
-          name: data.get("name"),
-          attendance,
-          partySize: attendance === "yes" ? Number(data.get("partySize") || 1) : 0,
-          side: guest?.side ?? data.get("side") ?? "",
-          message: data.get("message"),
-          website: data.get("website"),
-        }),
-      });
-      if (!r.ok) throw new Error("Chưa gửi được phản hồi. Bạn thử lại sau ít phút nhé.");
-      const res = await r.json().catch(() => ({}));
-      setStatus(res?.demo ? "demo" : "saved");
-    } catch (err) {
-      setStatus("error");
-      setError(err instanceof Error ? err.message : "Vui lòng thử lại.");
-    }
-  }
-
-  const done = status === "saved" || status === "demo";
-
-  return (
-    <section id="xac-nhan" className="rsvp section">
-      <Art name="envelope" className="rsvp-envelope" />
-      <h2>
-        {guest?.tone === "elder"
-          ? `Chúng con kính mong được đón ${guest.name}`
-          : `Chúng mình đã để dành một chỗ cho ${guest?.name ?? "bạn"}`}
-      </h2>
-      <p className="script">Vui lòng xác nhận trước ngày {w.rsvpDeadline}</p>
-
-      {done ? (
-        <div className="rsvp-success" role="status">
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" aria-hidden="true">
-            <path d="m5 12 5 5 9-10" />
-          </svg>
-          <h3>Cảm ơn {guest?.name ?? "bạn"}!</h3>
-          <p>
-            {attendance === "yes"
-              ? `${guest?.tone === "elder" ? "Chúng con rất mong được đón" : "Chúng mình rất mong được gặp"} ${guest?.name ?? "bạn"} trong ngày vui.`
-              : "Tiếc quá! Cảm ơn bạn đã báo trước và gửi lời chúc."}
-          </p>
-          {status === "demo" && (
-            <p className="demo-note">Đây là thiệp demo nên phản hồi chưa được lưu lại.</p>
-          )}
-          <p className="script">
-            Thương mến, {w.groom.short} &amp; {w.bride.short}
-          </p>
-        </div>
-      ) : (
-        <form onSubmit={send}>
-          <Art name="topiary" className="rsvp-topiary" />
-          <label htmlFor="name">
-            Họ và tên <span aria-hidden="true">*</span>
-          </label>
-          <input
-            id="name"
-            name="name"
-            required
-            minLength={2}
-            maxLength={150}
-            autoComplete="name"
-            defaultValue={guest?.name ?? ""}
-            key={guest?.key ?? "anon"}
-            placeholder="Tên của bạn"
-          />
-          <fieldset>
-            <legend>
-              Bạn sẽ đến chung vui chứ? <span aria-hidden="true">*</span>
-            </legend>
-            <label className="radio-label">
-              <input type="radio" name="attendance" value="yes" checked={attendance === "yes"} onChange={() => setAttendance("yes")} />
-              Chắc chắn rồi, mình sẽ đến
-            </label>
-            <label className="radio-label">
-              <input type="radio" name="attendance" value="no" checked={attendance === "no"} onChange={() => setAttendance("no")} />
-              Rất tiếc, mình không đến được
-            </label>
-          </fieldset>
-          {attendance === "yes" && (
-            <>
-              <label htmlFor="partySize">Số người tham dự (kể cả bạn)</label>
-              <select id="partySize" name="partySize" defaultValue="1">
-                {[1, 2, 3, 4, 5, 6].map((n) => (
-                  <option key={n} value={n}>
-                    {n} người
-                  </option>
-                ))}
-              </select>
-            </>
-          )}
-          {!guest && (
-            <fieldset>
-              <legend>Bạn là khách của</legend>
-              <label className="radio-label">
-                <input type="radio" name="side" value="Nhà trai" defaultChecked /> Nhà trai
-              </label>
-              <label className="radio-label">
-                <input type="radio" name="side" value="Nhà gái" /> Nhà gái
-              </label>
-            </fieldset>
-          )}
-          <label htmlFor="message">Lời chúc gửi cô dâu chú rể</label>
-          <textarea id="message" name="message" maxLength={2000} rows={4} placeholder="Một lời chúc, một kỷ niệm…" />
-          <div className="honeypot" aria-hidden="true">
-            <label htmlFor="website">Website</label>
-            <input id="website" name="website" tabIndex={-1} autoComplete="off" />
-          </div>
-          {error && (
-            <p className="form-error" role="alert">
-              {error}
-            </p>
-          )}
-          {preview && <p className="form-note">Bản xem trước — khách sẽ gửi xác nhận tại đây.</p>}
-          {!preview && !w.demo && available === false && <p className="form-note">Hệ thống chưa sẵn sàng lưu phản hồi.</p>}
-          {!preview && w.demo && <p className="form-note">Thiệp demo: phản hồi sẽ không được lưu.</p>}
-          <button type="submit" className="submit-rsvp" disabled={status === "sending" || preview}>
-            {status === "sending" ? "Đang gửi…" : "Gửi xác nhận"}
-          </button>
-        </form>
-      )}
-    </section>
-  );
-}
-
 /* ---------------- Các phần còn lại ---------------- */
 
 export function EventsAndDetails({
   wedding: w,
   guest,
   couple,
-  preview,
 }: {
   wedding: Wedding;
   guest?: Guest;
   couple: string;
-  preview?: boolean;
 }) {
   const main = mainEvent(w);
   const others = w.events.filter((e) => e.id !== main.id);
@@ -235,7 +74,7 @@ export function EventsAndDetails({
     <>
       <section id="su-kien" className="venue section">
         <div className="venue-frame">
-          <Art name="ceremony-frame" className="ceremony-frame-art" />
+          <Ornament slot="venueFrame" className="ceremony-frame-art" />
           <p className="eyebrow">{main.subtitle}</p>
           <h2>{main.title}</h2>
           <h3>{main.venue}</h3>
@@ -262,7 +101,7 @@ export function EventsAndDetails({
           {w.timeline.map((item) => (
             <li key={item.time}>
               <div className="timeline-icon">
-                <Art name={item.art} className="timeline-art" />
+                <TimelineIcon art={item.art} />
               </div>
               <div className="timeline-copy">
                 <time>{item.time}</time>
@@ -280,7 +119,7 @@ export function EventsAndDetails({
             <p className="eyebrow">Trước đó, cùng ngày</p>
             <h2>{e.title}</h2>
             <p className="script">{e.subtitle}</p>
-            <Art name="recovery-building" className="recovery-art" />
+            <Ornament slot="recovery" className="recovery-art" />
           </div>
           <div className="recovery-copy">
             <h3>{e.venue}</h3>
@@ -296,7 +135,7 @@ export function EventsAndDetails({
       ))}
 
       <section className="dress section">
-        <Art name="leafy-garland" className="dress-garland" />
+        <Ornament slot="dressTop" className="dress-garland" />
         <p className="script">Một chút trang trọng cho ngày vui</p>
         <h2>Trang phục</h2>
         <div className="fine-rule" />
@@ -307,12 +146,12 @@ export function EventsAndDetails({
             <span key={c} style={{ background: c }} />
           ))}
         </div>
-        <Art name="guests" className="guests-art" />
+        <Ornament slot="dressFoot" className="guests-art" />
       </section>
 
       <section className="gifts section">
         <div className="gift-frame">
-          <Art name="gifts-frame" className="gifts-frame-art" />
+          <Ornament slot="giftFrame" className="gifts-frame-art" />
           <h2>Mừng cưới</h2>
           <p className="script">{w.gifts.message}</p>
           <div className="gift-accounts">
@@ -357,8 +196,6 @@ export function EventsAndDetails({
         </div>
       </section>
 
-      <Rsvp w={w} guest={guest} preview={preview} />
-
       <footer>
         <p className="script">Hẹn gặp {guest ? guest.name : "bạn"} trong ngày vui</p>
         <h2>
@@ -367,7 +204,7 @@ export function EventsAndDetails({
         <p className="eyebrow">
           {dotDate(main.start)} · {w.city}
         </p>
-        <Art name="estate-panorama" className="estate-art" />
+        <Ornament slot="footer" className="estate-art" />
         <a href="#top" className="back-top">
           ↑ Về đầu thiệp
         </a>

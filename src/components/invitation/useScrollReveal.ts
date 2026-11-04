@@ -2,7 +2,7 @@
 
 import { useEffect, type RefObject } from "react";
 
-type MotionKind = "rise" | "image" | "line" | "icon" | "slide";
+type MotionKind = "rise" | "image" | "line" | "icon" | "slide" | "fromLeft" | "fromRight" | "clip" | "zoom" | "pop";
 
 // Hiện dần từng khối nội dung khi cuộn tới (chuyển từ repo THIEP).
 const groups: [string, string, MotionKind, number][] = [
@@ -19,9 +19,19 @@ const groups: [string, string, MotionKind, number][] = [
   [".gift-frame", ":scope > h2, :scope > p, .gift-account", "rise", 110],
   [".faq", ":scope > p, :scope > h2", "rise", 90],
   [".faq-list", ":scope > .faq-item", "rise", 60],
-  [".rsvp", ":scope > h2, :scope > p, :scope > form", "rise", 110],
+  // Phần ảnh & lịch: mỗi khối một kiểu chuyển động cho thiệp bớt đơn điệu.
+  [".couple", ":scope > p, :scope > h2", "rise", 90],
+  [".cp-pair", ".cp-person:first-child", "fromLeft", 0],
+  [".cp-pair", ".cp-person:last-child", "fromRight", 0],
+  [".cp-pair", ".cp-amp", "pop", 0],
+  [".cal", ":scope > h2, :scope > p", "rise", 80],
+  [".cal", ".cal-date", "zoom", 0],
+  [".cal", ".cal-card", "rise", 0],
+  [".album", ":scope > p, :scope > h2", "rise", 90],
+  [".album-grid", ":scope > li", "clip", 90],
+  [".album", ".flow-track", "zoom", 0],
   ["footer", ":scope > p, :scope > h2, :scope > a", "rise", 100],
-  ["main", ".recovery-art, .guests-art, .rsvp-envelope, .rsvp-topiary, .candle-border, .invitation-garland, .dress-garland, footer img", "image", 0],
+  ["main", ".recovery-art, .guests-art, .orn--recovery, .orn--footer, .candle-border, .invitation-garland, .dress-garland, footer img", "image", 0],
   ["main", ".fine-rule", "line", 0],
 ];
 
@@ -31,6 +41,11 @@ const entrances: Record<MotionKind, Keyframe[]> = {
   line: [{ opacity: 0, transform: "scaleX(0)" }, { opacity: 1, transform: "scaleX(1)" }],
   icon: [{ opacity: 0, transform: "translateY(12px) scale(.8)" }, { opacity: 1, transform: "translateY(0) scale(1)" }],
   slide: [{ opacity: 0, transform: "translateX(24px)" }, { opacity: 1, transform: "translateX(0)" }],
+  fromLeft: [{ opacity: 0, transform: "translateX(-60px) rotate(-4deg)" }, { opacity: 1, transform: "translateX(0) rotate(0)" }],
+  fromRight: [{ opacity: 0, transform: "translateX(60px) rotate(4deg)" }, { opacity: 1, transform: "translateX(0) rotate(0)" }],
+  clip: [{ opacity: 0.2, clipPath: "inset(18% 18% 18% 18%)", transform: "scale(1.06)" }, { opacity: 1, clipPath: "inset(0 0 0 0)", transform: "scale(1)" }],
+  zoom: [{ opacity: 0, transform: "scale(.86)" }, { opacity: 1, transform: "scale(1)" }],
+  pop: [{ opacity: 0, transform: "scale(.3) rotate(-30deg)" }, { opacity: 1, transform: "scale(1) rotate(0)" }],
 };
 
 export function useScrollReveal(rootRef: RefObject<HTMLElement | null>) {
@@ -58,8 +73,10 @@ export function useScrollReveal(rootRef: RefObject<HTMLElement | null>) {
       if (!animate || preference.matches) return;
       const { kind, delay } = targets.get(element)!;
       const animation = element.animate(entrances[kind], {
-        duration: kind === "image" ? 1150 : kind === "line" ? 950 : 800,
-        delay, easing: "cubic-bezier(.22, 1, .36, 1)", fill: "backwards",
+        duration: kind === "image" || kind === "clip" || kind === "fromLeft" || kind === "fromRight" ? 1150 : kind === "line" ? 950 : 800,
+        delay,
+        easing: kind === "pop" ? "cubic-bezier(.34, 1.56, .64, 1)" : "cubic-bezier(.22, 1, .36, 1)",
+        fill: "backwards",
       });
       active.set(element, animation);
       animation.onfinish = () => active.delete(element);

@@ -1,6 +1,7 @@
 /** Cấu trúc dữ liệu của một tấm thiệp. Giao diện chỉ đọc từ đây — đổi dữ liệu là đổi thiệp. */
 
-export type Person = { name: string; short: string };
+/** `title`: danh xưng trong gia đình — "Trưởng nam", "Út nữ"… (không bắt buộc). */
+export type Person = { name: string; short: string; title?: string };
 
 export type Family = {
   side: "Nhà trai" | "Nhà gái";
@@ -44,9 +45,18 @@ export type Guest = {
   side: "Nhà trai" | "Nhà gái";
 };
 
+/** Ảnh cưới. `src` là đường dẫn tuyệt đối (https://…) hoặc ảnh tĩnh của site (/thiep/…). */
+/**
+ * `focus`: điểm giữ lại khi cắt ảnh vào khung (object-position), ví dụ "30% 40%".
+ * `zoom`: phóng to quanh `focus` khi đặt vào khung chân dung (1 = giữ nguyên).
+ */
+export type Photo = { src: string; width: number; height: number; alt?: string; focus?: string; zoom?: number };
+
 export type Wedding = {
   slug: string;
   demo?: boolean;
+  /** Mã mẫu thiệp (lib/templates/registry), ví dụ "lua-do-do". Thiếu thì dùng mẫu mặc định. */
+  template?: string;
   groom: Person;
   bride: Person;
   monogram: string; // "Q & M"
@@ -60,4 +70,6 @@ export type Wedding = {
   faqs: { q: string; a: string }[];
   rsvpDeadline: string;
   guests: Guest[];
+  /** Ảnh bìa + album. Thiệp chưa có ảnh vẫn hiển thị đủ, chỉ ẩn phần ảnh. */
+  photos: { cover?: Photo; groom?: Photo; bride?: Photo; album: Photo[]; credit?: string };
 };

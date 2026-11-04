@@ -1,59 +1,11 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { brand, faqs, navLinks, pricing } from "./content";
+import { brand, contact, faqs, navHref, navLinks, zaloUrl } from "./content";
 import { gsap, MOTION_OK, SplitText, useGSAP } from "./gsap";
 import { Magnetic } from "./Magnetic";
 import { Petals } from "./Petals";
 import { BrandMark } from "../site/BrandMark";
-
-export function Pricing() {
-  const root = useRef<HTMLElement>(null);
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia();
-      mm.add(MOTION_OK, () => {
-        gsap.from(".price-head > *", {
-          autoAlpha: 0, y: 30, stagger: 0.1, duration: 1, ease: "expo.out",
-          scrollTrigger: { trigger: ".price-head", start: "top 80%" },
-        });
-        gsap.from(".price-card", {
-          autoAlpha: 0, y: 80, rotateX: -12, transformOrigin: "50% 100%", stagger: 0.12, duration: 1.2, ease: "expo.out",
-          scrollTrigger: { trigger: ".price-grid", start: "top 80%" },
-        });
-      });
-    },
-    { scope: root },
-  );
-
-  return (
-    <section ref={root} id="bang-gia" className="price container">
-      <div className="price-head">
-        <p className="eyebrow">Bảng giá</p>
-        <h2 className="h2">
-          Một lần trả, <em>trọn vẹn</em> ngày vui
-        </h2>
-        <p className="lead">Không thu phí theo số khách. Không gia hạn tự động. Trong giai đoạn thử nghiệm, mọi tính năng đều đang miễn phí.</p>
-      </div>
-      <div className="price-grid">
-        {pricing.map((p) => (
-          <article key={p.name} className={`price-card ${p.highlight ? "is-hl" : ""}`}>
-            {p.highlight && <span className="price-ribbon">Được chọn nhiều nhất</span>}
-            <h3>{p.name}</h3>
-            <p className="price-num">{p.price}</p>
-            <p className="price-note">{p.note}</p>
-            <ul>
-              {p.features.map((f) => (
-                <li key={f}>{f}</li>
-              ))}
-            </ul>
-            <a href="/tao-thiep" data-require-auth className={`btn ${p.highlight ? "btn--gold" : "btn--ghost"}`}>{p.cta}</a>
-          </article>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
@@ -64,7 +16,13 @@ export function Faq() {
         <h2 className="h2">
           Bạn đang <em>băn khoăn</em>?
         </h2>
-        <p className="lead">Chưa thấy câu hỏi của mình? Nhắn cho chúng mình qua Zalo, trả lời trong vài phút.</p>
+        <p className="lead">
+          Chưa thấy câu hỏi của mình? Nhắn cho chúng mình qua{" "}
+          <a href={zaloUrl} target="_blank" rel="noreferrer" className="faq-zalo">
+            Zalo {contact.zaloLabel}
+          </a>
+          , trả lời trong vài phút.
+        </p>
       </div>
       <div className="faq-list">
         {faqs.map((f, i) => {
@@ -130,19 +88,19 @@ export function FinalCta() {
           <Magnetic>
             <a href="/tao-thiep" data-require-auth className="btn btn--gold btn--lg">Tạo thiệp miễn phí</a>
           </Magnetic>
-          <a href="#mau-thiep" className="btn btn--line">Xem lại kho mẫu</a>
+          <a href="/mau-thiep" className="btn btn--line">Xem trọn kho mẫu</a>
         </div>
       </div>
     </section>
   );
 }
 
-export function Footer() {
+export function Footer({ onHome = true }: { onHome?: boolean }) {
   return (
     <footer className="footer">
       <div className="container footer-grid">
         <div>
-          <a href="#top" className="logo logo--light">
+          <a href={onHome ? "#top" : "/"} className="logo logo--light">
             <span className="logo-script">
               <BrandMark />
             </span>
@@ -152,12 +110,15 @@ export function Footer() {
         </div>
         <nav aria-label="Liên kết cuối trang" className="footer-links">
           {navLinks.map((l) => (
-            <a key={l.href} href={l.href}>{l.label}</a>
+            <a key={l.href} href={navHref(l.href, onHome)}>{l.label}</a>
           ))}
         </nav>
         <div className="footer-contact">
           <p>Hỗ trợ qua Zalo & email</p>
-          <a href="mailto:hello@example.com">hello@example.com</a>
+          <a href={zaloUrl} target="_blank" rel="noreferrer">
+            Zalo {contact.zaloLabel}
+          </a>
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>
         </div>
       </div>
       <p className="footer-bottom container">

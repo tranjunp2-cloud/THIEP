@@ -819,262 +819,6 @@ p {
   }
 }
 
-/* ---------- Thiệp mẫu (InviteCard) ---------- */
-
-.invite {
-  --fg: var(--forest);
-  --accent: var(--gold);
-  position: relative;
-  width: 100%;
-  height: 100%;
-  container-type: inline-size;
-  border-radius: 12px;
-  overflow: hidden;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  color: var(--fg);
-  background: var(--paper);
-}
-
-.invite-frame {
-  position: absolute;
-  inset: 4.5cqw;
-  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
-  border-radius: 8px;
-  pointer-events: none;
-}
-
-.invite-frame::after {
-  content: "";
-  position: absolute;
-  inset: 1.6cqw;
-  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
-  border-radius: 5px;
-}
-
-.invite-body {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  justify-items: center;
-  padding: 10cqw;
-}
-
-.invite-top {
-  font-family: var(--font-sans), sans-serif;
-  font-size: 3.1cqw;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  opacity: 0.75;
-}
-
-.invite-title {
-  margin-top: 3cqw;
-  font-family: var(--font-display), serif;
-  font-size: 6cqw;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.invite-names {
-  margin-top: 4cqw;
-  display: grid;
-  font-family: var(--font-script), cursive;
-  font-size: 14.5cqw;
-  line-height: 1.02;
-  color: var(--names, var(--fg));
-}
-
-.invite-names em {
-  font-family: var(--font-display), serif;
-  font-size: 8cqw;
-  line-height: 1.1;
-  color: var(--accent);
-}
-
-.invite-rule {
-  width: 20cqw;
-  height: 1px;
-  margin: 5cqw 0 4cqw;
-  background: var(--accent);
-}
-
-.invite-date {
-  font-family: var(--font-display), serif;
-  font-size: 5.6cqw;
-  letter-spacing: 0.2em;
-}
-
-.invite-venue {
-  margin-top: 2cqw;
-  font-family: var(--font-sans), sans-serif;
-  font-size: 2.9cqw;
-  letter-spacing: 0.08em;
-  opacity: 0.75;
-}
-
-.invite-orn {
-  position: absolute;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.invite--nga {
-  --fg: #2c4734;
-  --accent: #9a7a3f;
-  --names: #34533d;
-  background:
-    radial-gradient(90% 70% at 50% 45%, #fffdf8, #f4ecdd 75%),
-    #f7f0e3;
-}
-
-.invite-orn--sprig-t {
-  top: 7cqw;
-  left: 50%;
-  width: 40cqw;
-  translate: -50% 0;
-}
-
-.invite-orn--sprig-b {
-  bottom: 7cqw;
-  left: 50%;
-  width: 40cqw;
-  translate: -50% 0;
-  rotate: 180deg;
-}
-
-.invite--truc {
-  --fg: #f2e8cd;
-  --accent: #d8b878;
-  --names: #f1dfb4;
-  background:
-    radial-gradient(80% 60% at 50% 40%, #3d6a49, #234a32 60%, #183726),
-    #234a32;
-}
-
-.invite-orn--tl {
-  top: -4cqw;
-  left: -8cqw;
-  width: 58cqw;
-}
-
-.invite-orn--br {
-  bottom: -6cqw;
-  right: -8cqw;
-  width: 56cqw;
-  rotate: 180deg;
-}
-
-.sway {
-  transform-origin: 20% 100%;
-  animation: sway 5s ease-in-out infinite alternate;
-}
-
-.sway--late {
-  animation-delay: -2.5s;
-}
-
-@keyframes sway {
-  from {
-    transform: rotate(-3deg);
-  }
-  to {
-    transform: rotate(3deg);
-  }
-}
-
-.invite--lua {
-  --fg: #f6e2b0;
-  --accent: #e6c27a;
-  --names: #f9e7bb;
-  background:
-    linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.12) 45%, transparent 60%),
-    radial-gradient(90% 70% at 50% 40%, #a62b37, #861d29 60%, #6a1520);
-}
-
-.invite-hy {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-size: 72cqw;
-  line-height: 1;
-  color: rgba(246, 210, 140, 0.1);
-  font-family: serif;
-}
-
-.invite--sen {
-  --fg: #7b3442;
-  --accent: #c98a92;
-  --names: #8e3f4e;
-  background:
-    radial-gradient(80% 60% at 50% 30%, #fff8f6, #f8e3e0 70%),
-    #f8e3e0;
-}
-
-.invite-orn--lotus {
-  bottom: 6cqw;
-  left: 50%;
-  width: 40cqw;
-  translate: -50% 0;
-}
-
-.invite--sao {
-  --fg: #efe3c4;
-  --accent: #d8b878;
-  --names: #f4e2b5;
-  background:
-    radial-gradient(70% 50% at 50% 0%, rgba(216, 184, 120, 0.25), transparent 70%),
-    linear-gradient(180deg, #13234a, #0c1734 70%);
-}
-
-.invite-orn--stars-t {
-  top: 7cqw;
-  left: 50%;
-  width: 70cqw;
-  translate: -50% 0;
-}
-
-.invite-orn--stars-b {
-  bottom: 7cqw;
-  left: 50%;
-  width: 70cqw;
-  translate: -50% 0;
-  rotate: 180deg;
-}
-
-.twinkle {
-  animation: twinkle 2.4s ease-in-out infinite;
-}
-
-@keyframes twinkle {
-  50% {
-    opacity: 0.25;
-  }
-}
-
-.invite--toi {
-  --fg: #151515;
-  --accent: #151515;
-  background: #f3f0ea;
-}
-
-.invite--toi .invite-names {
-  font-family: var(--font-display), serif;
-  font-size: 11cqw;
-  font-style: italic;
-  line-height: 1;
-}
-
-.invite--toi .invite-frame {
-  border-radius: 0;
-}
-
-.invite--toi .invite-frame::after {
-  display: none;
-}
-
 /* ---------- Marquee ---------- */
 
 .marquee-wrap {
@@ -1230,14 +974,14 @@ p {
 .tpl-card {
   position: relative;
   display: block;
-  aspect-ratio: 0.72;
+  aspect-ratio: 645 / 1146;
   perspective: 900px;
 }
 
 .tpl-tilt {
   position: relative;
   height: 100%;
-  border-radius: 14px;
+  border-radius: 22px;
   transform-style: preserve-3d;
   box-shadow: 0 40px 60px -30px rgba(0, 0, 0, 0.6);
   transition: box-shadow 0.5s;
@@ -1325,9 +1069,9 @@ p {
 
 .tpl-more {
   flex: 1;
-  aspect-ratio: 0.72;
+  aspect-ratio: 645 / 1146;
   border: 1px dashed rgba(241, 223, 180, 0.4);
-  border-radius: 14px;
+  border-radius: 22px;
   display: grid;
   place-content: center;
   justify-items: center;
@@ -1350,6 +1094,7 @@ p {
 }
 
 .tpl-more .tpl-cta {
+  grid-column: auto;
   opacity: 1;
   transform: none;
 }
@@ -1538,20 +1283,6 @@ p {
   font-size: 11px;
   color: var(--muted);
   text-align: center;
-}
-
-.invite--mini .invite-top,
-.invite--mini .invite-venue,
-.invite--mini .invite-date,
-.invite--mini .invite-rule,
-.invite--mini .invite-orn--sprig-b,
-.invite--mini .invite-orn--stars-b {
-  display: none;
-}
-
-.invite--mini .invite-title {
-  font-size: 7cqw;
-  letter-spacing: 0.12em;
 }
 
 .scr-pick-item .invite {
@@ -2378,139 +2109,6 @@ p {
   }
 }
 
-/* ---------- Pricing ---------- */
-
-.price {
-  padding-block: clamp(90px, 12vw, 160px);
-}
-
-.price-head {
-  display: grid;
-  justify-items: center;
-  text-align: center;
-}
-
-.price-grid {
-  margin-top: 60px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  align-items: stretch;
-  perspective: 1400px;
-}
-
-@property --ang {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
-.price-card {
-  position: relative;
-  padding: 36px 32px;
-  border-radius: 26px;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.5s var(--ease-out), box-shadow 0.5s;
-}
-
-.price-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 40px 60px -40px rgba(18, 37, 27, 0.35);
-}
-
-.price-card.is-hl {
-  color: var(--ivory);
-  border: 1.5px solid transparent;
-  background:
-    linear-gradient(var(--forest), var(--forest)) padding-box,
-    conic-gradient(from var(--ang), var(--gold), rgba(31, 59, 45, 0.6) 30%, var(--gold-3) 50%, rgba(31, 59, 45, 0.6) 70%, var(--gold)) border-box;
-  animation: spin-border 6s linear infinite;
-}
-
-@keyframes spin-border {
-  to {
-    --ang: 360deg;
-  }
-}
-
-.price-ribbon {
-  position: absolute;
-  top: -13px;
-  left: 32px;
-  padding: 4px 14px;
-  border-radius: 999px;
-  background: linear-gradient(120deg, var(--gold), var(--gold-2));
-  color: var(--forest-deep);
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.price-card h3 {
-  font-family: var(--font-display), serif;
-  font-weight: 500;
-  font-size: 30px;
-}
-
-.price-num {
-  margin-top: 18px;
-  font-family: var(--font-display), serif;
-  font-size: clamp(44px, 4.4vw, 60px);
-  line-height: 1;
-  color: var(--forest);
-}
-
-.is-hl .price-num {
-  color: var(--gold-3);
-}
-
-.price-note {
-  margin-top: 8px;
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.is-hl .price-note {
-  color: rgba(247, 241, 231, 0.65);
-}
-
-.price-card ul {
-  list-style: none;
-  padding: 26px 0 0;
-  margin: 26px 0 30px;
-  border-top: 1px solid var(--line);
-  display: grid;
-  gap: 12px;
-  font-size: 15px;
-}
-
-.is-hl ul {
-  border-color: rgba(241, 223, 180, 0.2);
-}
-
-.price-card li {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 10px;
-}
-
-.price-card li::before {
-  content: "✦";
-  color: var(--gold);
-  font-size: 11px;
-  line-height: 2.2;
-}
-
-.price-card .btn {
-  margin-top: auto;
-}
-
-.is-hl .btn--gold::before {
-  background: var(--ivory);
-}
-
 /* ---------- FAQ ---------- */
 
 .faq {
@@ -2874,12 +2472,6 @@ p {
     order: -1;
   }
 
-  .price-grid {
-    grid-template-columns: 1fr;
-    max-width: 480px;
-    margin-inline: auto;
-  }
-
   .faq {
     grid-template-columns: 1fr;
   }
@@ -3002,4 +2594,35 @@ a.tpl-cta {
   .nav-acct .acct-login {
     font-size: 13px;
   }
+}
+
+.faq-zalo {
+  color: var(--forest);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.faq-zalo:hover {
+  color: var(--gold);
+}
+
+/* Thumbnail ảnh thật trong section Kho mẫu */
+.tpl-screen {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.tpl-screen .invite {
+  border-radius: 0;
+}
+
+.tpl-screen .tpl-thumb-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
 }

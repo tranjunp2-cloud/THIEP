@@ -1,12 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { brand, navLinks } from "./content";
+import { brand, navHref, navLinks } from "./content";
 import { Magnetic } from "./Magnetic";
 import { BrandMark } from "../site/BrandMark";
 import { AccountMenu } from "../auth/AccountMenu";
 
-export function Nav() {
+export function Nav({ onHome = true }: { onHome?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
@@ -33,7 +33,7 @@ export function Nav() {
   return (
     <header className={`nav ${scrolled ? "is-scrolled" : ""} ${hidden && !open ? "is-hidden" : ""} ${open ? "is-open" : ""}`}>
       <div className="nav-inner">
-        <a href="#top" className="logo" aria-label={`${brand.name} — về đầu trang`}>
+        <a href={onHome ? "#top" : "/"} className="logo" aria-label={`${brand.name} — về đầu trang`}>
           <span className="logo-script">
             <BrandMark />
           </span>
@@ -41,7 +41,7 @@ export function Nav() {
         </a>
         <nav aria-label="Điều hướng chính" className="nav-links">
           {navLinks.map((l) => (
-            <a key={l.href} href={l.href} className="nav-link">
+            <a key={l.href} href={navHref(l.href, onHome)} className="nav-link">
               <span>{l.label}</span>
             </a>
           ))}
@@ -68,7 +68,7 @@ export function Nav() {
       </div>
       <div id="mobile-menu" className="mobile-menu" hidden={!open}>
         {navLinks.map((l, i) => (
-          <a key={l.href} href={l.href} onClick={() => setOpen(false)} style={{ "--i": i } as React.CSSProperties}>
+          <a key={l.href} href={navHref(l.href, onHome)} onClick={() => setOpen(false)} style={{ "--i": i } as React.CSSProperties}>
             {l.label}
           </a>
         ))}

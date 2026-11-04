@@ -116,8 +116,8 @@ export function Hero() {
             Trao lời mời cưới đẹp như <em>một lời hẹn ước</em>
           </h1>
           <p className="hero-sub">
-            Tạo thiệp cưới online trong 15 phút. Gửi đường link mang tên từng vị khách qua Zalo, Messenger — kèm xác nhận
-            tham dự, sổ lời chúc và QR mừng cưới.
+            Tạo thiệp cưới online trong 15 phút. Gửi đường link mang tên từng vị khách qua Zalo, Messenger — kèm lịch
+            ngày cưới, chỉ đường tới tiệc và QR mừng cưới.
           </p>
           <div className="hero-ctas">
             <Magnetic>

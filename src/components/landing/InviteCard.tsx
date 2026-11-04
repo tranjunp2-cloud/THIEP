@@ -1,5 +1,31 @@
-import type { TemplateTheme } from "./content";
+import type { SkinId, TemplateRef } from "@/lib/templates/registry";
+import "./invite-card.css";
 import { sampleCouple } from "./content";
+
+export type TemplateTheme = "truc" | "lua" | "nga" | "sen" | "sao" | "toi";
+
+/** Skin của thiệp thật → kiểu thẻ xem trước tương ứng. */
+const SKIN_THEME: Record<SkinId, TemplateTheme> = {
+  botanical: "nga",
+  "song-hy": "lua",
+  "dem-sao": "sao",
+  "toi-gian": "toi",
+  sen: "sen",
+  truc: "truc",
+};
+
+/** Màu thẻ theo biến thể: mẫu Song Hỷ lấy màu phong bì, các mẫu khác lấy màu nền thiệp. */
+function cardStyle(t: TemplateRef): React.CSSProperties {
+  const k = t.variant.tokens;
+  const onCover = t.family.skin === "song-hy" || t.family.skin === "truc";
+  const bg = onCover ? k.cover : k.bg;
+  return {
+    "--fg": onCover ? k.coverFg : k.fg,
+    "--accent": onCover ? k.coverFg : k.accent,
+    "--names": onCover ? k.coverFg : t.family.skin === "dem-sao" ? k.accent : k.fg,
+    background: `radial-gradient(90% 70% at 50% 42%, color-mix(in srgb, ${bg} 82%, white), ${bg} 75%)`,
+  } as React.CSSProperties;
+}
 
 /* ---------- Họa tiết SVG (vẽ tay đơn giản, tự sở hữu) ---------- */
 
@@ -86,10 +112,11 @@ const labels: Record<TemplateTheme, { top: string; title: string }> = {
   toi: { top: "Wedding invitation", title: "Chúng mình cưới" },
 };
 
-export function InviteCard({ theme = "nga", className = "" }: { theme?: TemplateTheme; className?: string }) {
+export function InviteCard({ theme: themeProp = "nga", tpl, className = "" }: { theme?: TemplateTheme; tpl?: TemplateRef; className?: string }) {
+  const theme = tpl ? SKIN_THEME[tpl.family.skin] : themeProp;
   const l = labels[theme];
   return (
-    <div className={`invite invite--${theme} ${className}`}>
+    <div className={`invite invite--${theme} ${className}`} style={tpl ? cardStyle(tpl) : undefined}>
       <div className="invite-frame" />
       {theme === "truc" && (
         <>
@@ -100,8 +127,8 @@ export function InviteCard({ theme = "nga", className = "" }: { theme?: Template
       {theme === "lua" && <span className="invite-hy" aria-hidden="true">囍</span>}
       {theme === "nga" && (
         <>
-          <Sprig className="invite-orn invite-orn--sprig-t" color="#58775a" />
-          <Sprig className="invite-orn invite-orn--sprig-b" color="#58775a" />
+          <Sprig className="invite-orn invite-orn--sprig-t" color={tpl ? tpl.variant.tokens.accent : "#58775a"} />
+          <Sprig className="invite-orn invite-orn--sprig-b" color={tpl ? tpl.variant.tokens.accent : "#58775a"} />
         </>
       )}
       {theme === "sen" && <Lotus className="invite-orn invite-orn--lotus" />}

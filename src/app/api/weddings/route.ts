@@ -2,7 +2,7 @@ import { noStore, readJson } from "@/lib/http";
 import { createWedding, storeMode } from "@/lib/store";
 import { authEnabled } from "@/lib/supabase/config";
 import { getSessionUser } from "@/lib/supabase/server";
-import { weddingInputSchema } from "@/lib/wedding/schema";
+import { stripDemoPhotos, weddingInputSchema } from "@/lib/wedding/schema";
 
 export async function GET() {
   return Response.json({ available: storeMode() !== null, authRequired: authEnabled }, { headers: noStore });
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
   if (authEnabled && !user) return Response.json({ error: "Vui lòng đăng nhập để xuất bản thiệp.", login: true }, { status: 401 });
 
   try {
-    const { slug, token } = await createWedding(input.data, user?.id);
+    const { slug, token } = await createWedding(stripDemoPhotos(input.data), user?.id);
     return Response.json({ slug, token }, { status: 201, headers: noStore });
   } catch (e) {
     console.error("Create wedding failed", e);

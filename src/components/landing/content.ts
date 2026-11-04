@@ -1,4 +1,25 @@
-// Toàn bộ nội dung landing page. Đổi tên thương hiệu, giá, câu chữ tại đây.
+// Toàn bộ nội dung landing page. Đổi tên thương hiệu, câu chữ tại đây (giá nằm ở từng mẫu: lib/templates/registry).
+
+import { formatVnd, PRICE_TIERS } from "@/lib/templates/registry";
+
+/** Giá thấp nhất trong kho mẫu — dùng trong phần hỏi đáp. */
+const MIN_PRICE = Math.min(...Object.values(PRICE_TIERS).map((t) => t.price));
+
+/** Liên hệ — dùng ở footer, phần hỏi đáp và cuối kho mẫu. */
+export const contact = {
+  email: "tranjun.p2@gmail.com",
+  zalo: "0344351194",
+  /** Hiển thị dễ đọc. */
+  zaloLabel: "0344 351 194",
+};
+
+export const zaloUrl = `https://zalo.me/${contact.zalo}`;
+
+/** Link email soạn sẵn yêu cầu thiết kế mẫu riêng. */
+export const customDesignMailto = () =>
+  `mailto:${contact.email}?subject=${encodeURIComponent("Yêu cầu thiết kế mẫu thiệp riêng")}&body=${encodeURIComponent(
+    "Chào SayIDo,\n\nTên hai bạn: \nNgày cưới: \nConcept / màu sắc mong muốn: \nẢnh hoặc mẫu tham khảo (nếu có): \nSố điện thoại / Zalo để liên hệ: \n",
+  )}`;
 
 export const brand = {
   name: "SayIDo",
@@ -20,7 +41,6 @@ export const navLinks = [
   { href: "#mau-thiep", label: "Mẫu thiệp" },
   { href: "#cach-lam", label: "Cách làm" },
   { href: "#tinh-nang", label: "Tính năng" },
-  { href: "#bang-gia", label: "Bảng giá" },
   { href: "#hoi-dap", label: "Hỏi đáp" },
 ];
 
@@ -36,22 +56,9 @@ export const marqueeWords = [
 export const manifesto =
   "Mỗi tấm thiệp là một lời hẹn. Chúng mình giúp bạn gửi lời hẹn ấy đến từng người thương — đúng tên, đúng cách xưng hô, đẹp trọn vẹn trên mọi màn hình.";
 
-export type TemplateTheme = "truc" | "lua" | "nga" | "sen" | "sao" | "toi";
-
-export const templates: {
-  id: TemplateTheme;
-  name: string;
-  mood: string;
-  /** Đã có bản thiệp hoàn chỉnh để tạo. Các mẫu khác mới là bản thiết kế. */
-  ready?: boolean;
-}[] = [
-  { id: "nga", name: "Ngà Botanical", mood: "Màu nước · Cổ điển", ready: true },
-  { id: "truc", name: "Trúc Xanh", mood: "Thanh nhã · Á Đông" },
-  { id: "lua", name: "Lụa Đỏ", mood: "Truyền thống · Song Hỷ" },
-  { id: "sen", name: "Sen Hồng", mood: "Dịu dàng · Thuần Việt" },
-  { id: "sao", name: "Đêm Sao", mood: "Lãng mạn · Ánh kim" },
-  { id: "toi", name: "Tối Giản", mood: "Hiện đại · Tạp chí" },
-];
+/** Nav/Footer dùng anchor của trang chủ — ở trang khác thì trỏ về trang chủ, riêng "Mẫu thiệp" trỏ về kho mẫu. */
+export const navHref = (href: string, onHome: boolean) =>
+  onHome ? href : href === "#mau-thiep" ? "/mau-thiep" : `/${href}`;
 
 export const steps = [
   {
@@ -67,7 +74,7 @@ export const steps = [
   {
     no: "03",
     title: "Gửi link riêng cho từng người",
-    body: "Thêm danh sách khách, mỗi người nhận một đường link có tên mình. Gửi qua Zalo, Messenger hay tin nhắn — và biết ai đã mở thiệp.",
+    body: "Thêm danh sách khách, mỗi người nhận một đường link có tên mình. Gửi qua Zalo, Messenger hay tin nhắn — lời mời xưng hô đúng vai vế với từng người.",
   },
 ];
 
@@ -77,42 +84,6 @@ export const guestNames = [
   "Bạn Thảo Vy",
   "Gia đình Bác Bình",
   "Chị Ngọc Hân",
-];
-
-export const pricing = [
-  {
-    name: "Thử nghiệm",
-    price: "0đ",
-    note: "Miễn phí trọn đời",
-    features: ["1 mẫu thiệp cơ bản", "Tối đa 10 ảnh", "Link chung cho mọi khách", "Có logo SayIDo"],
-    cta: "Bắt đầu miễn phí",
-  },
-  {
-    name: "Trọn vẹn",
-    price: "199.000đ",
-    note: "Thanh toán một lần",
-    highlight: true,
-    features: [
-      "Toàn bộ kho mẫu thiệp",
-      "Link riêng & tên từng khách",
-      "Xác nhận tham dự + sổ lời chúc",
-      "QR mừng cưới nhà trai / nhà gái",
-      "Không logo · lưu trữ 12 tháng",
-    ],
-    cta: "Chọn gói Trọn vẹn",
-  },
-  {
-    name: "Cao cấp",
-    price: "499.000đ",
-    note: "Kèm thiết kế riêng",
-    features: [
-      "Mọi quyền lợi gói Trọn vẹn",
-      "Nhà thiết kế chỉnh theo ý bạn",
-      "Tên miền riêng cho thiệp",
-      "Album ảnh không giới hạn",
-    ],
-    cta: "Trò chuyện với chúng mình",
-  },
 ];
 
 export const faqs = [
@@ -133,7 +104,11 @@ export const faqs = [
     a: "Không. Mã QR dẫn thẳng đến tài khoản ngân hàng của hai bạn theo chuẩn VietQR, chúng mình không giữ hay xử lý khoản tiền nào.",
   },
   {
+    q: "Giá thiệp thế nào?",
+    a: `Mỗi mẫu có giá riêng, ghi ngay trên trang của mẫu đó — từ ${formatVnd(MIN_PRICE)}, thanh toán một lần. Bạn tạo và xem trước miễn phí, ưng ý mới thanh toán; không thu thêm theo số khách mời.`,
+  },
+  {
     q: "Thiệp được lưu trong bao lâu?",
-    a: "Gói Trọn vẹn lưu thiệp 12 tháng kể từ ngày cưới, bạn có thể tải toàn bộ lời chúc và danh sách xác nhận về máy bất cứ lúc nào.",
+    a: "Thiệp được lưu 12 tháng kể từ ngày cưới. Trong thời gian đó bạn sửa nội dung, đổi mẫu và gửi thêm khách bất cứ lúc nào.",
   },
 ];

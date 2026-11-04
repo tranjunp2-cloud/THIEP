@@ -1,9 +1,41 @@
+import { DEFAULT_TEMPLATE } from "../templates/registry";
 import { toWedding, type WeddingInput } from "./schema";
+import type { Photo } from "./types";
 
-/** Dữ liệu thiệp demo — mọi tên, địa chỉ, tài khoản đều là giả định. Cũng là dữ liệu mẫu ở trang tạo thiệp. */
+/** Ảnh trong /thiep/demo/<bộ ảnh>/NN.jpg (đã nén, có bản -640). */
+export const demoPhoto = (set: string, n: number, width: number, height: number, alt: string, focus?: string, zoom?: number): Photo => ({
+  src: `/thiep/demo/${set}/${String(n).padStart(2, "0")}.jpg`,
+  width,
+  height,
+  alt,
+  ...(focus ? { focus } : {}),
+  ...(zoom ? { zoom } : {}),
+});
+
+const P = (n: number, w: number, h: number, alt: string, focus?: string, zoom?: number) => demoPhoto("nga", n, w, h, alt, focus, zoom);
+
+/** Bộ ảnh của cặp đôi demo Ngà Botanical (rừng thông Đà Lạt — Pexels, nhiếp ảnh gia Hai Thanh). */
+export const demoPhotos: WeddingInput["photos"] = {
+  cover: P(4, 1200, 1800, "Cô dâu chú rể giữa rừng thông"),
+  groom: P(1, 1200, 1661, "Chú rể mỉm cười", "68% 30%", 1.5),
+  bride: P(2, 1200, 1800, "Cô dâu ôm bó hoa", "30% 26%", 2.1),
+  album: [
+    P(6, 1200, 1800, "Hai bạn nắm tay giữa đồi thông"),
+    P(1, 1200, 1661, "Cô dâu nâng niu khuôn mặt chú rể"),
+    P(5, 1200, 800, "Chú rể trao hoa trên triền đồi"),
+    P(3, 1200, 1800, "Dạo bước dưới tán thông"),
+    P(8, 1200, 800, "Ôm nhau giữa rừng"),
+    P(7, 1200, 1800, "Đồi sương buổi sớm"),
+    P(2, 1200, 1800, "Cô dâu ôm bó hoa cam"),
+  ],
+  credit: "Ảnh minh hoạ: Hai Thanh / Pexels.",
+};
+
 export const demoInput: WeddingInput = {
-  groom: { name: "Nguyễn Minh Quân", short: "Minh Quân" },
-  bride: { name: "Lê Thanh Mai", short: "Thanh Mai" },
+  template: DEFAULT_TEMPLATE,
+  photos: demoPhotos,
+  groom: { name: "Nguyễn Minh Quân", short: "Minh Quân", title: "Trưởng nam" },
+  bride: { name: "Lê Thanh Mai", short: "Thanh Mai", title: "Út nữ" },
   city: "Hà Nội",
   families: [
     { father: "Ông Nguyễn Văn An", mother: "Bà Trần Thị Bình", address: "Hà Đông, Hà Nội" },
@@ -59,11 +91,11 @@ export const demoInput: WeddingInput = {
     { q: "Nhà hàng có chỗ gửi xe không?", a: "Có. Nhà hàng có bãi gửi ô tô và xe máy miễn phí ngay cổng chính." },
     {
       q: "Mình có thể đưa bé đi cùng không?",
-      a: "Rất hoan nghênh các bé! Bạn chỉ cần ghi số người đi cùng trong phần xác nhận để nhà hàng chuẩn bị ghế ngồi.",
+      a: "Rất hoan nghênh các bé! Bạn nhắn trước cho chúng mình số người đi cùng để nhà hàng chuẩn bị ghế ngồi nhé.",
     },
     {
       q: "Nếu không đến được, mình gửi lời chúc thế nào?",
-      a: "Bạn chọn “Rất tiếc không thể đến” trong phần xác nhận và để lại lời chúc — chúng mình sẽ đọc từng lời một.",
+      a: "Bạn nhắn cho chúng mình qua Zalo hoặc gửi lời chúc mừng qua thông tin mừng cưới bên trên — chúng mình sẽ đọc từng lời một.",
     },
   ],
   rsvpDeadline: "2026-12-10",

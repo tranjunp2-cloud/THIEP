@@ -8,7 +8,7 @@ import { Sprig } from "./InviteCard";
 const points = [
   { t: "Xưng hô đúng vai vế", d: "Cô, chú, anh, chị, bạn — mỗi người được mời bằng đúng cách bạn vẫn gọi." },
   { t: "Ảnh xem trước có tên khách", d: "Khi gửi qua Zalo hay Messenger, khung xem trước hiện ngay tên người nhận." },
-  { t: "Biết ai đã mở thiệp", d: "Theo dõi ai đã xem, ai đã xác nhận để chuẩn bị bàn tiệc chu đáo." },
+  { t: "Bìa thiệp gọi tên từng người", d: "Mở thiệp ra là thấy “Trân trọng kính mời” kèm đúng tên vị khách nhận." },
 ];
 
 export function Personalize() {

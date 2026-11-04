@@ -104,3 +104,15 @@ Framework Preset: **Next.js**, để mặc định Build/Output/Install command.
   `src/components/site/SiteMusic.tsx`.
 - Tranh màu nước trong `public/thiep/images` lấy từ bản thiệp trước của repo (được tạo theo một video tham khảo);
   nên thay bằng bộ tranh tự thiết kế trước khi thương mại hóa.
+
+## Thumbnail mẫu thiệp
+
+Ảnh thumbnail trong kho mẫu (`public/thiep/thumbs/<mã mẫu>.jpg`) được chụp tự động từ bản demo của từng mẫu:
+
+```bash
+npm run dev                                  # chạy site
+BASE_URL=http://localhost:3000 npm run thumbs # chụp lại tất cả mẫu đã sẵn sàng
+npm run thumbs -- lua-do-do                   # hoặc chỉ vài mẫu
+```
+
+Cần Google Chrome (đặt biến `CHROME` nếu Chrome nằm ở chỗ khác). Chạy lại mỗi khi đổi giao diện bìa, màu hoặc ảnh demo của một mẫu.

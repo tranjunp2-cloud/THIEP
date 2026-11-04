@@ -1,7 +1,7 @@
 import { bearer, noStore, readJson } from "@/lib/http";
 import { getWeddingInput, updateWedding } from "@/lib/store";
 import { getSessionUser } from "@/lib/supabase/server";
-import { weddingInputSchema } from "@/lib/wedding/schema";
+import { stripDemoPhotos, weddingInputSchema } from "@/lib/wedding/schema";
 
 const access = async (request: Request) => ({ token: bearer(request), userId: (await getSessionUser())?.id });
 
@@ -22,7 +22,7 @@ export async function PUT(request: Request, ctx: RouteContext<"/api/weddings/[sl
     return Response.json({ error: "Thông tin thiệp chưa hợp lệ.", issues: input.error.issues.slice(0, 10) }, { status: 400 });
   }
   try {
-    const ok = await updateWedding(slug, await access(request), input.data);
+    const ok = await updateWedding(slug, await access(request), stripDemoPhotos(input.data));
     if (!ok) return Response.json({ error: "Bạn không có quyền sửa thiệp này." }, { status: 401 });
     return Response.json({ saved: true }, { headers: noStore });
   } catch (e) {

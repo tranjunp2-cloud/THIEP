@@ -12,6 +12,9 @@ function parts(iso: string) {
   return { y, m, d, hh, mm, weekday };
 }
 
+/** Ngày, tháng, năm, thứ của một mốc thời gian (giờ Việt Nam). */
+export const dateParts = (iso: string) => parts(iso);
+
 const pad = (n: number) => String(n).padStart(2, "0");
 
 /** "Chủ Nhật, 20 tháng 12 năm 2026" */

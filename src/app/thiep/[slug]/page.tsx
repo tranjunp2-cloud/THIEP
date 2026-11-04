@@ -5,6 +5,7 @@ import { Invitation } from "@/components/invitation/Invitation";
 import { getWedding } from "@/lib/store";
 import { dotDate, longDate, lunar, mainEvent } from "@/lib/wedding/format";
 import "./thiep.css";
+import "./skins.css";
 
 type Props = PageProps<"/thiep/[slug]">;
 
