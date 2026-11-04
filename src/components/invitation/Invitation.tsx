@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { dotDate, longDate, lunar, mainEvent, selfRef } from "@/lib/wedding/format";
-import { resolveTemplate, templateStyle } from "@/lib/templates/registry";
+import { musicOf, resolveTemplate, templateStyle } from "@/lib/templates/registry";
 import type { Guest, Wedding } from "@/lib/wedding/types";
 import { Music, type MusicHandle } from "./Music";
 import { Ambient } from "./Ambient";
-import { Album, CoupleIntro, hasPhotoHero, PhotoHero, WeddingCalendar } from "./Photos";
-import { EventsAndDetails } from "./Sections";
+import { InvitationBody } from "./Layout";
+import { hasPhotoHero, PhotoHero } from "./Photos";
 import { Ornament, Seal, SkinProvider } from "./skins";
 import { useScrollReveal } from "./useScrollReveal";
 
@@ -16,21 +16,6 @@ const ArrowDown = () => (
     <path d="M12 5v14m-6-6 6 6 6-6" />
   </svg>
 );
-
-function useCountdown(iso: string) {
-  const [count, setCount] = useState<number[] | null>(null);
-  useEffect(() => {
-    const target = new Date(iso).getTime();
-    const tick = () => {
-      const n = Math.max(0, target - Date.now());
-      setCount([Math.floor(n / 864e5), Math.floor(n / 36e5) % 24, Math.floor(n / 6e4) % 60, Math.floor(n / 1e3) % 60]);
-    };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, [iso]);
-  return count;
-}
 
 type Props = {
   wedding: Wedding;
@@ -47,7 +32,6 @@ export function Invitation({ wedding: w, guest, preview = false, startOpen = fal
   const musicRef = useRef<MusicHandle>(null);
   const [opened, setOpened] = useState(startOpen);
   const main = mainEvent(w);
-  const count = useCountdown(main.start);
   const couple = `${w.groom.short} & ${w.bride.short}`;
   const [g1, g2] = w.monogram.split("&").map((s) => s.trim());
   const tpl = resolveTemplate(w.template);
@@ -71,7 +55,7 @@ export function Invitation({ wedding: w, guest, preview = false, startOpen = fal
   return (
     <SkinProvider skin={tpl.family.skin}>
     <main id="top" ref={rootRef} className="thiep" data-skin={tpl.family.skin} data-template={tpl.id} style={style as React.CSSProperties}>
-      {!preview && <Music ref={musicRef} />}
+      {!preview && <Music key={musicOf(tpl.family).src} ref={musicRef} src={musicOf(tpl.family).src} />}
       <Ambient skin={tpl.family.skin} active={opened} />
 
       <nav className="desktop-nav" aria-label="Điều hướng thiệp">
@@ -110,6 +94,14 @@ export function Invitation({ wedding: w, guest, preview = false, startOpen = fal
         <div className="door door-left" aria-hidden="true" />
         <div className="door door-right" aria-hidden="true" />
         <div className="envelope-copy">
+          <p className="cover-names" aria-hidden="true">
+            {w.groom.short}
+            <i>&amp;</i>
+            {w.bride.short}
+          </p>
+          <p className="cover-date" aria-hidden="true">
+            {longDate(main.start)}
+          </p>
           <p className="script">Trân trọng kính mời</p>
           <p className="guest-name is-ready">{guest?.name ?? "Quý khách"}</p>
           <button className="seal" onClick={openInvitation} aria-label="Mở thiệp cưới">
@@ -121,65 +113,14 @@ export function Invitation({ wedding: w, guest, preview = false, startOpen = fal
           </button>
         </div>
         {opened && (
-          <a className="discover" href="#dem-nguoc">
+          <a className="discover" href="#noi-dung">
             Khám phá <ArrowDown />
           </a>
         )}
       </section>
 
-      <CoupleIntro w={w} />
-
-      <section className="countdown section" id="dem-nguoc">
-        <Ornament slot="countdownSide" className="countdown-flower countdown-flower-left" />
-        <Ornament slot="countdownSide" className="countdown-flower countdown-flower-right" />
-        <p className="script">Từng khoảnh khắc đưa {selfRef(guest)} lại gần nhau</p>
-        <h2>Đếm ngược đến ngày vui</h2>
-        <div className="count-grid">
-          {["Ngày", "Giờ", "Phút", "Giây"].map((label, i) => (
-            <div key={label}>
-              <strong>{count ? String(count[i]).padStart(2, "0") : "--"}</strong>
-              <span>{label}</span>
-            </div>
-          ))}
-        </div>
-        <Ornament slot="countdownFoot" className="candle-border" />
-      </section>
-
-      <section className="invitation section">
-        <p className="script">Cùng gia đình hai bên</p>
-        <div className="families">
-          {w.families.map((f) => (
-            <div key={f.side} className="family">
-              <p className="eyebrow">{f.side}</p>
-              <p className="family-names">
-                {f.father}
-                <br />
-                {f.mother}
-              </p>
-              <p className="family-address">{f.address}</p>
-            </div>
-          ))}
-        </div>
-        <p className="script">trân trọng báo tin lễ thành hôn của con chúng tôi</p>
-        <h2>
-          {w.groom.name}
-          <span className="script">và</span>
-          {w.bride.name}
-        </h2>
-        <p className="eyebrow">{longDate(main.start)}</p>
-        <div className="fine-rule" />
-        <p>
-          Sự hiện diện của <b className="guest-inline">{guest?.name ?? "quý khách"}</b> là niềm vinh hạnh
-          <br />
-          cho gia đình và {selfRef(guest)}.
-        </p>
-        <Ornament slot="invitationFoot" className="invitation-garland" />
-      </section>
-
-      {tpl.family.skin !== "botanical" && <WeddingCalendar w={w} />}
-      <Album w={w} />
-
-      <EventsAndDetails wedding={w} guest={guest} couple={couple} />
+      <div id="noi-dung" aria-hidden="true" />
+      <InvitationBody skin={tpl.family.skin} w={w} guest={guest} couple={couple} />
     </main>
     </SkinProvider>
   );

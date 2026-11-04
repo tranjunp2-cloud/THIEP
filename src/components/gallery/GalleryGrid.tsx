@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { ALL_TEMPLATES, COLOR_GROUPS, THEME_GROUPS, type ColorGroup, type ThemeGroup } from "@/lib/templates/registry";
+import { COLOR_GROUPS, FAMILIES, THEME_GROUPS, type ColorGroup, type ThemeGroup } from "@/lib/templates/registry";
 import { GalleryCard } from "./GalleryCard";
 
-/** Lưới toàn bộ mẫu thiệp + bộ lọc chủ đề × màu. Mẫu đã sẵn sàng xếp trước. */
+/** Lưới mẫu thiệp (mỗi mẫu một thẻ) + bộ lọc chủ đề × màu. Mẫu đã sẵn sàng xếp trước. */
 export function GalleryGrid() {
   const [group, setGroup] = useState<ThemeGroup | null>(null);
   const [color, setColor] = useState<ColorGroup | null>(null);
 
-  const list = ALL_TEMPLATES.filter((t) => (!group || t.family.group === group) && (!color || t.variant.color === color)).sort(
-    (a, b) => Number(b.family.status === "ready") - Number(a.family.status === "ready"),
+  const list = FAMILIES.filter((f) => (!group || f.group === group) && (!color || f.variants.some((v) => v.color === color))).sort(
+    (a, b) => Number(b.status === "ready") - Number(a.status === "ready"),
   );
-  const count = (g: ThemeGroup | null) => ALL_TEMPLATES.filter((t) => !g || t.family.group === g).length;
+  const count = (g: ThemeGroup | null) => FAMILIES.filter((f) => !g || f.group === g).length;
 
   return (
     <>
@@ -33,7 +33,7 @@ export function GalleryGrid() {
         ))}
       </div>
       <div className="gl-colors" role="group" aria-label="Lọc theo màu">
-        <span className="gl-colors-label">Màu</span>
+        <span className="gl-colors-label">Có màu</span>
         {COLOR_GROUPS.map((c) => (
           <button
             key={c.id}
@@ -50,11 +50,15 @@ export function GalleryGrid() {
       </div>
       {list.length ? (
         <ul className="gl-grid">
-          {list.map((t) => (
-            <li key={t.id}>
-              <GalleryCard t={t} />
-            </li>
-          ))}
+          {list.map((f) => {
+            // Lọc theo màu: thẻ hiện sẵn biến thể đúng màu đó.
+            const initial = color ? f.variants.find((v) => v.color === color)?.id : undefined;
+            return (
+              <li key={`${f.id}-${initial ?? ""}`}>
+                <GalleryCard f={f} initialVariant={initial} />
+              </li>
+            );
+          })}
         </ul>
       ) : (
         <p className="gl-empty">

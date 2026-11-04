@@ -1,34 +1,56 @@
-import { TemplateThumb } from "./TemplateThumb";
-import { formatVnd, priceOf, templateHref, type TemplateRef } from "@/lib/templates/registry";
+"use client";
 
-/** Thẻ một mẫu (một biến thể màu) — dùng ở kho mẫu và mục "Mẫu liên quan". */
-export function GalleryCard({ t }: { t: TemplateRef }) {
-  const { family: f, variant: v } = t;
+import { familyHref, formatVnd, priceOf, type TemplateFamily } from "@/lib/templates/registry";
+import { TemplateThumb } from "./TemplateThumb";
+import { useVariant } from "./useVariant";
+
+/** Thẻ một mẫu thiệp. Màu là tuỳ chọn: chấm màu đổi ảnh xem trước ngay trên thẻ. */
+export function GalleryCard({ f, initialVariant }: { f: TemplateFamily; initialVariant?: string }) {
+  const [ref, choose] = useVariant(f, { syncUrl: false, initial: initialVariant });
   const ready = f.status === "ready";
+  const isNew = f.variants.some((v) => v.isNew);
+
   return (
-    <a href={templateHref(t.id)} className="gl-card" aria-label={`Xem chi tiết mẫu ${f.name} – ${v.label}`}>
-      <div className={`gl-thumb${ready ? " is-photo" : " is-soon"}`}>
-        <span className="gl-screen">
-          <TemplateThumb t={t} />
-        </span>
-        {ready && <span className="gl-view">Xem demo</span>}
-        <span className="gl-badges">
-          {!ready && <span className="gl-badge">Sắp ra mắt</span>}
-          {ready && v.isNew && <span className="gl-badge is-new">Mới</span>}
-        </span>
-      </div>
+    <div className="gl-card">
+      <a href={familyHref(f, ref.variant.id)} className="gl-link" aria-label={`Xem mẫu ${f.name}`}>
+        <div className={`gl-thumb${ready ? " is-photo" : " is-soon"}`}>
+          <span className="gl-screen">
+            <TemplateThumb t={ref} />
+          </span>
+          {ready && <span className="gl-view">Xem mẫu</span>}
+          <span className="gl-badges">
+            {!ready && <span className="gl-badge">Sắp ra mắt</span>}
+            {ready && isNew && <span className="gl-badge is-new">Mới</span>}
+          </span>
+        </div>
+      </a>
       <div className="gl-meta">
-        <span className="gl-dot" style={{ background: v.tokens.cover }} aria-hidden="true" />
         <div>
           <h3>
-            {f.name} <span>· {v.label}</span>
+            <a href={familyHref(f, ref.variant.id)}>{f.name}</a>
           </h3>
           <p>
             {f.tagline} · {formatVnd(priceOf(f).price)}
           </p>
         </div>
-        <span className="gl-arrow" aria-hidden="true">→</span>
+        {f.variants.length > 1 && (
+          <div className="gl-swatches" role="group" aria-label={`Màu của mẫu ${f.name}`}>
+            {f.variants.map((v) => (
+              <button
+                key={v.id}
+                type="button"
+                title={v.label}
+                aria-label={`Màu ${v.label}`}
+                aria-pressed={v.id === ref.variant.id}
+                className={v.id === ref.variant.id ? "is-active" : ""}
+                style={{ background: `linear-gradient(135deg, ${v.tokens.cover} 50%, ${v.tokens.bg} 50%)` }}
+                onClick={() => choose(v.id)}
+                onPointerEnter={(e) => e.pointerType === "mouse" && choose(v.id)}
+              />
+            ))}
+          </div>
+        )}
       </div>
-    </a>
+    </div>
   );
 }

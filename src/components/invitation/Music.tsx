@@ -4,7 +4,6 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useSta
 
 export type MusicHandle = { startOnOpen: () => void };
 const PREF = "duyen:music";
-const SRC = "/thiep/audio/canon-in-d-major-web.mp3";
 
 const Icon = ({ state }: { state: "on" | "off" | "loading" }) => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className={state === "loading" ? "music-spinner" : undefined}>
@@ -20,7 +19,7 @@ const Icon = ({ state }: { state: "on" | "off" | "loading" }) => (
 );
 
 /** Nhạc nền: chỉ phát khi khách bấm mở thiệp, nhớ lựa chọn tắt nhạc trên thiết bị. */
-export const Music = forwardRef<MusicHandle>(function Music(_, ref) {
+export const Music = forwardRef<MusicHandle, { src: string }>(function Music({ src }, ref) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const enabled = useRef(true);
   const wanted = useRef(false);
@@ -92,7 +91,7 @@ export const Music = forwardRef<MusicHandle>(function Music(_, ref) {
     <>
       <audio
         ref={audioRef}
-        src={SRC}
+        src={src}
         preload="none"
         loop
         onPlaying={() => {

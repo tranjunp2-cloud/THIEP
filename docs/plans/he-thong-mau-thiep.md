@@ -219,3 +219,13 @@ Kết thúc giai đoạn 1 có **4 dòng × 12 biến thể**. Kết thúc giai 
   - Hiện ra khi cuộn: 5 kiểu mới (trượt trái/phải, mở khung, phóng to, bật lên)
 - [ ] Thu tiền theo giá mẫu (chưa có cổng thanh toán)
 - [ ] Giai đoạn 3: thêm dòng mẫu (Long Phụng, Duyên Xưa, Hoa Dại, Đồng Nội, Dạ Vũ, hoàn thiện Sen và Trúc), trang bộ sưu tập, form yêu cầu mẫu riêng
+
+## 10. Cập nhật 04/11/2026: mẫu = bố cục riêng, màu = tuỳ chọn
+
+- Mỗi mẫu một trang, một thẻ và một demo: `/mau-thiep/<mẫu>`. Màu là tuỳ chọn `?mau=<màu>`, đổi được ngay trên thẻ kho mẫu, trang chi tiết và thanh nổi trong thiệp demo. Link cũ `/mau-thiep/<mẫu>-<màu>` chuyển hướng 308 sang link mới.
+- Bố cục riêng từng mẫu ở `components/invitation/Layout.tsx` (`LAYOUTS`): thứ tự section và phiên bản riêng của từng section:
+  - Ngà: cổ điển đối xứng
+  - Lụa Đỏ: báo hỷ trước, thẻ sự kiện dải đỏ, lịch trình trục giữa, băng chuyền ảnh
+  - Đêm Sao: đếm ngược phát sáng mở màn, thẻ kính mờ, lịch trình chòm sao ngang
+  - Tối Giản: tạp chí đánh số, đếm ngược một dòng, bảng sự kiện và lịch trình
+- Mẫu mới phải có mục `LAYOUTS` riêng, không dùng chung bố cục.

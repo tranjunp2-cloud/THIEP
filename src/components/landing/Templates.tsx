@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { ALL_TEMPLATES, FEATURED_FAMILIES, familyDefault, templateHref } from "@/lib/templates/registry";
+import { FAMILIES, FEATURED_FAMILIES, familyDefault, familyHref } from "@/lib/templates/registry";
 import { DESKTOP, gsap, MOTION_OK, useGSAP } from "./gsap";
 import { TemplateThumb } from "@/components/gallery/TemplateThumb";
 
@@ -113,7 +113,7 @@ export function Templates() {
               return (
                 <li key={f.id} className="tpl-item">
                   <div className="tpl-card-inner">
-                    <a href={templateHref(t.id)} className={`tpl-card${ready ? "" : " is-soon"}`} aria-label={`Xem chi tiết mẫu ${f.name}`}>
+                    <a href={familyHref(f)} className={`tpl-card${ready ? "" : " is-soon"}`} aria-label={`Xem chi tiết mẫu ${f.name}`}>
                       <div className="tpl-tilt">
                         <span className="tpl-screen">
                           <TemplateThumb t={t} sizes="300px" />
@@ -133,7 +133,7 @@ export function Templates() {
                           Dùng mẫu này →
                         </a>
                       ) : (
-                        <a href={templateHref(t.id)} className="tpl-cta">
+                        <a href={familyHref(f)} className="tpl-cta">
                           Xem chi tiết →
                         </a>
                       )}
@@ -144,7 +144,7 @@ export function Templates() {
             })}
             <li className="tpl-item tpl-item--more">
               <a href="/mau-thiep" className="tpl-more">
-                <span className="tpl-more-num">{ALL_TEMPLATES.length}</span>
+                <span className="tpl-more-num">{FAMILIES.length}</span>
                 <span>Xem trọn kho mẫu thiệp</span>
                 <span className="tpl-cta">Khám phá tất cả mẫu →</span>
               </a>

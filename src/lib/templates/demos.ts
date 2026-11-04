@@ -73,9 +73,9 @@ const PERSONAS: Record<string, Persona> = {
         ],
       },
       photos: {
-        cover: demoPhoto("lua", 1, 1200, 1796, "Cô dâu chú rể áo dài trước cổng hoa đỏ"),
-        groom: demoPhoto("lua", 1, 1200, 1796, "Chú rể trong áo dài trắng", "80% 30%", 2.3),
-        bride: demoPhoto("lua", 1, 1200, 1796, "Cô dâu trong áo dài trắng", "20% 34%", 2.3),
+        cover: demoPhoto("lua", 3, 1200, 800, "Cô dâu chú rể nắm tay trước phông chữ Hỷ", "55% 40%"),
+        groom: demoPhoto("lua", 3, 1200, 800, "Chú rể trong áo dài trắng", "22% 30%", 1.15),
+        bride: demoPhoto("lua", 3, 1200, 800, "Cô dâu trong áo dài trắng", "86% 32%", 1.15),
         album: [
           demoPhoto("lua", 2, 1200, 1800, "Hai bạn đọc lời thề trước bàn thờ gia tiên"),
           demoPhoto("lua", 3, 1200, 800, "Chụp ảnh trước phông chữ Hỷ"),
@@ -201,7 +201,7 @@ const PERSONAS: Record<string, Persona> = {
         ],
       },
       photos: {
-        cover: demoPhoto("sao", 1, 1200, 1800, "Cô dâu chú rể ôm bó hoa trắng", "50% 30%"),
+        cover: demoPhoto("sao", 4, 1200, 1800, "Nụ hôn trước vòm hoa", "50% 18%"),
         groom: demoPhoto("sao", 2, 1200, 1800, "Chân dung chú rể", "50% 25%"),
         bride: demoPhoto("sao", 3, 1200, 1800, "Cô dâu mỉm cười", "45% 35%"),
         album: [

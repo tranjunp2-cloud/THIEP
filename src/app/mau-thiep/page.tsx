@@ -6,11 +6,11 @@ import { GalleryGrid } from "@/components/gallery/GalleryGrid";
 import { Footer } from "@/components/landing/Closing";
 import { Nav } from "@/components/landing/Nav";
 import { contact, customDesignMailto, zaloUrl } from "@/components/landing/content";
-import { ALL_TEMPLATES, FAMILIES } from "@/lib/templates/registry";
+import { FAMILIES } from "@/lib/templates/registry";
 
 export const metadata: Metadata = {
   title: "Kho mẫu thiệp cưới — SayIDo",
-  description: `${ALL_TEMPLATES.length} mẫu thiệp cưới online: truyền thống Song Hỷ, hoa màu nước, tối giản hiện đại, sang trọng ánh kim. Xem chi tiết và bản demo từng mẫu.`,
+  description: `${FAMILIES.length} mẫu thiệp cưới online, mỗi mẫu một bố cục riêng: truyền thống Song Hỷ, hoa màu nước, tối giản hiện đại, sang trọng ánh kim. Xem chi tiết và bản demo từng mẫu.`,
 };
 
 export default function TemplateGalleryPage() {
@@ -24,8 +24,8 @@ export default function TemplateGalleryPage() {
             Chọn một <em>câu chuyện</em> cho ngày vui
           </h1>
           <p className="lead">
-            {FAMILIES.length} dòng mẫu, {ALL_TEMPLATES.length} biến thể màu. Bấm vào từng mẫu để xem chi tiết và mở thử bản demo — đổi mẫu bất
-            cứ lúc nào mà không mất nội dung đã nhập.
+            {FAMILIES.length} mẫu thiệp, mỗi mẫu một bố cục và hiệu ứng riêng, nhiều màu để chọn ngay trong mẫu. Bấm vào từng mẫu để xem chi
+            tiết và mở thử bản demo — đổi mẫu bất cứ lúc nào mà không mất nội dung đã nhập.
           </p>
         </header>
         <section className="gl-body container" aria-label="Danh sách mẫu thiệp">

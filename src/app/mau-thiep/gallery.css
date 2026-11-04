@@ -70,6 +70,38 @@
   display: block;
 }
 
+.gl-link {
+  display: block;
+}
+
+.gl-meta h3 a:hover {
+  color: var(--gold);
+}
+
+.gl-swatches {
+  display: flex;
+  gap: 6px;
+  align-self: center;
+}
+
+.gl-swatches button {
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.gl-swatches button:hover {
+  transform: scale(1.12);
+}
+
+.gl-swatches button.is-active {
+  box-shadow: 0 0 0 2px var(--ivory), 0 0 0 3.5px var(--forest);
+}
+
 .gl-thumb {
   position: relative;
   aspect-ratio: 645 / 1146;
@@ -128,17 +160,17 @@
   pointer-events: none;
 }
 
-.gl-card:hover .gl-thumb {
+.gl-link:hover .gl-thumb {
   transform: translateY(-8px);
   box-shadow: 0 46px 70px -34px rgba(18, 37, 27, 0.55), 0 0 0 1px rgba(180, 138, 69, 0.35);
 }
 
-.gl-card:hover .tpl-thumb-img {
+.gl-link:hover .tpl-thumb-img {
   transform: scale(1.05);
 }
 
-.gl-card:hover .gl-view,
-.gl-card:focus-visible .gl-view {
+.gl-link:hover .gl-view,
+.gl-link:focus-visible .gl-view {
   opacity: 1;
   transform: translate(-50%, 0);
 }
@@ -183,7 +215,7 @@
 .gl-meta {
   margin-top: 18px;
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto;
   column-gap: 12px;
   align-items: center;
 }
@@ -767,8 +799,18 @@
 
   .gl-meta {
     margin-top: 10px;
-    grid-template-columns: auto 1fr;
-    column-gap: 8px;
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+  }
+
+  .gl-swatches {
+    justify-self: start;
+    gap: 7px;
+  }
+
+  .gl-swatches button {
+    width: 20px;
+    height: 20px;
   }
 
   .gl-meta h3 {

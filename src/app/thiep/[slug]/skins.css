@@ -695,8 +695,8 @@
 }
 
 .ph-arch {
-  width: min(420px, 78%);
-  aspect-ratio: 3 / 4;
+  width: min(440px, 84%);
+  aspect-ratio: 4 / 5;
   margin: -44px 0 0;
   overflow: hidden;
   border-radius: 999px 999px 18px 18px;
@@ -1923,5 +1923,2951 @@
   .hero.is-open .ph,
   .is-open .seal {
     animation: none !important;
+  }
+}
+
+/* ============================================================
+   BỐ CỤC RIÊNG TỪNG MẪU (components/invitation/Layout.tsx)
+   ============================================================ */
+
+/* ---------- Thẻ sự kiện (Lụa Đỏ, Đêm Sao) ---------- */
+
+.ev-cards {
+  max-width: 1080px;
+}
+
+.ev-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 22px;
+  margin-top: 10px;
+}
+
+.ev-grid--1 {
+  max-width: 520px;
+  margin-inline: auto;
+}
+
+.ev-card {
+  position: relative;
+  isolation: isolate;
+  padding: 46px 28px 34px;
+  border: 1px solid var(--t-line);
+  background: color-mix(in srgb, var(--t-paper) 70%, transparent);
+  text-align: center;
+}
+
+.ev-card .orn--venueFrame {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.ev-card .orn-corner {
+  width: 54px;
+}
+
+.ev-kicker {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--t-muted);
+}
+
+.ev-card h3 {
+  margin-top: 10px;
+  font-size: clamp(26px, 3vw, 32px);
+  color: var(--t-accent);
+}
+
+.ev-date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin: 18px 0 6px;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--t-muted);
+}
+
+.ev-date b {
+  padding: 0 16px;
+  border-inline: 1px solid var(--t-line);
+  font-family: var(--t-font-heading);
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--t-fg);
+}
+
+.ev-date span:last-child {
+  text-align: left;
+}
+
+.ev-lunar {
+  font-style: italic;
+  font-size: 14px;
+  color: var(--t-muted);
+}
+
+.ev-venue {
+  margin-top: 18px;
+  font-family: var(--t-font-heading);
+  font-size: 21px;
+}
+
+.ev-address,
+.ev-note {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--t-muted);
+}
+
+.ev-note {
+  font-style: italic;
+}
+
+.ev-card .venue-links {
+  margin-top: 18px;
+  gap: 8px 20px;
+}
+
+/* Lụa Đỏ: thẻ có dải đỏ trên đầu, thẻ chính nổi bật */
+.thiep[data-skin="song-hy"] .ev-card {
+  border-top: 5px solid var(--t-accent);
+  background: var(--t-bg);
+  box-shadow: 0 24px 40px -30px color-mix(in srgb, var(--t-accent) 60%, transparent);
+}
+
+.thiep[data-skin="song-hy"] .ev-card.is-main {
+  background: var(--t-accent);
+  color: var(--t-cover-fg);
+  border-color: var(--t-accent);
+}
+
+.thiep[data-skin="song-hy"] .ev-card.is-main :is(h3, .ev-date b, .ev-kicker, .ev-lunar, .ev-address, .ev-note, .ev-date, .text-link) {
+  color: var(--t-cover-fg);
+}
+
+.thiep[data-skin="song-hy"] .ev-card.is-main .ev-date b {
+  border-color: color-mix(in srgb, var(--t-cover-fg) 40%, transparent);
+}
+
+.thiep[data-skin="song-hy"] .ev-card.is-main .text-link {
+  border-color: color-mix(in srgb, var(--t-cover-fg) 50%, transparent);
+}
+
+.thiep[data-skin="song-hy"] .ev-card.is-main .orn-corner {
+  color: var(--t-cover-fg);
+}
+
+/* Đêm Sao: thẻ kính mờ viền ánh kim */
+.thiep[data-skin="dem-sao"] .ev-card {
+  border-color: color-mix(in srgb, var(--t-accent) 45%, transparent);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--t-paper) 70%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 0 60px -30px color-mix(in srgb, var(--t-accent) 60%, transparent);
+}
+
+.thiep[data-skin="dem-sao"] .ev-card .orn-corners {
+  display: none;
+}
+
+.thiep[data-skin="dem-sao"] .ev-card.is-main {
+  border-color: var(--t-accent);
+}
+
+/* ---------- Bảng sự kiện (Tối Giản) ---------- */
+
+.ev-table {
+  max-width: 900px;
+  text-align: left;
+}
+
+.ev-table ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--t-fg);
+}
+
+.ev-table li {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: start;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--t-line);
+}
+
+.ev-t-date b {
+  display: block;
+  font-family: var(--t-font-heading);
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.ev-t-date span {
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  color: var(--t-muted);
+}
+
+.ev-t-body h3 {
+  font-family: var(--t-font-heading) !important;
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ev-t-venue {
+  margin-top: 6px;
+  font-size: 17px;
+}
+
+.ev-t-address,
+.ev-t-note {
+  font-size: 14px;
+  color: var(--t-muted);
+}
+
+.ev-t-note {
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.ev-table .venue-links {
+  margin: 0;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+}
+
+/* ---------- Lịch trình: 3 phiên bản ---------- */
+
+/* Lụa Đỏ: trục giữa, giờ bên trái, nội dung bên phải */
+.thiep[data-skin="song-hy"] .timeline ol {
+  max-width: 560px;
+  position: relative;
+}
+
+.thiep[data-skin="song-hy"] .timeline ol::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 8px;
+  bottom: 8px;
+  border-left: 2px dotted var(--t-accent);
+}
+
+.thiep[data-skin="song-hy"] .timeline li {
+  grid-template-columns: 1fr 40px 1fr;
+  min-height: 0;
+  padding: 14px 0;
+  position: relative;
+}
+
+.thiep[data-skin="song-hy"] .timeline li::before {
+  content: "囍";
+  grid-column: 2;
+  grid-row: 1 / 3;
+  justify-self: center;
+  align-self: start;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--t-accent);
+  color: var(--t-cover-fg);
+  font-size: 13px;
+  position: relative;
+  z-index: 1;
+}
+
+.thiep[data-skin="song-hy"] .timeline-icon {
+  display: none;
+}
+
+.thiep[data-skin="song-hy"] .timeline-copy {
+  display: contents;
+}
+
+.thiep[data-skin="song-hy"] .timeline-copy::before {
+  display: none;
+}
+
+.thiep[data-skin="song-hy"] .timeline time {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  text-align: right;
+  padding-right: 6px;
+  font-size: 20px;
+  color: var(--t-accent);
+}
+
+.thiep[data-skin="song-hy"] .timeline-copy h3 {
+  grid-column: 3;
+  margin: 0;
+  padding-left: 6px;
+  font-size: 20px;
+}
+
+.thiep[data-skin="song-hy"] .timeline-copy p {
+  grid-column: 3;
+  padding-left: 6px;
+}
+
+/* Đêm Sao: chòm sao nằm ngang (desktop), cuộn ngang trên điện thoại */
+.thiep[data-skin="dem-sao"] .timeline {
+  max-width: 1100px;
+}
+
+.thiep[data-skin="dem-sao"] .timeline ol {
+  display: flex;
+  max-width: none;
+  margin-top: 40px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 6px;
+}
+
+.thiep[data-skin="dem-sao"] .timeline ol::-webkit-scrollbar {
+  display: none;
+}
+
+.thiep[data-skin="dem-sao"] .timeline li {
+  flex: 1 0 190px;
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  min-height: 0;
+  text-align: center;
+  scroll-snap-align: center;
+  position: relative;
+}
+
+.thiep[data-skin="dem-sao"] .timeline li::after {
+  content: "";
+  position: absolute;
+  top: 42px;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed color-mix(in srgb, var(--t-accent) 55%, transparent);
+  z-index: -1;
+}
+
+.thiep[data-skin="dem-sao"] .timeline-icon {
+  padding: 0;
+}
+
+.thiep[data-skin="dem-sao"] .orn-timeline {
+  background: var(--t-bg);
+  border-color: var(--t-accent);
+  box-shadow: 0 0 30px -6px color-mix(in srgb, var(--t-accent) 70%, transparent);
+}
+
+.thiep[data-skin="dem-sao"] .timeline-copy {
+  border: 0;
+  padding: 18px 10px 0;
+}
+
+.thiep[data-skin="dem-sao"] .timeline-copy::before {
+  display: none;
+}
+
+.thiep[data-skin="dem-sao"] .timeline time {
+  color: var(--t-accent);
+  font-size: 18px;
+}
+
+/* Đêm Sao: đếm ngược phát sáng */
+.thiep[data-skin="dem-sao"] .countdown {
+  padding-top: 110px;
+}
+
+.thiep[data-skin="dem-sao"] .count-grid > div {
+  border-color: color-mix(in srgb, var(--t-accent) 30%, transparent);
+}
+
+.thiep[data-skin="dem-sao"] .count-grid strong {
+  font-family: var(--t-font-heading);
+  font-size: clamp(44px, 7vw, 76px);
+  color: var(--t-accent);
+  text-shadow: 0 0 24px color-mix(in srgb, var(--t-accent) 55%, transparent);
+}
+
+/* Tối Giản: lịch trình dạng hàng bảng */
+.thiep[data-skin="toi-gian"] .timeline ol {
+  max-width: none;
+  margin: 10px 0 0;
+  border-top: 1px solid var(--t-fg);
+}
+
+.thiep[data-skin="toi-gian"] .timeline li {
+  grid-template-columns: 110px minmax(0, 1fr) minmax(0, 1.2fr);
+  min-height: 0;
+  align-items: baseline;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--t-line);
+}
+
+.thiep[data-skin="toi-gian"] .timeline-icon {
+  display: none;
+}
+
+.thiep[data-skin="toi-gian"] .timeline-copy {
+  display: contents;
+}
+
+.thiep[data-skin="toi-gian"] .timeline-copy::before {
+  display: none;
+}
+
+.thiep[data-skin="toi-gian"] .timeline time {
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 0.04em;
+}
+
+.thiep[data-skin="toi-gian"] .timeline-copy h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.thiep[data-skin="toi-gian"] .timeline-copy p {
+  font-size: 14px;
+}
+
+/* ---------- Báo hỷ gia đình (Lụa Đỏ): hai họ hai bên chữ Hỷ ---------- */
+
+.thiep[data-skin="song-hy"] .invitation {
+  padding-top: 70px;
+}
+
+.thiep[data-skin="song-hy"] .families {
+  position: relative;
+  gap: 70px;
+}
+
+.thiep[data-skin="song-hy"] .families::after {
+  content: "囍";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 34px;
+  color: var(--t-accent);
+}
+
+.thiep[data-skin="song-hy"] .family {
+  border: 0;
+  padding: 10px 0;
+}
+
+.thiep[data-skin="song-hy"] .invitation h2 {
+  color: var(--t-accent);
+}
+
+@media (max-width: 640px) {
+  .ev-table li {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .ev-table .venue-links {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 18px;
+  }
+
+  .ed-sec {
+    padding-inline: 20px;
+  }
+
+  .thiep[data-skin="toi-gian"] .timeline li {
+    grid-template-columns: 74px minmax(0, 1fr);
+  }
+
+  .thiep[data-skin="toi-gian"] .timeline-copy p {
+    grid-column: 2;
+  }
+
+  .thiep[data-skin="song-hy"] .families {
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+  }
+
+  .thiep[data-skin="song-hy"] .families::after {
+    font-size: 26px;
+  }
+
+  .thiep[data-skin="song-hy"] .timeline li {
+    grid-template-columns: 70px 36px 1fr;
+  }
+}
+
+/* ---------- Thanh đổi màu trên thiệp demo ---------- */
+
+.demo-bar {
+  position: fixed;
+  left: 50%;
+  top: calc(12px + env(safe-area-inset-top));
+  z-index: 70;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 24px);
+  padding: 6px 6px 6px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 13px;
+  color: #1b2620;
+}
+
+.demo-back {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f1ede6;
+}
+
+.demo-name {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.demo-colors {
+  display: flex;
+  gap: 6px;
+}
+
+.demo-colors button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.demo-colors button.is-active {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 3.5px #1b2620;
+}
+
+.demo-use {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #1f3b2d;
+  color: #f7f1e7;
+  white-space: nowrap;
+}
+
+@media (max-width: 420px) {
+  .demo-name {
+    display: none;
+  }
+}
+
+/* ============================================================
+   NGÀ BOTANICAL — bố cục "sổ ảnh thư tay": so le, giấy chồng giấy,
+   chữ viết tay, chuyển động nhẹ như gió. (chỉ áp dụng data-skin="botanical")
+   ============================================================ */
+
+.thiep[data-skin="botanical"] {
+  --paper-shadow: 0 18px 34px -22px rgba(41, 62, 46, 0.55), 0 2px 6px -2px rgba(41, 62, 46, 0.18);
+  --sprig: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 40'%3E%3Cg fill='none' stroke='%23657558' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M6 22 C 40 14 120 14 154 22'/%3E%3C/g%3E%3Cg fill='%23657558' opacity='.85'%3E%3Cpath d='M80 20 c-6-9-2-17 0-18 c2 1 6 9 0 18z'/%3E%3Cpath d='M60 18 c-9-5-11-12-10-13 c2 0 9 4 10 13z'/%3E%3Cpath d='M100 18 c9-5 11-12 10-13 c-2 0-9 4-10 13z'/%3E%3Cpath d='M40 20 c-8-2-11-8-10-9 c2 0 8 3 10 9z'/%3E%3Cpath d='M120 20 c8-2 11-8 10-9 c-2 0-8 3-10 9z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Chữ viết tay cho dòng dẫn; câu dài vẫn giữ chữ có chân cho dễ đọc. */
+.thiep[data-skin="botanical"] .section > .script:first-child,
+.thiep[data-skin="botanical"] .countdown > .script,
+.thiep[data-skin="botanical"] .timeline > .script,
+.thiep[data-skin="botanical"] .dress > .script,
+.thiep[data-skin="botanical"] .faq > .script,
+.thiep[data-skin="botanical"] .invitation > .script,
+.thiep[data-skin="botanical"] footer > .script {
+  font-size: clamp(26px, 3.4vw, 34px);
+  font-style: normal;
+  line-height: 1.2;
+  color: var(--t-accent);
+}
+
+.thiep[data-skin="botanical"] .hero-copy > .script,
+.thiep[data-skin="botanical"] .gift-frame > p.script,
+.thiep[data-skin="botanical"] .recovery .script,
+.thiep[data-skin="botanical"] .venue-frame .script,
+.thiep[data-skin="botanical"] .ph--botanical .script {
+  font-family: var(--t-font-body);
+  font-style: italic;
+}
+
+/* Nhành lá thay cho đường kẻ thẳng giữa các phần */
+.thiep[data-skin="botanical"] .couple::after,
+.thiep[data-skin="botanical"] .album::after,
+.thiep[data-skin="botanical"] .timeline::after {
+  content: "";
+  display: block;
+  width: 150px;
+  height: 38px;
+  margin: 56px auto 0;
+  background: var(--sprig) center / contain no-repeat;
+  opacity: 0.8;
+}
+
+/* ---------- Cô dâu & chú rể: hai tấm polaroid chồng nhau ---------- */
+
+.thiep[data-skin="botanical"] .couple {
+  padding-bottom: 40px;
+}
+
+.thiep[data-skin="botanical"] .cp-pair {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
+  max-width: 720px;
+  margin: 30px auto 0;
+  position: relative;
+}
+
+.thiep[data-skin="botanical"] .cp-person {
+  gap: 0;
+  position: relative;
+}
+
+.thiep[data-skin="botanical"] .cp-person:first-child {
+  z-index: 1;
+  margin-right: -40px;
+  rotate: -5deg;
+}
+
+.thiep[data-skin="botanical"] .cp-person:last-child {
+  margin: 120px 0 0 -40px;
+  rotate: 4deg;
+}
+
+.thiep[data-skin="botanical"] .cp-person:last-child .cp-frame,
+.thiep[data-skin="botanical"] .cp-person:first-child .cp-frame {
+  transform: none;
+}
+
+/* Polaroid: ảnh + phần giấy dưới ghi tên bằng chữ viết tay */
+.thiep[data-skin="botanical"] .cp-frame {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px 12px 0;
+  background: #fffdf8;
+  outline: 0;
+  box-shadow: var(--paper-shadow);
+}
+
+.thiep[data-skin="botanical"] .cp-copy {
+  width: 100%;
+  max-width: 300px;
+  margin-top: -2px;
+  padding: 12px 12px 18px;
+  background: #fffdf8;
+  box-shadow: 0 18px 30px -24px rgba(41, 62, 46, 0.6);
+}
+
+.thiep[data-skin="botanical"] .cp-name {
+  margin-top: 2px;
+  font-family: var(--font-script), cursive;
+  font-size: clamp(32px, 4vw, 42px);
+  line-height: 1.1;
+  color: var(--t-fg);
+}
+
+.thiep[data-skin="botanical"] .cp-full,
+.thiep[data-skin="botanical"] .cp-parents {
+  font-size: 13px;
+}
+
+/* Băng dính giấy ở mép trên mỗi tấm ảnh */
+.thiep[data-skin="botanical"] .cp-person::before,
+.thiep[data-skin="botanical"] .album-grid--botanical li::before {
+  content: "";
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  z-index: 2;
+  width: 92px;
+  height: 26px;
+  transform: translateX(-50%) rotate(-3deg);
+  background: color-mix(in srgb, var(--t-line) 55%, rgba(255, 255, 255, 0.55));
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  clip-path: polygon(3% 0, 97% 4%, 100% 50%, 96% 100%, 4% 96%, 0 50%);
+}
+
+.thiep[data-skin="botanical"] .cp-amp {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  z-index: 3;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-script), cursive;
+  font-size: clamp(64px, 9vw, 96px);
+  color: var(--t-accent);
+  text-shadow: 0 0 18px var(--t-bg), 0 0 6px var(--t-bg);
+  pointer-events: none;
+}
+
+/* ---------- Đếm ngược: số viết tay trong vết màu nước ---------- */
+
+.thiep[data-skin="botanical"] .countdown {
+  padding-top: 70px;
+}
+
+.thiep[data-skin="botanical"] .countdown-flower {
+  display: none;
+}
+
+.thiep[data-skin="botanical"] .count-grid {
+  gap: 14px;
+  margin-top: 30px;
+}
+
+.thiep[data-skin="botanical"] .count-grid > div {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  width: 108px;
+  height: 108px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  /* vết màu nước không đều cạnh */
+  border-radius: 58% 42% 55% 45% / 47% 56% 44% 53%;
+  background:
+    radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--t-line) 30%, transparent), transparent 60%),
+    color-mix(in srgb, var(--t-line) 34%, var(--t-bg));
+}
+
+.thiep[data-skin="botanical"] .count-grid > div:nth-child(even) {
+  border-radius: 45% 55% 42% 58% / 55% 45% 56% 44%;
+  transform: translateY(10px);
+}
+
+.thiep[data-skin="botanical"] .count-grid strong {
+  font-size: 38px;
+  line-height: 1;
+}
+
+.thiep[data-skin="botanical"] .count-grid span {
+  margin-top: 6px;
+  line-height: 1;
+}
+
+.thiep[data-skin="botanical"] .candle-border {
+  margin-top: 30px;
+}
+
+/* ---------- Lời mời: tấm thư giấy dó hơi nghiêng ---------- */
+
+.thiep[data-skin="botanical"] .invitation {
+  max-width: 720px;
+  margin: 40px auto 0;
+  padding: 70px 56px 40px;
+  background:
+    radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--t-line) 16%, transparent), transparent 55%),
+    #fffdf8;
+  box-shadow: var(--paper-shadow);
+  rotate: -0.8deg;
+  /* mép giấy xé nhẹ */
+  clip-path: polygon(0 1%, 8% 0, 22% 0.8%, 37% 0, 52% 0.6%, 68% 0, 83% 0.9%, 100% 0, 99.4% 20%, 100% 45%, 99.3% 70%, 100% 100%, 85% 99.2%, 66% 100%, 48% 99.3%, 30% 100%, 14% 99.2%, 0 100%, 0.7% 75%, 0 50%, 0.6% 25%);
+}
+
+.thiep[data-skin="botanical"] .invitation h2 {
+  font-family: var(--font-script), cursive;
+  font-size: clamp(44px, 6vw, 64px);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.thiep[data-skin="botanical"] .invitation h2 .script {
+  font-family: var(--t-font-body);
+  font-size: 22px;
+}
+
+.thiep[data-skin="botanical"] .family {
+  border: 0;
+}
+
+.thiep[data-skin="botanical"] .families {
+  position: relative;
+}
+
+.thiep[data-skin="botanical"] .families::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 14%;
+  bottom: 14%;
+  border-left: 1px dashed var(--t-line);
+}
+
+.thiep[data-skin="botanical"] .invitation-garland {
+  margin: 30px auto -40px;
+}
+
+/* ---------- Album: trang sổ ảnh, ảnh dán nghiêng chồng nhẹ ---------- */
+
+.thiep[data-skin="botanical"] .album-grid--botanical {
+  column-gap: 26px;
+}
+
+.thiep[data-skin="botanical"] .album-grid--botanical li {
+  position: relative;
+  margin-bottom: 30px;
+  padding: 10px 10px 4px;
+  background: #fffdf8;
+  box-shadow: var(--paper-shadow);
+  display: inline-block;
+  width: 100%;
+  margin-top: 14px;
+  rotate: var(--r);
+  transition: rotate 0.6s cubic-bezier(0.22, 1, 0.36, 1), scale 0.6s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.6s;
+}
+
+.thiep[data-skin="botanical"] .album-grid--botanical li:nth-child(3n + 2)::before {
+  display: none;
+}
+
+.thiep[data-skin="botanical"] .album-grid--botanical li:hover {
+  z-index: 3;
+  rotate: 0deg;
+  scale: 1.03;
+}
+
+.thiep[data-skin="botanical"] .album-grid--botanical button {
+  padding: 0;
+  background: none;
+  box-shadow: none;
+}
+
+.thiep[data-skin="botanical"] .album-cap {
+  display: block;
+  padding: 8px 4px 6px;
+  font-family: var(--font-script), cursive;
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--t-muted);
+  text-align: center;
+}
+
+/* ---------- Lịch trình: zig-zag hai bên một dây leo ---------- */
+
+@media (min-width: 761px) {
+  .thiep[data-skin="botanical"] .timeline ol {
+    max-width: 760px;
+    position: relative;
+  }
+
+  .thiep[data-skin="botanical"] .timeline ol::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    bottom: 20px;
+    width: 26px;
+    transform: translateX(-50%);
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 120'%3E%3Cpath d='M13 0 C 4 30 22 60 13 120' fill='none' stroke='%23839573' stroke-width='1.3'/%3E%3Cpath d='M13 34 c-9-3-12-10-11-11 c2 0 9 4 11 11z M14 86 c9-3 12-10 11-11 c-2 0-9 4-11 11z' fill='%23839573'/%3E%3C/svg%3E")
+      center top / 26px 120px repeat-y;
+    opacity: 0.85;
+  }
+
+  .thiep[data-skin="botanical"] .timeline li {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 70px;
+    min-height: 0;
+    padding: 18px 0;
+  }
+
+  .thiep[data-skin="botanical"] .timeline li .timeline-icon {
+    justify-content: flex-end;
+    padding: 0;
+  }
+
+  .thiep[data-skin="botanical"] .timeline-copy {
+    border: 0;
+    padding: 18px 0 0;
+  }
+
+  .thiep[data-skin="botanical"] .timeline-copy::before {
+    display: none;
+  }
+
+  /* hàng chẵn: đảo bên */
+  .thiep[data-skin="botanical"] .timeline li:nth-child(even) .timeline-icon {
+    order: 2;
+    justify-content: flex-start;
+  }
+
+  .thiep[data-skin="botanical"] .timeline li:nth-child(even) .timeline-copy {
+    order: 1;
+    text-align: right;
+  }
+
+  .thiep[data-skin="botanical"] .timeline-art {
+    width: 140px;
+    height: 140px;
+    animation: bt-sway 7s ease-in-out infinite;
+  }
+
+  .thiep[data-skin="botanical"] .timeline li:nth-child(even) .timeline-art {
+    animation-delay: -3s;
+  }
+}
+
+.thiep[data-skin="botanical"] .timeline time {
+  font-family: var(--font-script), cursive;
+  font-size: 30px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--t-accent);
+}
+
+/* ---------- Lễ vu quy: thẻ giấy đè lên tranh ---------- */
+
+.thiep[data-skin="botanical"] .recovery {
+  border: 0;
+  gap: 0;
+  max-width: 980px;
+}
+
+.thiep[data-skin="botanical"] .recovery-copy {
+  position: relative;
+  z-index: 1;
+  margin-left: -60px;
+  padding: 44px 36px;
+  background: #fffdf8;
+  box-shadow: var(--paper-shadow);
+  rotate: 1.2deg;
+}
+
+/* ---------- Trang phục: vệt màu nước ---------- */
+
+.thiep[data-skin="botanical"] .palette {
+  gap: 4px;
+}
+
+.thiep[data-skin="botanical"] .palette span {
+  width: 54px;
+  height: 46px;
+  border: 0;
+  border-radius: 58% 42% 55% 45% / 47% 56% 44% 53%;
+  filter: blur(0.3px);
+  opacity: 0.92;
+  box-shadow: inset 0 -6px 10px -4px rgba(0, 0, 0, 0.12);
+}
+
+.thiep[data-skin="botanical"] .palette span:nth-child(even) {
+  border-radius: 45% 55% 42% 58% / 55% 45% 56% 44%;
+  transform: rotate(14deg) translateY(4px);
+}
+
+/* ---------- Mừng cưới: thẻ tài khoản như tấm thiệp nhỏ ---------- */
+
+.thiep[data-skin="botanical"] .gift-account {
+  border: 0;
+  background: #fffdf8;
+  box-shadow: var(--paper-shadow);
+}
+
+.thiep[data-skin="botanical"] .gift-account:nth-child(odd) {
+  rotate: -1.2deg;
+}
+
+.thiep[data-skin="botanical"] .gift-account:nth-child(even) {
+  rotate: 1deg;
+}
+
+/* ---------- Chân thiệp: tên viết tay ---------- */
+
+.thiep[data-skin="botanical"] footer h2 {
+  font-family: var(--font-script), cursive;
+  font-size: clamp(54px, 8vw, 92px);
+  font-weight: 400;
+}
+
+/* ---------- Chuyển động nhẹ như gió ---------- */
+
+@keyframes bt-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg) translateY(0);
+  }
+  50% {
+    transform: rotate(2deg) translateY(-4px);
+  }
+}
+
+@keyframes bt-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+}
+
+.thiep[data-skin="botanical"] .cp-person:first-child .cp-frame {
+  animation: bt-float 8s ease-in-out infinite;
+}
+
+.thiep[data-skin="botanical"] .cp-person:last-child .cp-frame {
+  animation: bt-float 9s -4s ease-in-out infinite;
+}
+
+.thiep[data-skin="botanical"] .invitation-garland,
+.thiep[data-skin="botanical"] .dress-garland,
+.thiep[data-skin="botanical"] .candle-border {
+  transform-origin: 50% 100%;
+  animation: bt-breeze 10s ease-in-out infinite;
+}
+
+@keyframes bt-breeze {
+  0%,
+  100% {
+    transform: skewX(0) scaleY(1);
+  }
+  50% {
+    transform: skewX(-1.2deg) scaleY(1.015);
+  }
+}
+
+/* ---------- Điện thoại ---------- */
+
+@media (max-width: 760px) {
+  .thiep[data-skin="botanical"] .cp-pair {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    padding: 0 6px;
+  }
+
+  .thiep[data-skin="botanical"] .cp-person:first-child {
+    margin-right: -18px;
+  }
+
+  .thiep[data-skin="botanical"] .cp-person:last-child {
+    margin: 70px 0 0 -18px;
+  }
+
+  .thiep[data-skin="botanical"] .cp-frame,
+  .thiep[data-skin="botanical"] .cp-copy {
+    padding-inline: 7px;
+  }
+
+  .thiep[data-skin="botanical"] .cp-frame {
+    padding-top: 7px;
+  }
+
+  .thiep[data-skin="botanical"] .cp-name {
+    font-size: 26px;
+  }
+
+  .thiep[data-skin="botanical"] .cp-parents {
+    display: none;
+  }
+
+  .thiep[data-skin="botanical"] .cp-person::before {
+    width: 64px;
+    height: 20px;
+  }
+
+  .thiep[data-skin="botanical"] .count-grid > div {
+    width: 70px;
+    height: 70px;
+  }
+
+  .thiep[data-skin="botanical"] .count-grid strong {
+    font-size: 26px;
+  }
+
+  .thiep[data-skin="botanical"] .count-grid span {
+    margin-top: 3px;
+    font-size: 8px;
+  }
+
+  .thiep[data-skin="botanical"] .invitation {
+    margin-inline: 12px;
+    padding: 50px 22px 30px;
+  }
+
+  .thiep[data-skin="botanical"] .families::after {
+    display: none;
+  }
+
+  .thiep[data-skin="botanical"] .album-grid--botanical li {
+    padding: 6px 6px 2px;
+    margin-bottom: 16px;
+  }
+
+  .thiep[data-skin="botanical"] .album-grid--botanical li::before {
+    width: 56px;
+    height: 18px;
+    top: -8px;
+  }
+
+  .thiep[data-skin="botanical"] .album-cap {
+    font-size: 17px;
+  }
+
+  .thiep[data-skin="botanical"] .recovery-copy {
+    margin: -40px 10px 0;
+    padding: 34px 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thiep[data-skin="botanical"] * {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   ALBUM TỰ CHẠY — mỗi mẫu một kiểu (Photos.tsx)
+   ============================================================ */
+
+.deck-nav button,
+.cinema-thumbs button,
+.film-frame,
+.deck-card,
+.cinema-stage {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* ---------- Ngà Botanical: chồng polaroid ---------- */
+
+.deck {
+  margin-top: 20px;
+}
+
+.deck-stage {
+  position: relative;
+  width: min(400px, 82vw);
+  aspect-ratio: 4 / 5.3;
+  margin: 10px auto 0;
+}
+
+.deck-card {
+  --pos: 0;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 12px 0;
+  border: 0;
+  background: #fffdf8;
+  box-shadow: var(--paper-shadow, 0 18px 34px -22px rgba(41, 62, 46, 0.55));
+  transform: translate(calc(var(--pos) * 7px), calc(var(--pos) * 5px)) rotate(var(--r));
+  transition:
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.6s;
+}
+
+.deck-card:not(.is-top) {
+  pointer-events: none;
+}
+
+/* chỉ hiện 4 tấm trên cùng */
+.deck-card.is-hidden {
+  opacity: 0;
+}
+
+.deck-card.is-top {
+  transform: rotate(calc(var(--r) * 0.4));
+}
+
+.deck-card.is-out {
+  animation: deck-out 0.9s cubic-bezier(0.55, 0, 0.3, 1) both;
+}
+
+@keyframes deck-out {
+  0% {
+    transform: rotate(calc(var(--r) * 0.4));
+    z-index: 50;
+  }
+  45% {
+    transform: translate(70%, -6%) rotate(14deg);
+    z-index: 50;
+  }
+  55% {
+    z-index: 0;
+  }
+  100% {
+    transform: translate(calc(var(--pos) * 7px), calc(var(--pos) * 5px)) rotate(var(--r));
+    z-index: 0;
+  }
+}
+
+.deck-card img {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  object-fit: cover;
+}
+
+.deck-card .album-cap {
+  display: block;
+  padding: 10px 4px 12px;
+  font-family: var(--font-script), cursive;
+  font-size: 24px;
+  line-height: 1.2;
+  color: var(--t-muted);
+}
+
+.deck-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.deck-nav > button {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--t-line);
+  border-radius: 50%;
+  background: var(--t-bg);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.deck-nav .flow-dots {
+  margin: 0;
+}
+
+/* ---------- Đêm Sao: trình chiếu điện ảnh ---------- */
+
+.cinema {
+  max-width: 980px;
+  margin: 20px auto 0;
+}
+
+.cinema-stage {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--t-accent) 40%, transparent);
+  border-radius: 22px;
+  background: var(--t-paper);
+  box-shadow: 0 0 80px -30px color-mix(in srgb, var(--t-accent) 55%, transparent);
+}
+
+.cinema-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.cinema-slide.is-on {
+  opacity: 1;
+}
+
+.cinema-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cinema.is-running .cinema-slide.is-on img {
+  animation: cinema-zoom calc(var(--autoplay) + 0.9s) linear both;
+}
+
+@keyframes cinema-zoom {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.cinema-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--t-bg) 85%, transparent));
+  pointer-events: none;
+}
+
+.cinema-count {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--t-bg) 60%, transparent);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  color: var(--t-accent);
+}
+
+.cinema-cap {
+  --cap-delay: 0.15s;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 22px;
+  font-family: var(--t-font-script);
+  font-size: clamp(26px, 3.6vw, 38px);
+  color: var(--t-fg);
+  text-shadow: 0 2px 16px var(--t-bg);
+  animation: ph-rise 0.8s var(--cap-delay) cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.cinema-thumbs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 4px;
+}
+
+.cinema-thumbs button {
+  flex: none;
+  width: 58px;
+  height: 58px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 12px;
+  opacity: 0.45;
+  transition: opacity 0.3s, box-shadow 0.3s;
+}
+
+.cinema-thumbs button[aria-selected="true"] {
+  opacity: 1;
+  box-shadow: 0 0 0 2px var(--t-bg), 0 0 0 3.5px var(--t-accent);
+}
+
+.cinema-thumbs img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- Tối Giản: dải phim ---------- */
+
+.film {
+  --frame: min(380px, 70vw);
+  --gap: 18px;
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+.film-track {
+  display: flex;
+  width: max-content;
+  gap: var(--gap);
+  padding-left: calc(50% - var(--frame) / 2);
+  transform: translateX(calc(var(--i) * -1 * (var(--frame) + var(--gap))));
+  transition: transform 0.9s cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+.film-frame {
+  flex: 0 0 var(--frame);
+  width: var(--frame);
+  min-width: var(--frame);
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  opacity: 0.35;
+  filter: grayscale(0.6);
+  transition: opacity 0.6s, filter 0.6s;
+}
+
+.film-frame.is-on {
+  opacity: 1;
+  filter: none;
+}
+
+.film-frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.film-frame .album-no {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.film-bar {
+  height: 1px;
+  max-width: 900px;
+  margin: 26px auto 0;
+  background: var(--t-line);
+}
+
+.film-bar span {
+  display: block;
+  height: 100%;
+  background: var(--t-fg);
+  transition: width 0.9s cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+.thiep[data-skin="toi-gian"] .ed-sec .film {
+  margin-inline: -28px;
+}
+
+@media (max-width: 760px) {
+  .cinema-stage {
+    aspect-ratio: 4 / 5;
+    border-radius: 16px;
+  }
+
+  .cinema-thumbs {
+    justify-content: flex-start;
+  }
+
+  .thiep[data-skin="toi-gian"] .ed-sec .film {
+    margin-inline: -20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deck-card,
+  .film-track,
+  .cinema-slide {
+    transition: none;
+  }
+
+  .deck-card.is-out,
+  .cinema-slide img {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   TỐI GIẢN — "số tạp chí cưới": cột nhãn mục, chữ cực lớn,
+   khối lệch, dải chữ chạy, tên kết thiệp tràn trang.
+   ============================================================ */
+
+.thiep[data-skin="toi-gian"] {
+  --ed-max: 1180px;
+  --ed-rail: 210px;
+  --outline: 1px var(--t-fg);
+}
+
+/* Ẩn hoạ tiết căn giữa không hợp bố cục tạp chí */
+.thiep[data-skin="toi-gian"] .ed-sec .orn,
+.thiep[data-skin="toi-gian"] footer .orn--footer {
+  display: none;
+}
+
+/* ---------- Khung mục: cột nhãn + nội dung ---------- */
+
+.ed-sec {
+  display: grid;
+  grid-template-columns: var(--ed-rail) minmax(0, 1fr);
+  column-gap: clamp(24px, 4vw, 64px);
+  max-width: var(--ed-max);
+  margin-inline: auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+  border-top: 1px solid var(--t-fg);
+}
+
+.ed-rail {
+  position: sticky;
+  top: 24px;
+  align-self: start;
+  display: grid;
+  gap: 6px;
+  padding-top: 34px;
+}
+
+.ed-no {
+  font-family: var(--t-font-heading);
+  font-size: clamp(64px, 7vw, 104px);
+  font-weight: 300;
+  line-height: 0.85;
+  color: transparent;
+  -webkit-text-stroke: var(--outline);
+  letter-spacing: -0.02em;
+}
+
+.ed-label {
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--t-muted);
+}
+
+.ed-body {
+  min-width: 0;
+}
+
+.thiep[data-skin="toi-gian"] .ed-body > section,
+.thiep[data-skin="toi-gian"] .ed-body > .section {
+  max-width: none;
+  margin: 0;
+  padding: 40px 0 80px;
+  text-align: left;
+}
+
+.thiep[data-skin="toi-gian"] .ed-body :is(.script, .sec-title, h2) {
+  text-align: left;
+}
+
+.thiep[data-skin="toi-gian"] .ed-body .sec-title,
+.thiep[data-skin="toi-gian"] .ed-body > section > h2 {
+  margin: 4px 0 30px;
+  font-size: clamp(34px, 4.6vw, 64px);
+  line-height: 1.02;
+}
+
+.thiep[data-skin="toi-gian"] .ed-body .script {
+  font-size: 15px;
+  color: var(--t-muted);
+}
+
+.thiep[data-skin="toi-gian"] .ed-body > section > .script:first-child {
+  margin-bottom: 8px;
+}
+
+/* ---------- Đếm ngược: con số khổng lồ ---------- */
+
+.cd-line {
+  max-width: var(--ed-max, 1180px);
+  margin: 0 auto;
+  padding: 80px clamp(20px, 4vw, 48px) 60px;
+  text-align: left;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  column-gap: 28px;
+}
+
+.cd-kicker {
+  grid-column: 1 / -1;
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--t-muted);
+}
+
+.cd-big {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.cd-big b {
+  font-family: var(--t-font-heading);
+  font-size: clamp(150px, 26vw, 360px);
+  font-weight: 300;
+  line-height: 0.78;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--t-fg);
+}
+
+.cd-big span {
+  padding-bottom: 0.4em;
+  font-family: var(--t-font-heading);
+  font-size: clamp(20px, 2.6vw, 36px);
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cd-small {
+  display: grid;
+  gap: 4px;
+  align-self: end;
+  justify-self: end;
+  padding-bottom: 14px;
+  text-align: right;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--t-muted);
+}
+
+.cd-small b {
+  font-weight: 400;
+  font-size: 22px;
+  letter-spacing: 0.02em;
+  color: var(--t-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.cd-meta {
+  grid-column: 1 / -1;
+  margin-top: 26px;
+  padding-top: 16px;
+  border-top: 1px solid var(--t-line);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--t-muted);
+}
+
+/* ---------- Dải chữ chạy ---------- */
+
+.ed-marquee {
+  overflow: hidden;
+  padding: 18px 0;
+  border-block: 1px solid var(--t-fg);
+  background: var(--t-fg);
+  color: var(--t-bg);
+}
+
+.ed-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: ed-marquee 38s linear infinite;
+}
+
+.ed-marquee span {
+  flex: none;
+  padding-right: 32px;
+  font-family: var(--t-font-heading);
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.ed-marquee i {
+  font-family: var(--t-font-body);
+  font-style: italic;
+  text-transform: none;
+}
+
+.ed-marquee em {
+  font-style: normal;
+  font-size: 0.5em;
+  vertical-align: middle;
+  padding: 0 0.8em;
+  opacity: 0.6;
+}
+
+@keyframes ed-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- Cô dâu & chú rể: hai ảnh lệch, chồng nhau ---------- */
+
+.ed-sec--couple .cp-pair {
+  position: relative;
+  display: grid;
+  grid-template-columns: 7fr 5fr;
+  align-items: start;
+  gap: 0;
+  margin-top: 10px;
+}
+
+.ed-sec--couple .cp-person {
+  display: grid;
+  gap: 16px;
+}
+
+.ed-sec--couple .cp-person:first-child .cp-frame {
+  aspect-ratio: 4 / 5;
+}
+
+.ed-sec--couple .cp-person:last-child {
+  margin-top: 160px;
+  margin-left: -60px;
+  position: relative;
+  z-index: 1;
+}
+
+.ed-sec--couple .cp-person:last-child .cp-frame {
+  aspect-ratio: 3 / 4;
+  border: 10px solid var(--t-bg);
+}
+
+.ed-sec--couple .cp-person:last-child .cp-copy {
+  padding-left: 10px;
+}
+
+.ed-sec--couple .cp-name {
+  font-size: clamp(34px, 4.4vw, 60px);
+  line-height: 1;
+}
+
+.ed-sec--couple .cp-amp {
+  position: absolute;
+  left: 55%;
+  top: 38%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  font-family: var(--t-font-body);
+  font-style: italic;
+  font-size: clamp(120px, 16vw, 220px);
+  line-height: 1;
+  color: var(--t-bg);
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+/* ---------- Lời mời: trích dẫn lớn ---------- */
+
+.ed-sec--families .families {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  max-width: none;
+  margin: 10px 0 46px;
+  border-top: 1px solid var(--t-line);
+}
+
+.ed-sec--families .family {
+  padding: 20px 20px 22px 0;
+  border: 0;
+  border-bottom: 1px solid var(--t-line);
+}
+
+.ed-sec--families .family + .family {
+  padding-left: 24px;
+  border-left: 1px solid var(--t-line);
+}
+
+.thiep[data-skin="toi-gian"] .ed-sec--families .invitation h2 {
+  display: grid;
+  justify-items: start;
+  margin: 18px 0;
+  font-size: clamp(44px, 6.4vw, 96px);
+  line-height: 0.98;
+}
+
+.thiep[data-skin="toi-gian"] .ed-sec--families .invitation h2 .script {
+  display: block;
+  margin: 6px 0 4px;
+  font-family: var(--t-font-body);
+  font-style: italic;
+  font-size: 0.32em;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.ed-sec--families .invitation > p:last-of-type {
+  max-width: 720px;
+  margin-top: 34px;
+  padding-left: 20px;
+  border-left: 2px solid var(--t-fg);
+  font-family: var(--t-font-body);
+  font-style: italic;
+  font-size: clamp(20px, 2.2vw, 26px);
+  line-height: 1.5;
+}
+
+.ed-sec--families .fine-rule {
+  display: none;
+}
+
+/* ---------- Ngày cưới: ngày tháng cỡ lớn ---------- */
+
+.ed-sec--eventTable .ev-table {
+  max-width: none;
+}
+
+.ed-sec--eventTable .ev-table li {
+  grid-template-columns: minmax(200px, auto) minmax(0, 1fr) auto;
+  gap: 36px;
+  padding: 34px 0;
+}
+
+.ed-sec--eventTable .ev-t-date b {
+  font-size: clamp(64px, 8vw, 116px);
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+}
+
+.ed-sec--eventTable .ev-t-date span {
+  display: block;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.ed-sec--eventTable .ev-t-body h3 {
+  font-size: 28px;
+}
+
+/* ---------- Lịch trình: giờ to, hàng thoáng ---------- */
+
+.thiep[data-skin="toi-gian"] .ed-sec--timeline .timeline li {
+  grid-template-columns: 150px minmax(0, 1fr) minmax(0, 1fr);
+  padding: 22px 0;
+}
+
+.thiep[data-skin="toi-gian"] .ed-sec--timeline .timeline time {
+  font-size: clamp(30px, 3.4vw, 44px);
+  line-height: 1;
+}
+
+.ed-sec--timeline .timeline li:hover {
+  background: color-mix(in srgb, var(--t-fg) 4%, transparent);
+}
+
+/* ---------- Album: khung đầu bám trái ---------- */
+
+.ed-sec--album .film-track {
+  padding-left: 0;
+}
+
+.ed-sec--album .film {
+  --frame: min(360px, 62vw);
+  margin-inline: 0 calc(-1 * clamp(20px, 4vw, 48px));
+}
+
+.ed-sec--album .film-frame {
+  opacity: 0.55;
+  filter: grayscale(1);
+}
+
+.ed-sec--album .film-frame.is-on {
+  opacity: 1;
+  filter: none;
+}
+
+/* ---------- Dress code: dải màu như bảng Pantone ---------- */
+
+.ed-sec--dress .dress h3 {
+  font-family: var(--t-font-heading) !important;
+  font-size: clamp(26px, 3vw, 38px);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.ed-sec--dress .dress > p:not(.script) {
+  margin: 12px 0 0;
+  max-width: 520px;
+}
+
+.ed-sec--dress .palette {
+  justify-content: flex-start;
+  gap: 0;
+  margin-top: 30px;
+}
+
+.ed-sec--dress .palette span {
+  width: min(120px, 18%);
+  height: 180px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--t-fg) 15%, transparent);
+}
+
+.ed-sec--dress .fine-rule {
+  display: none;
+}
+
+/* ---------- Mừng cưới: hai tấm vé cạnh nhau ---------- */
+
+.thiep[data-skin="toi-gian"] .ed-sec--gifts .gift-frame {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  text-align: left;
+}
+
+.ed-sec--gifts .gift-frame > p.script {
+  max-width: 560px;
+  margin: 0 0 30px;
+  font-size: 17px;
+}
+
+.ed-sec--gifts .gift-accounts {
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.ed-sec--gifts .gift-account {
+  position: relative;
+  padding: 26px 24px;
+  border: 1px solid var(--t-fg);
+  background: none;
+  text-align: left;
+}
+
+.ed-sec--gifts .gift-account::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -9px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border-left: 1px solid var(--t-fg);
+  background: var(--t-bg);
+  transform: translateY(-50%);
+}
+
+.ed-sec--gifts .gift-number {
+  margin: 10px 0 6px;
+  font-family: var(--t-font-heading);
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 300;
+}
+
+.ed-sec--gifts .copy-btn {
+  border-color: var(--t-fg);
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 11px;
+}
+
+/* ---------- Hỏi đáp ---------- */
+
+.ed-sec--faq .faq-item button {
+  font-family: var(--t-font-heading);
+  font-size: clamp(18px, 2vw, 22px);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Kết thiệp: tên tràn trang ---------- */
+
+.thiep[data-skin="toi-gian"] footer {
+  padding: 90px clamp(20px, 4vw, 48px) 40px;
+  border-top: 1px solid var(--t-fg);
+}
+
+.thiep[data-skin="toi-gian"] footer h2 {
+  display: grid;
+  margin: 26px 0 30px;
+  font-size: clamp(60px, 12vw, 190px);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.thiep[data-skin="toi-gian"] footer h2 i {
+  display: block;
+  font-family: var(--t-font-body);
+  font-size: 0.6em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: var(--outline);
+}
+
+/* ---------- Điện thoại ---------- */
+
+@media (max-width: 760px) {
+  .ed-sec {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+  }
+
+  .ed-rail {
+    position: static;
+    grid-auto-flow: column;
+    justify-content: start;
+    align-items: end;
+    gap: 14px;
+    padding-top: 26px;
+  }
+
+  .ed-no {
+    font-size: 54px;
+  }
+
+  .ed-label {
+    padding-bottom: 6px;
+  }
+
+  .thiep[data-skin="toi-gian"] .ed-body > section,
+  .thiep[data-skin="toi-gian"] .ed-body > .section {
+    padding: 22px 0 56px;
+  }
+
+  .cd-line {
+    grid-template-columns: 1fr;
+    padding-top: 60px;
+  }
+
+  .cd-small {
+    grid-auto-flow: column;
+    justify-self: start;
+    gap: 18px;
+    text-align: left;
+    padding: 18px 0 0;
+  }
+
+  .ed-sec--couple .cp-pair {
+    grid-template-columns: 7fr 5fr;
+  }
+
+  .ed-sec--couple .cp-person:last-child {
+    margin-top: 90px;
+    margin-left: -34px;
+  }
+
+  .ed-sec--couple .cp-person:last-child .cp-frame {
+    border-width: 6px;
+  }
+
+  .ed-sec--couple .cp-name {
+    font-size: 26px;
+  }
+
+  .ed-sec--couple .cp-parents {
+    display: none;
+  }
+
+  .ed-sec--couple .cp-amp {
+    font-size: 110px;
+    top: 30%;
+  }
+
+  .ed-sec--families .families {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ed-sec--families .invitation > p:last-of-type br {
+    display: none;
+  }
+
+  .ed-sec--families .family {
+    padding-right: 10px;
+  }
+
+  .ed-sec--families .family + .family {
+    padding-left: 12px;
+  }
+
+  .ed-sec--eventTable .ev-table li {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .thiep[data-skin="toi-gian"] .ed-sec--timeline .timeline li {
+    grid-template-columns: 90px minmax(0, 1fr);
+  }
+
+  .thiep[data-skin="toi-gian"] .ed-sec--timeline .timeline time {
+    font-size: 26px;
+  }
+
+  .ed-sec--album .film {
+    margin-right: -20px;
+  }
+
+  .ed-sec--dress .palette span {
+    height: 120px;
+  }
+
+  .ed-sec--gifts .gift-accounts {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-marquee-track {
+    animation: none;
+  }
+}
+
+/* ---------- Đêm Sao: bìa ảnh sáng hơn, tên xếp từng dòng ---------- */
+
+.thiep[data-skin="dem-sao"] .ph--dem-sao .ph-bg {
+  filter: brightness(0.9) saturate(0.95);
+  object-position: 50% 18%;
+}
+
+.thiep[data-skin="dem-sao"] .ph-shade {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--t-bg) 50%, transparent) 0%, transparent 20%, transparent 34%, color-mix(in srgb, var(--t-bg) 78%, transparent) 54%, color-mix(in srgb, var(--t-bg) 94%, transparent) 70%, var(--t-bg) 100%);
+}
+
+.thiep[data-skin="dem-sao"] .ph-names-stack {
+  display: grid;
+  justify-items: center;
+  gap: 0;
+  margin: 10px 0 16px;
+  line-height: 1;
+}
+
+.thiep[data-skin="dem-sao"] .ph-names-stack .ph-n {
+  display: block;
+  padding: 0;
+  font-family: var(--t-font-heading);
+  font-size: clamp(46px, 6.4vw, 84px);
+  white-space: nowrap;
+}
+
+.thiep[data-skin="dem-sao"] .ph-names-stack .ph-amp {
+  display: block;
+  margin: 2px 0;
+  font-family: var(--t-font-script);
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1;
+  padding: 0;
+}
+
+.thiep[data-skin="dem-sao"] .ph--dem-sao .ph-copy {
+  padding-bottom: 70px;
+}
+
+.hero.is-open .ph--dem-sao .ph-names-stack .ph-n:first-child {
+  animation: ph-from-left 1.4s 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero.is-open .ph--dem-sao .ph-names-stack .ph-n:last-child {
+  animation: ph-from-right 1.4s 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero.is-open .ph--dem-sao .ph-names-stack .ph-amp {
+  animation: ph-stamp 1s 1.6s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+}
+
+/* ============================================================
+   ĐÊM SAO v2 — "dạ tiệc dưới trời sao": tấm thiệp sáng nổi trên nền đêm,
+   ảnh cài trong phong bì, khối tiệc gộp, hộp quà chạm để mở.
+   ============================================================ */
+
+.cover-names,
+.cover-date {
+  display: none;
+}
+
+/* Nền đêm có sao, cố định khi cuộn */
+.thiep[data-skin="dem-sao"] {
+  background:
+    radial-gradient(1.2px 1.2px at 12% 18%, color-mix(in srgb, var(--t-accent) 80%, transparent), transparent 60%),
+    radial-gradient(1px 1px at 78% 12%, color-mix(in srgb, var(--t-fg) 70%, transparent), transparent 60%),
+    radial-gradient(1.4px 1.4px at 44% 64%, color-mix(in srgb, var(--t-accent) 70%, transparent), transparent 60%),
+    radial-gradient(1px 1px at 88% 72%, color-mix(in srgb, var(--t-fg) 60%, transparent), transparent 60%),
+    radial-gradient(1px 1px at 24% 86%, color-mix(in srgb, var(--t-fg) 60%, transparent), transparent 60%),
+    radial-gradient(60% 40% at 50% 0%, color-mix(in srgb, var(--t-accent) 12%, transparent), transparent 70%),
+    var(--t-bg);
+  background-size: 420px 520px, 380px 460px, 520px 600px, 460px 540px, 400px 480px, 100% 100%, 100% 100%;
+  background-attachment: fixed;
+}
+
+/* ---------- Tấm thiệp sáng: đổi bộ màu cục bộ để chữ tối trên nền kem ---------- */
+
+.ds-panel {
+  --t-bg: color-mix(in srgb, var(--t-cover-fg) 92%, white);
+  --t-paper: color-mix(in srgb, var(--t-cover-fg) 80%, white);
+  --t-fg: var(--t-cover);
+  --t-muted: color-mix(in srgb, var(--t-cover) 62%, var(--t-cover-fg));
+  --t-accent: color-mix(in srgb, var(--accent-ink, #8a6a2a) 100%, transparent);
+  --t-line: color-mix(in srgb, var(--t-cover) 22%, var(--t-cover-fg));
+  position: relative;
+  max-width: 620px;
+  margin-inline: auto;
+  padding: 54px clamp(22px, 5vw, 48px) 46px;
+  border-radius: 20px;
+  background:
+    radial-gradient(80% 60% at 50% 0%, rgba(255, 255, 255, 0.6), transparent 70%),
+    var(--t-bg);
+  color: var(--t-fg);
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.75), 0 0 0 1px color-mix(in srgb, var(--t-cover-fg) 60%, transparent);
+  text-align: center;
+}
+
+/* viền kép ánh kim + sao ở bốn góc */
+.ds-panel::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid #b8955a;
+  border-radius: 12px;
+  outline: 1px solid color-mix(in srgb, #b8955a 45%, transparent);
+  outline-offset: 4px;
+  pointer-events: none;
+}
+
+.ds-panel::after {
+  content: "✦";
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 10px;
+  background: var(--t-bg);
+  color: #b8955a;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.thiep[data-skin="dem-sao"] .ds-panel .sec-title,
+.thiep[data-skin="dem-sao"] .ds-panel h2 {
+  color: var(--t-fg);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: clamp(22px, 3vw, 28px);
+}
+
+.thiep[data-skin="dem-sao"] .ds-panel .eyebrow {
+  color: var(--t-muted);
+}
+
+/* Lời mời gia đình (section .invitation) thành tấm thiệp */
+.thiep[data-skin="dem-sao"] .invitation {
+  --t-bg: color-mix(in srgb, var(--t-cover-fg) 92%, white);
+  --t-fg: var(--t-cover);
+  --t-muted: color-mix(in srgb, var(--t-cover) 62%, var(--t-cover-fg));
+  --t-line: color-mix(in srgb, var(--t-cover) 22%, var(--t-cover-fg));
+  position: relative;
+  max-width: 620px;
+  margin: 70px auto 0;
+  padding: 60px clamp(22px, 5vw, 48px) 50px;
+  border: 0;
+  border-radius: 20px;
+  background: var(--t-bg);
+  color: var(--t-fg);
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.75);
+}
+
+.thiep[data-skin="dem-sao"] .invitation::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid #b8955a;
+  border-radius: 12px;
+  outline: 1px solid color-mix(in srgb, #b8955a 45%, transparent);
+  outline-offset: 4px;
+  pointer-events: none;
+}
+
+.thiep[data-skin="dem-sao"] .invitation::after {
+  display: none;
+}
+
+.thiep[data-skin="dem-sao"] .invitation > .script:first-child {
+  font-family: var(--t-font-heading);
+  font-style: normal;
+  font-size: 22px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--t-fg);
+}
+
+.thiep[data-skin="dem-sao"] .invitation .families {
+  position: relative;
+}
+
+.thiep[data-skin="dem-sao"] .invitation .families::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 16%;
+  bottom: 16%;
+  border-left: 1px solid var(--t-line);
+}
+
+.thiep[data-skin="dem-sao"] .invitation .family {
+  border: 0;
+}
+
+.thiep[data-skin="dem-sao"] .invitation h2 {
+  display: grid;
+  margin: 22px 0;
+  font-family: var(--t-font-script);
+  font-size: clamp(46px, 7vw, 66px);
+  line-height: 1.1;
+  color: var(--t-fg);
+}
+
+.thiep[data-skin="dem-sao"] .invitation h2 .script {
+  font-family: var(--t-font-heading);
+  font-size: 30px;
+  color: #b8955a;
+}
+
+.thiep[data-skin="dem-sao"] .invitation .guest-inline {
+  color: #8a6a2a;
+}
+
+/* Thẻ sự kiện cũng là thiệp sáng */
+.thiep[data-skin="dem-sao"] .ev-card {
+  --t-fg: var(--t-cover);
+  --t-muted: color-mix(in srgb, var(--t-cover) 62%, var(--t-cover-fg));
+  --t-line: color-mix(in srgb, var(--t-cover) 22%, var(--t-cover-fg));
+  --t-accent: #8a6a2a;
+  background: color-mix(in srgb, var(--t-cover-fg) 92%, white);
+  color: var(--t-fg);
+  backdrop-filter: none;
+  border: 0;
+  box-shadow: 0 30px 60px -36px rgba(0, 0, 0, 0.8);
+}
+
+.thiep[data-skin="dem-sao"] .ev-card::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid #b8955a;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.thiep[data-skin="dem-sao"] .ev-card .text-link {
+  color: var(--t-fg);
+  border-color: var(--t-line);
+}
+
+/* ---------- Bìa đóng: tấm thiệp nhỏ giữa trời sao ---------- */
+
+.thiep[data-skin="dem-sao"] .envelope-copy {
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  width: min(330px, calc(100% - 48px));
+  padding: 34px 26px 30px;
+  transform: translate(-50%, -50%);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--t-cover-fg) 94%, white);
+  color: var(--t-cover);
+  box-shadow: 0 50px 90px -30px rgba(0, 0, 0, 0.85), 0 0 80px -20px color-mix(in srgb, var(--t-accent) 45%, transparent);
+}
+
+.thiep[data-skin="dem-sao"] .envelope-copy::before {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border: 1px solid #b8955a;
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+.thiep[data-skin="dem-sao"] .envelope-copy .seal {
+  order: -2;
+  width: 76px;
+  height: 76px;
+  margin: 0 0 14px;
+}
+
+.thiep[data-skin="dem-sao"] .envelope-copy .seal > span {
+  font-size: 18px;
+}
+
+.thiep[data-skin="dem-sao"] .cover-names {
+  order: -1;
+  display: grid;
+  margin: 0;
+  font-family: var(--t-font-heading);
+  font-size: 34px;
+  line-height: 1.1;
+  color: var(--t-cover);
+}
+
+.thiep[data-skin="dem-sao"] .cover-names i {
+  font-family: var(--t-font-script);
+  font-style: normal;
+  font-size: 26px;
+  color: #b8955a;
+}
+
+.thiep[data-skin="dem-sao"] .cover-date {
+  order: -1;
+  display: block;
+  margin: 10px 0 18px;
+  padding-top: 12px;
+  border-top: 1px solid color-mix(in srgb, #b8955a 50%, transparent);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--t-cover) 70%, white);
+}
+
+.thiep[data-skin="dem-sao"] .envelope-copy > .script,
+.thiep[data-skin="dem-sao"] .envelope-copy .eyebrow {
+  color: color-mix(in srgb, var(--t-cover) 70%, white);
+}
+
+.thiep[data-skin="dem-sao"] .envelope-copy > .script {
+  margin-bottom: 4px;
+  font-size: 18px;
+}
+
+.thiep[data-skin="dem-sao"] .envelope-copy .guest-name {
+  margin-bottom: 10px;
+  font-size: clamp(32px, 7vw, 40px);
+  color: var(--t-cover);
+}
+
+.thiep[data-skin="dem-sao"] .envelope-copy .eyebrow {
+  font-size: 10px;
+}
+
+.thiep[data-skin="dem-sao"] .open-invitation {
+  margin-top: 18px;
+  padding: 12px 26px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--t-cover);
+  color: var(--t-cover-fg);
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- Bìa mở: ảnh cài trong phong bì ---------- */
+
+.thiep[data-skin="dem-sao"] .hero.has-photo {
+  background: transparent;
+}
+
+.thiep[data-skin="dem-sao"] .hero.has-photo .hero-paper {
+  background: transparent;
+}
+
+.thiep[data-skin="dem-sao"] .ph--dem-sao {
+  position: relative;
+  inset: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px 90px;
+  overflow: visible;
+  text-align: center;
+}
+
+.thiep[data-skin="dem-sao"] .ph--dem-sao .ph-stars {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 60%;
+  pointer-events: none;
+}
+
+.ph-std {
+  position: relative;
+  font-family: var(--t-font-heading);
+  font-size: 15px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--t-fg);
+}
+
+.ph-env {
+  position: relative;
+  width: min(400px, 88vw);
+  aspect-ratio: 400 / 330;
+  margin-top: 26px;
+}
+
+.ph-env-back {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 66%;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--t-cover) 80%, black);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
+}
+
+.ph-env-photo {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  top: 0;
+  height: 82%;
+  margin: 0;
+  padding: 8px;
+  background: #fffdf8;
+  transform: rotate(4deg);
+  transform-origin: 50% 100%;
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.8);
+}
+
+.ph-env-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 20%;
+}
+
+.ph-env-front {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 58%;
+  filter: drop-shadow(0 -6px 14px rgba(0, 0, 0, 0.35));
+}
+
+.ph-env-seal {
+  position: absolute;
+  left: 50%;
+  top: 72%;
+  width: 62px;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.5));
+}
+
+.ph-env-moon {
+  position: absolute;
+  top: -10px;
+  right: -14px;
+  width: 64px;
+}
+
+.ph-big-names {
+  position: relative;
+  display: grid;
+  margin: 46px 0 20px;
+  font-family: var(--t-font-heading);
+  font-size: clamp(44px, 7vw, 76px);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--t-fg);
+}
+
+.ph-big-names span {
+  position: relative;
+  z-index: 1;
+}
+
+.ph-big-names i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -52%);
+  font-family: var(--t-font-script);
+  font-style: normal;
+  font-size: 2.3em;
+  text-transform: none;
+  color: var(--t-accent);
+  opacity: 0.35;
+}
+
+.thiep[data-skin="dem-sao"] .ph--dem-sao .hero-date {
+  color: var(--t-accent);
+  letter-spacing: 0.16em;
+}
+
+/* hoạt ảnh khi mở */
+.hero.is-open .ph--dem-sao .ph-std {
+  animation: ph-tracking 1.4s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero.is-open .ph-env {
+  animation: ph-rise 1.2s 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero.is-open .ph-env-photo {
+  animation: env-photo 1.6s 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes env-photo {
+  from {
+    transform: translateY(44%) rotate(0);
+  }
+  to {
+    transform: rotate(4deg);
+  }
+}
+
+.hero.is-open .ph-big-names span:first-child {
+  animation: ph-from-left 1.3s 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero.is-open .ph-big-names span:nth-child(2) {
+  animation: ph-from-right 1.3s 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero.is-open .ph-big-names i {
+  animation: ph-fade 1.6s 2s both;
+}
+
+.hero.is-open .ph--dem-sao .hero-date,
+.hero.is-open .ph--dem-sao > .script {
+  animation: ph-rise 1s 2.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ---------- Khối tiệc cưới ---------- */
+
+.party {
+  max-width: 700px;
+  padding-inline: 16px;
+}
+
+.party-kicker {
+  margin-top: -6px;
+  font-family: var(--t-font-heading);
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.party .ev-date b {
+  font-size: 64px;
+}
+
+.party-times {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin: 22px 0 6px;
+  font-family: var(--t-font-heading);
+  font-size: 24px;
+}
+
+.party-times span {
+  display: block;
+  margin-bottom: 2px;
+  font-family: var(--t-font-body);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a6a2a;
+}
+
+.party-count-label {
+  margin-top: 26px;
+  font-family: var(--t-font-heading);
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #8a6a2a;
+}
+
+.party-count {
+  margin-top: 4px;
+  font-size: 17px;
+  color: var(--t-muted);
+}
+
+.party-count b {
+  font-family: var(--t-font-heading);
+  font-size: 24px;
+  font-weight: 400;
+  color: var(--t-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.party .cal-card {
+  margin-top: 26px;
+  background: #fff;
+  border-color: var(--t-line);
+}
+
+.party .cal-month {
+  color: var(--t-fg);
+  border-color: var(--t-fg);
+  font-family: var(--t-font-script);
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.party .cal-grid .is-day svg {
+  fill: var(--t-cover);
+}
+
+.party .cal-grid .is-day i {
+  color: #fff;
+}
+
+.party-venue {
+  display: grid;
+  gap: 4px;
+  margin-top: 26px;
+  font-family: var(--t-font-heading);
+  font-size: 20px;
+}
+
+.party-venue span {
+  font-family: var(--t-font-body);
+  font-size: 14px;
+  color: var(--t-muted);
+}
+
+.party .venue-links {
+  margin-top: 16px;
+}
+
+.party .text-link {
+  color: var(--t-fg);
+  border-color: var(--t-line);
+}
+
+/* ---------- Lịch trình: trục dọc giữa, sao phát sáng ---------- */
+
+.thiep[data-skin="dem-sao"] .timeline {
+  max-width: 640px;
+}
+
+.thiep[data-skin="dem-sao"] .timeline ol {
+  display: block;
+  position: relative;
+  max-width: 520px;
+  margin: 40px auto 0;
+  overflow: visible;
+}
+
+.thiep[data-skin="dem-sao"] .timeline ol::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 6px;
+  bottom: 6px;
+  border-left: 1px solid color-mix(in srgb, var(--t-accent) 55%, transparent);
+}
+
+.thiep[data-skin="dem-sao"] .timeline li {
+  display: grid;
+  grid-template-columns: 1fr 40px 1fr;
+  align-items: start;
+  min-height: 0;
+  padding: 12px 0 24px;
+  text-align: left;
+}
+
+.thiep[data-skin="dem-sao"] .timeline li::after {
+  content: "✦";
+  position: static;
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  border: 0;
+  color: var(--t-accent);
+  font-size: 18px;
+  line-height: 1.4;
+  text-shadow: 0 0 12px var(--t-accent);
+}
+
+.thiep[data-skin="dem-sao"] .timeline-icon {
+  display: none;
+}
+
+.thiep[data-skin="dem-sao"] .timeline-copy {
+  display: contents;
+}
+
+.thiep[data-skin="dem-sao"] .timeline time {
+  grid-column: 1;
+  grid-row: 1;
+  padding-right: 14px;
+  text-align: right;
+  font-family: var(--t-font-heading);
+  font-size: 22px;
+  color: var(--t-accent);
+}
+
+.thiep[data-skin="dem-sao"] .timeline-copy h3 {
+  grid-column: 3;
+  grid-row: 1;
+  margin: 0;
+  padding-left: 14px;
+  font-size: 19px;
+}
+
+.thiep[data-skin="dem-sao"] .timeline-copy p {
+  grid-column: 3;
+  padding-left: 14px;
+  font-size: 13px;
+  color: var(--t-muted);
+}
+
+/* ---------- Hộp quà ---------- */
+
+.giftbox {
+  max-width: 720px;
+}
+
+.gb-wrap {
+  margin-top: 20px;
+}
+
+.gb-box {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  margin: 0 auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--t-muted);
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.gb-box svg {
+  width: min(220px, 56vw);
+  overflow: visible;
+  filter: drop-shadow(0 0 30px color-mix(in srgb, var(--t-accent) 35%, transparent));
+  animation: gb-bob 3s ease-in-out infinite;
+}
+
+.gb-lid {
+  transform-box: fill-box;
+  transform-origin: 0% 100%;
+  transition: transform 0.8s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+.gb-wrap.is-open .gb-lid {
+  transform: translate(-18px, -40px) rotate(-24deg);
+}
+
+.gb-wrap.is-open .gb-box svg {
+  animation: none;
+}
+
+@keyframes gb-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-1.5deg);
+  }
+}
+
+.gb-accounts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 18px;
+  margin-top: 26px;
+  animation: ph-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.gb-accounts[hidden] {
+  display: none;
+}
+
+.gb-card {
+  padding: 40px 22px 30px;
+}
+
+.gb-card .gift-number {
+  margin: 10px 0 4px;
+  font-family: var(--t-font-heading);
+  font-size: 26px;
+  letter-spacing: 0.04em;
+}
+
+.gb-card .copy-btn {
+  border-color: var(--t-fg);
+  color: var(--t-fg);
+}
+
+.gb-card .copy-btn:hover {
+  background: var(--t-fg);
+  color: var(--t-bg);
+}
+
+/* ---------- Phần khác trên nền đêm ---------- */
+
+.thiep[data-skin="dem-sao"] .couple--dem-sao {
+  padding-top: 90px;
+}
+
+.thiep[data-skin="dem-sao"] .dress h3 {
+  color: var(--t-accent);
+}
+
+@media (max-width: 640px) {
+  .thiep[data-skin="dem-sao"] .ph--dem-sao {
+    padding-top: 40px;
+  }
+
+  .party-times {
+    gap: 30px;
+    font-size: 21px;
+  }
+
+  .party .ev-date b {
+    font-size: 54px;
+  }
+
+  .thiep[data-skin="dem-sao"] .timeline li {
+    grid-template-columns: 70px 30px 1fr;
+  }
+
+  .thiep[data-skin="dem-sao"] .invitation {
+    margin-inline: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gb-box svg {
+    animation: none;
+  }
+}
+
+/* ---------- Đêm Sao v2: sửa chồng quy tắc cũ ---------- */
+
+.thiep[data-skin="dem-sao"] .ph-big-names,
+.hero.is-open .ph--dem-sao .ph-big-names {
+  animation: none;
+  text-shadow: none;
+  letter-spacing: 0.04em;
+}
+
+.thiep[data-skin="dem-sao"] .ph-big-names span {
+  padding: 0;
+  font-family: var(--t-font-heading);
+  font-size: 1em;
+}
+
+.thiep[data-skin="dem-sao"] .hero.has-photo:has(.ph--dem-sao) {
+  height: auto;
+  min-height: 0;
+}
+
+.thiep[data-skin="dem-sao"] .invitation .families {
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.thiep[data-skin="dem-sao"] .timeline li {
+  justify-items: stretch;
+  flex: none;
+}
+
+.thiep[data-skin="dem-sao"] .timeline li::after {
+  top: auto;
+  left: auto;
+  right: auto;
+  z-index: 1;
+}
+
+.thiep[data-skin="dem-sao"] footer h2 {
+  display: grid;
+  justify-items: center;
+  line-height: 1.05;
+}
+
+.thiep[data-skin="dem-sao"] footer h2 i {
+  font-family: var(--t-font-script);
+  font-size: 0.7em;
+}
+
+@media (max-width: 640px) {
+  .thiep[data-skin="dem-sao"] .timeline ol::before {
+    left: 85px;
   }
 }

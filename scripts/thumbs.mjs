@@ -21,12 +21,21 @@ const W = 430;
 const H = 764; // tỉ lệ ~ 9:16 như màn hình điện thoại
 const SCALE = 1.5;
 
+/** "lua-do-xanh-ngoc" → ["lua-do", "xanh-ngoc"], dựa trên danh sách dòng mẫu trong registry. */
+let FAMILY_IDS = [];
+function splitId(id) {
+  const f = FAMILY_IDS.filter((x) => id.startsWith(`${x}-`)).sort((a, b) => b.length - a.length)[0];
+  if (!f) throw new Error(`Không rõ mẫu của mã "${id}"`);
+  return [f, id.slice(f.length + 1)];
+}
+
 /** Đọc danh sách mã mẫu "ready" từ registry (không cần chạy TypeScript). */
 function readyTemplateIds() {
   const src = readFileSync(join(process.cwd(), "src/lib/templates/registry.ts"), "utf8");
   const ids = [];
   for (const block of src.split(/\n  \{\n    id: "/).slice(1)) {
     const family = block.slice(0, block.indexOf('"'));
+    FAMILY_IDS.push(family);
     if (!/status: "ready"/.test(block.slice(0, block.indexOf("variants:")))) continue;
     const variants = block.slice(block.indexOf("variants:"));
     for (const m of variants.matchAll(/\n {8}id: "([^"]+)"/g)) ids.push(`${family}-${m[1]}`);
@@ -37,7 +46,8 @@ function readyTemplateIds() {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function main() {
-  const ids = process.argv.slice(2).length ? process.argv.slice(2) : readyTemplateIds();
+  const all = readyTemplateIds();
+  const ids = process.argv.slice(2).length ? process.argv.slice(2) : all;
   if (!ids.length) throw new Error("Không tìm thấy mẫu nào.");
   mkdirSync(OUT, { recursive: true });
 
@@ -77,12 +87,13 @@ async function main() {
     await send("Emulation.setDeviceMetricsOverride", { width: W, height: H, deviceScaleFactor: SCALE, mobile: true });
 
     for (const id of ids) {
-      await send("Page.navigate", { url: `${BASE}/mau-thiep/${id}/demo` });
+      const [family, variant] = splitId(id);
+      await send("Page.navigate", { url: `${BASE}/mau-thiep/${family}/demo?mau=${variant}` });
       await sleep(3500);
       await run(`(async () => {
         // Ẩn phần không thuộc thiệp: nút nhạc, lớp dev của Next, hiệu ứng nền, nút "Khám phá".
         const css = document.createElement("style");
-        css.textContent = ".wedding-music, nextjs-portal, .ambient, .discover, .desktop-nav { display: none !important; }";
+        css.textContent = ".wedding-music, nextjs-portal, .ambient, .discover, .desktop-nav, .demo-bar { display: none !important; }";
         document.head.append(css);
         // Bìa chụp toàn khung (không viền lề desktop) và tải ngay mọi ảnh ở bìa.
         css.textContent += " .hero { max-width: none !important; } .hero.has-photo, .hero { height: 100svh !important; min-height: 0 !important; }";

@@ -55,6 +55,18 @@ export type TemplateVariant = {
   isNew?: boolean;
 };
 
+/** Nhạc nền của mẫu — mọi bản đều có giấy phép cho phép dùng kèm ghi nguồn. */
+export type TemplateMusic = { src: string; title: string; artist: string; url: string; license: string; licenseUrl: string };
+
+export const DEFAULT_MUSIC: TemplateMusic = {
+  src: "/thiep/audio/canon-in-d-major-web.mp3",
+  title: "Canon in D Major",
+  artist: "Kevin MacLeod",
+  url: "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100301",
+  license: "CC BY 3.0",
+  licenseUrl: "https://creativecommons.org/licenses/by/3.0/",
+};
+
 export type TemplateFamily = {
   id: string;
   name: string;
@@ -65,6 +77,8 @@ export type TemplateFamily = {
   /** Hiện ở section Kho mẫu trên trang chủ. */
   featured?: boolean;
   tagline: string;
+  /** Bố cục riêng của mẫu (components/invitation/Layout.tsx) — hiện ở trang chi tiết. */
+  layout: string;
   /** Hiệu ứng mở thiệp + hiệu ứng nền — hiện ở trang chi tiết. */
   motion: string;
   tags: string[];
@@ -72,6 +86,8 @@ export type TemplateFamily = {
   highlights: string[];
   occasions: string[];
   fonts: TemplateFonts;
+  /** Nhạc nền riêng; thiếu thì dùng DEFAULT_MUSIC. */
+  music?: TemplateMusic;
   faqs: { q: string; a: string }[];
   variants: TemplateVariant[];
 };
@@ -133,13 +149,14 @@ export const FAMILIES: TemplateFamily[] = [
     status: "ready",
     featured: true,
     tagline: "Màu nước · Cổ điển",
+    layout: "Cổ điển đối xứng: bìa tranh màu nước với ảnh oval, chân dung dán so le, khung sự kiện vẽ tay, album xếp so le.",
     motion: "Đôi cánh cửa mở ra, lá xanh bay nhẹ suốt thiệp",
     tags: ["Màu nước", "Vẽ tay", "Sân vườn"],
     description:
       "Nền giấy ngà ấm, tranh màu nước vẽ tay: nến, hoa, khu vườn và lâu đài nhỏ. Mở thiệp bằng đôi cánh cửa và con dấu sáp — sang trọng mà vẫn nhẹ nhàng, hợp tiệc cưới sân vườn hay nhà hàng.",
     highlights: ["Tranh màu nước vẽ tay ở mọi phần thiệp", "Mở thiệp bằng cánh cửa và dấu sáp", "Lịch trình kèm minh hoạ từng hoạt động", "Bố cục thoáng, đọc dễ trên điện thoại"],
     occasions: ["Lễ Thành Hôn", "Tiệc cưới sân vườn", "Nhà hàng"],
-    fonts: { heading: "cormorant", body: "cormorant", script: "cormorant" },
+    fonts: { heading: "cormorant", body: "cormorant", script: "great-vibes" },
     faqs: [
       { q: "Tranh trong thiệp có đổi được không?", a: "Tranh màu nước là phần đặc trưng của mẫu nên được giữ nguyên. Bạn đổi được toàn bộ chữ, ngày giờ, địa điểm và màu biến thể." },
       { q: "Mẫu có hợp tiệc trong nhà hàng không?", a: "Có. Tông ngà và xanh rêu trung tính, hợp cả tiệc sân vườn lẫn sảnh nhà hàng." },
@@ -169,12 +186,21 @@ export const FAMILIES: TemplateFamily[] = [
     status: "ready",
     featured: true,
     tagline: "Song Hỷ · Truyền thống",
+    layout: "Truyền thống: báo hỷ hai họ hai bên chữ Hỷ, lịch tháng trái tim, thẻ sự kiện dải đỏ, băng chuyền ảnh tự chạy, lịch trình trục giữa.",
     motion: "Phong bì lụa lật nắp, dấu son chữ Hỷ, cánh hoa đỏ rơi",
     tags: ["Chữ Hỷ", "Truyền thống", "Ánh kim"],
     description:
       "Sắc lụa và chữ Song Hỷ ánh kim — đúng tinh thần thiệp cưới Việt mà ông bà, cha mẹ quen thuộc, nhưng gọn gàng và hiện đại trên màn hình. Mở thiệp bằng phong bì có dấu son chữ Hỷ.",
     highlights: ["Phong bì lụa với dấu son 囍", "Hoạ tiết mây cát tường làm vạch chia", "Ghi rõ ngày âm lịch", "Lời mời theo vai vế từng khách"],
     occasions: ["Lễ Vu Quy", "Lễ Thành Hôn", "Lễ ăn hỏi"],
+    music: {
+      src: "/thiep/audio/guzheng-city-web.mp3",
+      title: "Guzheng City",
+      artist: "Kevin MacLeod",
+      url: "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN2100001",
+      license: "CC BY 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    },
     fonts: { heading: "playfair", body: "lora", script: "pinyon" },
     faqs: [
       { q: "Chữ Song Hỷ mang ý nghĩa gì?", a: "Song Hỷ (囍) là hai chữ Hỷ ghép đôi, tượng trưng cho niềm vui nhân đôi của hai gia đình — biểu tượng quen thuộc nhất trong đám cưới Á Đông." },
@@ -211,6 +237,7 @@ export const FAMILIES: TemplateFamily[] = [
     status: "ready",
     featured: true,
     tagline: "Hiện đại · Tạp chí",
+    layout: "Tạp chí: bìa chia đôi ảnh/chữ, các mục đánh số 01, 02…, đếm ngược một dòng chữ lớn, bảng sự kiện và lịch trình dạng hàng.",
     motion: "Hai trang tách dọc như lật tạp chí, ảnh lướt ra từ một bên",
     tags: ["Typography", "Tạp chí", "Ít hoạ tiết"],
     description:
@@ -264,6 +291,7 @@ export const FAMILIES: TemplateFamily[] = [
     status: "ready",
     featured: true,
     tagline: "Lãng mạn · Ánh kim",
+    layout: "Điện ảnh: bìa ảnh tràn viền, đếm ngược phát sáng mở màn, thẻ sự kiện kính mờ, lịch trình chòm sao nằm ngang, ảnh polaroid.",
     motion: "Bầu trời sao tan dần, sao băng thỉnh thoảng lướt qua",
     tags: ["Ánh kim", "Tiệc tối", "Sao lấp lánh"],
     description:
@@ -298,6 +326,7 @@ export const FAMILIES: TemplateFamily[] = [
     tier: "tieu-chuan",
     status: "soon",
     tagline: "Dịu dàng · Thuần Việt",
+    layout: "Đang hoàn thiện",
     motion: "Đang hoàn thiện",
     tags: ["Hoa sen", "Thuần Việt"],
     description: "Đoá sen hồng giữa nền phấn nhạt — nét thuần Việt dịu dàng, thanh khiết. Hợp tiệc báo hỷ ấm cúng.",
@@ -322,6 +351,7 @@ export const FAMILIES: TemplateFamily[] = [
     tier: "tieu-chuan",
     status: "soon",
     tagline: "Thanh nhã · Á Đông",
+    layout: "Đang hoàn thiện",
     motion: "Đang hoàn thiện",
     tags: ["Trúc", "Á Đông"],
     description: "Những nhành trúc xanh khẽ đung đưa — biểu tượng của sự bền bỉ, thanh cao. Tinh thần Á Đông nhã nhặn.",
@@ -368,8 +398,24 @@ export const resolveTemplate = (id: string | undefined | null): TemplateRef =>
  */
 export const thumbOf = (t: TemplateRef) => (t.family.status === "ready" ? `/thiep/thumbs/${t.id}.jpg` : undefined);
 
+const familyIndex = new Map(FAMILIES.map((f) => [f.id, f]));
+export const findFamily = (id: string | undefined | null) => (id ? familyIndex.get(id) : undefined);
+
+/** Một mẫu = một dòng mẫu; màu chỉ là tuỳ chọn bên trong. */
+export const variantRef = (f: TemplateFamily, variantId?: string | null): TemplateRef =>
+  index.get(`${f.id}-${variantId}`) ?? index.get(`${f.id}-${f.variants[0].id}`)!;
+
+/** Trang của một mẫu; `variant` (nếu có) là màu được chọn sẵn. */
+export const familyHref = (f: TemplateFamily, variant?: string) =>
+  `/mau-thiep/${f.id}${variant && variant !== f.variants[0].id ? `?mau=${variant}` : ""}`;
+
 export const familyDefault = (f: TemplateFamily): TemplateRef => index.get(`${f.id}-${f.variants[0].id}`)!;
-export const templateHref = (id: string) => `/mau-thiep/${id}`;
+/** Link tới trang mẫu từ mã đầy đủ (dòng mẫu + màu). */
+export const templateHref = (id: string) => {
+  const t = index.get(id);
+  return t ? familyHref(t.family, t.variant.id) : `/mau-thiep/${id}`;
+};
+export const musicOf = (f: TemplateFamily) => f.music ?? DEFAULT_MUSIC;
 export const priceOf = (f: TemplateFamily) => PRICE_TIERS[f.tier];
 export const groupLabel = (g: ThemeGroup) => THEME_GROUPS.find((x) => x.id === g)?.label ?? "";
 
