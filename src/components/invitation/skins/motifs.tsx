@@ -313,6 +313,106 @@ export function Ampersand({ className = "" }: P) {
   );
 }
 
+/* ---------------- Sen Hồng (thuần Việt) ----------------
+   Màu do CSS quyết định qua các lớp lotus-* (xem skins.css, phần "Sen Hồng"):
+   cánh hoa theo --t-accent, lá sen theo --sen-leaf, nét viền theo --sen-ink. */
+
+/** Một đoá sen nở nhìn chính diện, tâm đáy tại (0, 0), cao khoảng 64 đơn vị. */
+function LotusBloom({ x = 0, y = 0, s = 1 }: { x?: number; y?: number; s?: number }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`} className="lotus-bloom">
+      {/* cánh đế nằm ngang */}
+      <path className="lotus-petal lotus-petal--back" d="M0 2 C -16 6 -34 3 -42 -4 C -28 -9 -12 -7 0 2 Z" />
+      <path className="lotus-petal lotus-petal--back" d="M0 2 C 16 6 34 3 42 -4 C 28 -9 12 -7 0 2 Z" />
+      {/* cánh ngoài */}
+      <path className="lotus-petal lotus-petal--outer" d="M-2 0 C -26 0 -42 -16 -46 -32 C -30 -30 -12 -18 -2 0 Z" />
+      <path className="lotus-petal lotus-petal--outer" d="M2 0 C 26 0 42 -16 46 -32 C 30 -30 12 -18 2 0 Z" />
+      {/* cánh giữa */}
+      <path className="lotus-petal lotus-petal--mid" d="M0 0 C -20 -8 -28 -30 -22 -48 C -10 -38 -2 -20 0 0 Z" />
+      <path className="lotus-petal lotus-petal--mid" d="M0 0 C 20 -8 28 -30 22 -48 C 10 -38 2 -20 0 0 Z" />
+      {/* cánh chính giữa */}
+      <path className="lotus-petal lotus-petal--front" d="M0 -62 C 13 -44 13 -16 0 0 C -13 -16 -13 -44 0 -62 Z" />
+      <path className="lotus-vein" d="M0 -54 V -8 M-15 -40 C -12 -26 -6 -12 -2 -4 M15 -40 C 12 -26 6 -12 2 -4" />
+    </g>
+  );
+}
+
+/** Nụ sen trên cuống cong. */
+function LotusBud({ x = 0, y = 0, s = 1, bend = 1 }: { x?: number; y?: number; s?: number; bend?: number }) {
+  return (
+    <g transform={`translate(${x} ${y}) scale(${s})`} className="lotus-budg">
+      <path className="lotus-stem" d={`M0 0 C ${-6 * bend} 30 ${4 * bend} 60 ${-2 * bend} 96`} />
+      <path className="lotus-petal lotus-petal--mid" d="M0 2 C -12 -6 -14 -22 0 -40 C 14 -22 12 -6 0 2 Z" />
+      <path className="lotus-petal lotus-petal--front" d="M0 2 C -6 -8 -6 -24 0 -40 C 6 -24 6 -8 0 2 Z" />
+      <path className="lotus-petal lotus-petal--outer" d="M0 2 C -10 0 -16 -8 -16 -16 C -8 -12 -3 -6 0 2 Z" />
+    </g>
+  );
+}
+
+/** Lá sen nhìn nghiêng: hình bầu dục có khía, gân toả từ tâm. */
+function LotusPad({ x = 0, y = 0, s = 1, r = 0 }: { x?: number; y?: number; s?: number; r?: number }) {
+  return (
+    <g transform={`translate(${x} ${y}) rotate(${r}) scale(${s})`}>
+      <path className="lotus-leaf" d="M-4 -2 L -50 -6 C -56 4 -40 18 0 18 C 40 18 58 6 52 -8 C 40 -16 14 -18 4 -14 Z" />
+      <path className="lotus-leaf-vein" d="M0 0 L -44 -2 M0 0 L -30 12 M0 0 L 0 16 M0 0 L 30 12 M0 0 L 46 -4 M0 0 L 26 -14" />
+    </g>
+  );
+}
+
+/** Cụm sen trang trí góc: lá sen, đoá sen nở và nụ sen. Đặt ở góc dưới trái; lật bằng CSS cho các góc khác. */
+export function LotusCluster({ className = "" }: P) {
+  return (
+    <svg {...svg("0 0 220 200", className)}>
+      <path className="lotus-stem" d="M78 150 C 74 120 82 100 86 84" />
+      <path className="lotus-stem" d="M138 172 C 146 140 150 108 160 64" />
+      <LotusPad x={70} y={176} s={1.25} r={-4} />
+      <LotusPad x={170} y={186} s={0.8} r={8} />
+      <LotusBloom x={86} y={150} s={1.05} />
+      <LotusBud x={160} y={64} s={0.9} bend={-0.6} />
+      <circle className="lotus-dot" cx="196" cy="40" r="2.4" />
+      <circle className="lotus-dot" cx="30" cy="74" r="1.8" />
+    </svg>
+  );
+}
+
+/** Vạch chia: một đoá sen nhỏ giữa hai đường kẻ, hai vòng sóng nước. */
+export function LotusDivider({ className = "" }: P) {
+  return (
+    <svg {...svg("0 0 400 70", className)}>
+      <path className="lotus-line" d="M24 52 H150 M250 52 H376" />
+      <path className="lotus-ripple" d="M150 58 C 175 64 225 64 250 58 M168 64 C 185 68 215 68 232 64" />
+      <circle className="lotus-dot" cx="24" cy="52" r="2.2" />
+      <circle className="lotus-dot" cx="376" cy="52" r="2.2" />
+      <LotusBloom x={200} y={56} s={0.62} />
+    </svg>
+  );
+}
+
+/** Con dấu tròn viền cánh sen — nền cho chữ lồng trên bìa. */
+export function LotusSeal({ className = "" }: P) {
+  const petals = Array.from({ length: 16 }, (_, i) => i * 22.5);
+  return (
+    <svg {...svg("0 0 120 120", className)}>
+      <g transform="translate(60 60)">
+        {petals.map((a) => (
+          <path key={a} className="lotus-seal-petal" d="M0 -58 C 8 -50 8 -42 0 -36 C -8 -42 -8 -50 0 -58 Z" transform={`rotate(${a})`} />
+        ))}
+        <circle className="lotus-seal-disc" r="42" />
+        <circle className="lotus-seal-ring" r="37" />
+      </g>
+    </svg>
+  );
+}
+
+/** Sóng nước mảnh dưới chân bìa. */
+export function LotusRipples({ className = "" }: P) {
+  return (
+    <svg {...svg("0 0 400 40", className)}>
+      <path className="lotus-ripple" d="M40 14 C 120 4 280 4 360 14 M90 24 C 150 18 250 18 310 24 M140 32 C 180 29 220 29 260 32" />
+    </svg>
+  );
+}
+
 /* ---------------- Biểu tượng lịch trình (nét mảnh) ---------------- */
 
 export function TimelineGlyph({ name, className = "" }: P & { name: string }) {

@@ -4,7 +4,7 @@ import type { SkinId } from "@/lib/templates/registry";
 
 /**
  * Hiệu ứng nền chạy sau khi mở thiệp — mỗi skin một kiểu:
- * Song Hỷ: cánh hoa đỏ/vàng rơi · Ngà: lá xanh bay · Đêm Sao: sao băng thỉnh thoảng lướt qua.
+ * Song Hỷ: cánh hoa đỏ/vàng rơi · Ngà: lá xanh bay · Sen Hồng: cánh sen hồng rơi · Đêm Sao: sao băng thỉnh thoảng lướt qua.
  * Giá trị cố định (không random) để server và trình duyệt render giống nhau.
  * Tắt hoàn toàn khi người xem bật "giảm chuyển động".
  */
@@ -16,7 +16,7 @@ const DRIFT: [number, number, number, number, number, number][] = [
   [87, 15, 6.6, 14, 40, 190], [95, 19, 3.7, 10, -80, -250], [21, 20, 11.5, 9, 30, 170], [73, 21, 13, 11, -30, -150],
 ];
 
-function Petals({ kind }: { kind: "petal" | "leaf" }) {
+function Petals({ kind }: { kind: "petal" | "leaf" | "lotus" }) {
   return (
     <div className={`ambient ambient--${kind}`} aria-hidden="true">
       {DRIFT.map(([x, dur, delay, size, dx, rot], i) => (
@@ -34,7 +34,12 @@ function Petals({ kind }: { kind: "petal" | "leaf" }) {
             } as React.CSSProperties
           }
         >
-          {kind === "leaf" ? (
+          {kind === "lotus" ? (
+            <svg viewBox="0 0 14 24">
+              <path d="M7 0 C 13 7 13 17 7 24 C 1 17 1 7 7 0 Z" />
+              <path d="M7 4 V 20" className="vein" />
+            </svg>
+          ) : kind === "leaf" ? (
             <svg viewBox="0 0 26 12">
               <path d="M0 6 C 6 -2 18 -2 26 6 C 18 14 6 14 0 6 Z" />
               <path d="M1 6 H 24" className="vein" />
@@ -72,6 +77,7 @@ function ShootingStars() {
 export function Ambient({ skin, active }: { skin: SkinId; active: boolean }) {
   if (!active) return null;
   if (skin === "song-hy") return <Petals kind="petal" />;
+  if (skin === "sen") return <Petals kind="lotus" />;
   if (skin === "botanical") return <Petals kind="leaf" />;
   if (skin === "dem-sao") return <ShootingStars />;
   return null;

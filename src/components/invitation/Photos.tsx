@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { dateParts, longDate, lunar, mainEvent } from "@/lib/wedding/format";
 import type { Person, Photo, Wedding } from "@/lib/wedding/types";
-import { useSkin } from "./skins";
+import { Ornament, useSkin } from "./skins";
 import { Crescent, HyGlyph, StarField, StarSeal } from "./skins/motifs";
 
 /** Ảnh có bản nhỏ 640px nếu là ảnh tĩnh của site (…/anh-01.jpg → …/anh-01-640.jpg). */
@@ -57,6 +57,23 @@ function StarSealMini() {
   );
 }
 
+/** Ngày dạng "Chủ nhật | 27 | Tháng 12", năm và ngày âm lịch bên dưới (Sen Hồng). */
+export function DateBar({ iso, time }: { iso: string; time?: string }) {
+  const d = dateParts(iso);
+  return (
+    <div className="sen-date">
+      {time && <p className="sen-date-time">{time}</p>}
+      <p className="sen-date-bar">
+        <span>{d.weekday}</span>
+        <b>{String(d.d).padStart(2, "0")}</b>
+        <span>Tháng {String(d.m).padStart(2, "0")}</span>
+      </p>
+      <p className="sen-date-year">{d.y}</p>
+      <p className="sen-date-lunar">({lunar(iso)})</p>
+    </div>
+  );
+}
+
 export function hasPhotoHero(w: Wedding) {
   return Boolean(w.photos?.cover);
 }
@@ -66,13 +83,31 @@ export function PhotoHero({ w }: { w: Wedding }) {
   const cover = w.photos.cover!;
   const main = mainEvent(w);
 
-  // Ngà: giữ khung tranh màu nước, thêm ảnh cưới trong khung oval viền kép.
-  if (skin === "botanical")
+  // Ngà: tấm thiệp giấy kem — ảnh cưới rút ra từ phong bì, dấu sáp chữ lồng, hoa lá màu nước hai bên.
+  if (skin === "botanical") {
+    const [m1, m2] = w.monogram.split("&").map((s) => s.trim());
     return (
       <div className="ph ph--botanical">
-        <figure className="ph-oval">
-          <Img photo={cover} sizes="240px" eager />
-        </figure>
+        <span className="ph-bot-side ph-bot-side--l" aria-hidden="true" />
+        <span className="ph-bot-side ph-bot-side--r" aria-hidden="true" />
+        <p className="ph-std">Save the date</p>
+        <div className="ph-env ph-env--bot">
+          <span className="ph-env-back" aria-hidden="true" />
+          <figure className="ph-env-photo">
+            <Img photo={cover} sizes="(max-width: 640px) 70vw, 300px" eager />
+          </figure>
+          <svg className="ph-env-front" viewBox="0 0 400 220" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0 0 L200 120 L400 0 V220 H0 Z" fill="var(--t-paper)" />
+            <path d="M0 0 L200 120 L400 0" fill="none" stroke="var(--t-accent)" strokeWidth="1.2" opacity=".55" />
+            <path d="M0 220 L168 106 M400 220 L232 106" fill="none" stroke="var(--t-line)" strokeWidth=".9" opacity=".7" />
+          </svg>
+          <span className="ph-env-sprig" aria-hidden="true" />
+          <span className="ph-env-wax" aria-hidden="true">
+            {m1}
+            <i>&amp;</i>
+            {m2}
+          </span>
+        </div>
         <div className="hero-copy">
           <p className="eyebrow">Lễ thành hôn của</p>
           <h1>
@@ -83,6 +118,7 @@ export function PhotoHero({ w }: { w: Wedding }) {
         </div>
       </div>
     );
+  }
 
   if (skin === "song-hy")
     return (
@@ -136,6 +172,26 @@ export function PhotoHero({ w }: { w: Wedding }) {
         </h1>
         <p className="hero-date">{longDate(main.start)}</p>
         <p className="script">{lunar(main.start)}</p>
+      </div>
+    );
+
+  // Sen Hồng: ảnh trong khung vòm cánh sen giữa hai cụm sen, ngày cưới dạng "thứ | ngày | tháng".
+  if (skin === "sen")
+    return (
+      <div className="ph ph--sen">
+        <p className="ph-sen-kicker">Trân trọng báo tin vui</p>
+        <div className="ph-sen-stage">
+          <figure className="ph-sen-arch">
+            <Img photo={cover} sizes="(max-width: 640px) 72vw, 340px" eager />
+          </figure>
+          <Ornament slot="hero" />
+        </div>
+        <h1 className="ph-sen-names">
+          <span>{w.groom.short}</span>
+          <i>&amp;</i>
+          <span>{w.bride.short}</span>
+        </h1>
+        <DateBar iso={main.start} />
       </div>
     );
 
@@ -265,6 +321,8 @@ const AUTOPLAY_MS = 3800;
 const COVERFLOW_MS = 2400;
 /** Trình chiếu Đêm Sao. */
 const CINEMA_MS = 2600;
+/** Sen Hồng: ảnh chuyển chậm, mờ dần như sương trên hồ. */
+const LOTUS_MS = 4200;
 
 /**
  * Băng chuyền ảnh: ảnh ở giữa to và thẳng, hai bên nghiêng vào trong (Song Hỷ).
@@ -524,6 +582,50 @@ function PolaroidDeck({ photos, onOpen, paused }: { photos: Photo[]; onOpen: (i:
 }
 
 /** Đêm Sao: trình chiếu điện ảnh — ảnh mờ dần chuyển cảnh, phóng chậm, chú thích viết tay. */
+/** Sen Hồng: một khung vòm cánh sen, ảnh mờ dần sang ảnh kế, số thứ tự và hàng ảnh nhỏ bên dưới. */
+function LotusArch({ photos, onOpen, paused }: { photos: Photo[]; onOpen: (i: number) => void; paused: boolean }) {
+  const { index, go, running, bind } = useAutoplay(photos.length, paused, LOTUS_MS);
+  const p = photos[index];
+  return (
+    <div className={`lotus-album${running ? " is-running" : ""}`} {...bind}>
+      <div className="lotus-album-stage">
+        <button type="button" className="lotus-album-nav" onClick={() => go(index - 1)} aria-label="Ảnh trước">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 5 L8 12 L15 19" />
+          </svg>
+        </button>
+        <button type="button" className="lotus-album-arch" onClick={() => onOpen(index)} aria-label={`Xem lớn ảnh ${index + 1}`}>
+          {photos.map((ph, i) => (
+            <span key={ph.src + i} className={`lotus-album-slide${i === index ? " is-on" : ""}`} aria-hidden={i !== index}>
+              <Img photo={ph} sizes="(max-width: 640px) 76vw, 420px" eager={Math.abs(i - index) <= 1} />
+            </span>
+          ))}
+        </button>
+        <button type="button" className="lotus-album-nav" onClick={() => go(index + 1)} aria-label="Ảnh kế tiếp">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M9 5 L16 12 L9 19" />
+          </svg>
+        </button>
+      </div>
+      <p className="lotus-album-count">
+        <b>{String(index + 1).padStart(2, "0")}</b> / {String(photos.length).padStart(2, "0")}
+      </p>
+      {p.alt && (
+        <p key={index} className="lotus-album-cap">
+          {p.alt}
+        </p>
+      )}
+      <div className="lotus-album-thumbs" role="tablist" aria-label="Chọn ảnh">
+        {photos.map((ph, i) => (
+          <button key={ph.src + i} type="button" role="tab" aria-selected={i === index} aria-label={`Ảnh ${i + 1}`} onClick={() => go(i)}>
+            <Img photo={ph} sizes="64px" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function CinemaSlides({ photos, onOpen, paused }: { photos: Photo[]; onOpen: (i: number) => void; paused: boolean }) {
   const { index, go, running, bind } = useAutoplay(photos.length, paused, CINEMA_MS);
   const p = photos[index];
@@ -599,6 +701,8 @@ export function Album({ w }: { w: Wedding }) {
       <CinemaSlides photos={photos} onOpen={setOpen} paused={paused} />
     ) : skin === "toi-gian" ? (
       <Filmstrip photos={photos} onOpen={setOpen} paused={paused} />
+    ) : skin === "sen" ? (
+      <LotusArch photos={photos} onOpen={setOpen} paused={paused} />
     ) : (
       <PolaroidDeck photos={photos} onOpen={setOpen} paused={paused} />
     );
@@ -646,6 +750,7 @@ export function CoupleIntro({ w }: { w: Wedding }) {
       <p className="script">Chuyện của chúng mình</p>
       <h2 className="sec-title">Cô dâu &amp; chú rể</h2>
       <div className="cp-pair">
+        <Ornament slot="coupleDecor" />
         <Portrait person={w.groom} photo={w.photos.groom} role="Chú rể" parents={parents(fGroom)} />
         <span className="cp-amp" aria-hidden="true">
           &amp;

@@ -539,16 +539,18 @@
   object-fit: cover;
 }
 
-/* --- Ngà: ảnh oval giữa khung tranh màu nước --- */
+/* --- Ngà: tấm thiệp giấy kem, ảnh cưới rút ra từ phong bì --- */
 
 .hero.has-photo:has(.ph--botanical) {
-  height: min(900px, calc(100svh - 74px));
-  min-height: 640px;
+  height: auto;
+  min-height: min(900px, calc(100svh - 74px));
 }
 
 .hero.has-photo .hero-paper:has(.ph--botanical) {
-  display: grid;
-  place-items: center;
+  position: relative;
+  display: block;
+  background:
+    radial-gradient(ellipse at 50% 32%, color-mix(in srgb, var(--t-bg) 60%, white) 0%, var(--t-bg) 55%, var(--t-paper) 100%);
 }
 
 .ph--botanical {
@@ -557,61 +559,165 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: clamp(130px, 19vh, 190px);
-  padding-bottom: 150px;
+  padding: 56px 20px 170px;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* hoa lá màu nước ở hai góc trên, mép cắt thẳng của ảnh áp sát mép thiệp, nhạt dần xuống dưới */
+.ph-bot-side {
+  position: absolute;
+  top: 0;
+  height: 62%;
+  width: 92px;
+  background: url("/thiep/images/floral-side.webp") left top / 100% auto repeat-y;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 30%, transparent 100%);
+  pointer-events: none;
+}
+
+.ph-bot-side--l {
+  left: 0;
+}
+
+.ph-bot-side--r {
+  right: 0;
+  transform: scaleX(-1);
+}
+
+.ph--botanical .ph-std {
+  font-size: 13px;
+  letter-spacing: 0.42em;
+  color: var(--t-accent);
+}
+
+.ph--botanical .ph-env--bot {
+  width: min(340px, 76vw);
+  margin-top: 22px;
+}
+
+.ph-env--bot .ph-env-back {
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--t-paper) 82%, var(--t-line));
+  box-shadow: 0 26px 44px -26px rgba(40, 55, 40, 0.55);
+}
+
+.ph-env--bot .ph-env-photo {
+  left: 17%;
+  right: 17%;
+  padding: 7px 7px 7px;
+  background: #fffdf9;
+  transform: rotate(-3deg);
+  box-shadow: 0 16px 30px -18px rgba(40, 55, 40, 0.6);
+}
+
+.ph-env--bot .ph-env-photo img {
+  object-position: 50% 30%;
+}
+
+.ph-env--bot .ph-env-front {
+  filter: drop-shadow(0 -4px 10px rgba(40, 55, 40, 0.18));
+}
+
+/* nhành hoa cài trên miệng phong bì */
+.ph-env-sprig {
+  position: absolute;
+  left: -2%;
+  top: 46%;
+  width: 46%;
+  aspect-ratio: 3 / 1;
+  background: url("/thiep/images/leafy-garland.webp") center / contain no-repeat;
+  transform: rotate(27deg);
+  transform-origin: 50% 50%;
+  pointer-events: none;
+}
+
+/* dấu sáp chữ lồng */
+.ph-env-wax {
+  position: absolute;
+  left: 50%;
+  top: 70%;
+  display: grid;
+  grid-auto-flow: column;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 46% 54% 50% 50% / 52% 48% 52% 48%;
+  background: radial-gradient(circle at 35% 30%, color-mix(in srgb, var(--t-accent) 70%, white) 0%, var(--t-accent) 45%, color-mix(in srgb, var(--t-accent) 70%, black) 100%);
+  box-shadow:
+    inset 0 0 0 4px color-mix(in srgb, var(--t-accent) 85%, black),
+    inset 0 0 0 5px color-mix(in srgb, var(--t-accent) 60%, white),
+    0 6px 12px -4px rgba(30, 40, 30, 0.55);
+  transform: translate(-50%, -50%);
+  font-family: var(--t-font-heading);
+  font-size: 20px;
+  line-height: 1;
+  color: color-mix(in srgb, var(--t-accent) 25%, white);
+}
+
+.ph-env-wax i {
+  margin: 0 1px;
+  font-size: 12px;
 }
 
 .ph--botanical .hero-copy {
-  padding-top: 18px;
+  position: relative;
+  padding-top: 30px;
 }
 
 .ph--botanical .hero-copy h1 {
-  margin: 12px 0;
-  font-size: clamp(38px, 4.6vw, 56px);
+  margin: 10px 0;
+  font-size: clamp(36px, 4.4vw, 52px);
+}
+
+.ph--botanical .hero-copy h1 span {
+  margin: 6px;
+  font-size: 22px;
 }
 
 .ph--botanical .hero-date {
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
-.ph-oval {
-  margin: 0;
-  width: clamp(150px, 21vh, 220px);
-  aspect-ratio: 3 / 4;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 5px solid var(--t-bg);
-  outline: 1px solid var(--t-accent);
-  outline-offset: 5px;
-  box-shadow: 0 0 0 9px color-mix(in srgb, var(--t-bg) 60%, transparent), 0 24px 40px -22px rgba(30, 50, 35, 0.55);
+/* hoạt ảnh khi mở: dùng chung ph-env của Đêm Sao, chỉ đổi góc nghiêng ảnh */
+.hero.is-open .ph-env--bot .ph-env-photo {
+  animation-name: env-photo-bot;
 }
 
-.ph-oval img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+@keyframes env-photo-bot {
+  from {
+    transform: translateY(44%) rotate(0);
+  }
+  to {
+    transform: rotate(-3deg);
+  }
 }
 
-.hero.is-open .ph--botanical .ph-oval {
-  animation: ph-reveal-up 1.4s 0.8s cubic-bezier(0.65, 0, 0.2, 1) both;
+.hero.is-open .ph--botanical .ph-std {
+  animation: ph-tracking 1.4s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.hero.is-open .ph--botanical .ph-oval img {
-  animation: ph-kenburns 2.8s 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+.hero.is-open .ph-env-wax {
+  animation: ph-fade 0.9s 1.5s both;
+}
+
+.hero.is-open .ph--botanical .hero-copy {
+  animation: ph-rise 1.1s 1.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @media (max-width: 640px) {
   .ph--botanical {
-    padding-top: 118px;
+    padding-top: 44px;
+    padding-bottom: 150px;
   }
 
-  .ph-oval {
-    width: 168px;
+  .ph-bot-side {
+    width: 58px;
   }
 
   .ph--botanical .hero-copy h1 {
-    font-size: 38px;
+    font-size: 36px;
   }
 }
 
@@ -4869,5 +4975,1002 @@
 @media (max-width: 640px) {
   .thiep[data-skin="dem-sao"] .timeline ol::before {
     left: 85px;
+  }
+}
+
+/* ============================================================
+   Sen Hồng — hoạ tiết sen vẽ riêng, khung vòm cánh sen, thanh ngày lớn
+   ============================================================ */
+
+.thiep[data-skin="sen"] {
+  --sen-leaf: color-mix(in srgb, #6d8f68 78%, var(--t-fg));
+  --sen-ink: color-mix(in srgb, var(--t-accent) 62%, var(--t-fg));
+}
+
+/* --- màu hoạ tiết sen (motifs.tsx) --- */
+.lotus-petal {
+  stroke: var(--sen-ink);
+  stroke-width: 0.9;
+  stroke-linejoin: round;
+}
+
+.lotus-petal--back {
+  fill: color-mix(in srgb, var(--t-accent) 30%, white);
+}
+
+.lotus-petal--outer {
+  fill: color-mix(in srgb, var(--t-accent) 50%, white);
+}
+
+.lotus-petal--mid {
+  fill: color-mix(in srgb, var(--t-accent) 72%, white);
+}
+
+.lotus-petal--front {
+  fill: var(--t-accent);
+}
+
+.lotus-vein {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-width: 0.8;
+  stroke-linecap: round;
+}
+
+.lotus-stem {
+  fill: none;
+  stroke: var(--sen-leaf);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+}
+
+.lotus-leaf {
+  fill: color-mix(in srgb, var(--sen-leaf) 72%, white);
+  stroke: var(--sen-leaf);
+  stroke-width: 1;
+  stroke-linejoin: round;
+}
+
+.lotus-leaf-vein {
+  fill: none;
+  stroke: color-mix(in srgb, var(--sen-leaf) 45%, white);
+  stroke-width: 0.8;
+  stroke-linecap: round;
+}
+
+.lotus-dot {
+  fill: var(--t-accent);
+}
+
+.lotus-line,
+.lotus-ripple {
+  fill: none;
+  stroke: var(--t-line);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.lotus-seal-petal {
+  fill: color-mix(in srgb, var(--t-accent) 55%, white);
+  stroke: var(--sen-ink);
+  stroke-width: 0.8;
+}
+
+.lotus-seal-disc {
+  fill: var(--t-cover-fg);
+}
+
+.lotus-seal-ring {
+  fill: none;
+  stroke: var(--t-accent);
+  stroke-width: 1;
+}
+
+/* --- vị trí cụm sen --- */
+.orn-lotus {
+  position: absolute;
+  width: clamp(150px, 24vw, 240px);
+}
+
+.orn-lotus--bl {
+  left: -6%;
+  bottom: -4%;
+}
+
+.orn-lotus--br {
+  right: -6%;
+  bottom: -4%;
+  transform: scaleX(-1);
+}
+
+.orn-lotus--tr {
+  right: -2%;
+  top: -2%;
+  transform: scale(-1, -1);
+}
+
+.orn-lotus--sm {
+  width: clamp(96px, 16vw, 150px);
+}
+
+/* --- chữ chung --- */
+.thiep[data-skin="sen"] h1,
+.thiep[data-skin="sen"] h2,
+.thiep[data-skin="sen"] h3 {
+  font-family: var(--t-font-heading);
+  font-weight: 400;
+}
+
+.thiep[data-skin="sen"] .sec-title,
+.thiep[data-skin="sen"] .timeline > h2,
+.thiep[data-skin="sen"] .dress h2,
+.thiep[data-skin="sen"] .faq > h2 {
+  font-size: clamp(24px, 4.6vw, 32px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--t-fg);
+}
+
+.thiep[data-skin="sen"] .script {
+  font-family: var(--t-font-script);
+  font-style: normal;
+  font-size: 1.5em;
+  line-height: 1.3;
+  color: var(--t-accent);
+}
+
+.thiep[data-skin="sen"] .eyebrow {
+  color: var(--t-accent);
+}
+
+.thiep[data-skin="sen"] .orn--countdownFoot,
+.thiep[data-skin="sen"] .orn--invitationFoot,
+.thiep[data-skin="sen"] .orn--dressTop {
+  width: min(320px, 80%);
+}
+
+/* --- bìa đóng: hai cánh cửa hồng thẫm, mở ra như cánh sen nở --- */
+.thiep[data-skin="sen"] .door {
+  background:
+    radial-gradient(ellipse at 50% 24%, color-mix(in srgb, var(--t-accent) 28%, var(--t-cover)) 0%, var(--t-cover) 62%),
+    var(--t-cover);
+  box-shadow: inset 0 0 80px color-mix(in srgb, var(--t-cover) 70%, black);
+  transition:
+    transform 2s cubic-bezier(0.65, 0, 0.2, 1),
+    opacity 1.6s 0.3s ease;
+}
+
+.thiep[data-skin="sen"] .door::after {
+  inset: 18px;
+  border-color: color-mix(in srgb, var(--t-cover-fg) 35%, transparent);
+  border-radius: 999px 999px 0 0 / 220px 220px 0 0;
+}
+
+.thiep[data-skin="sen"] .door-left {
+  transform-origin: 0% 100%;
+}
+
+.thiep[data-skin="sen"] .door-right {
+  transform-origin: 100% 100%;
+}
+
+.thiep[data-skin="sen"] .is-open .door-left {
+  transform: translateX(-30%) rotate(-24deg);
+  opacity: 0;
+}
+
+.thiep[data-skin="sen"] .is-open .door-right {
+  transform: translateX(30%) rotate(24deg);
+  opacity: 0;
+}
+
+.thiep[data-skin="sen"] .seal {
+  width: 140px;
+  height: 140px;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  box-shadow: none;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.35));
+}
+
+.thiep[data-skin="sen"] .seal .seal-art {
+  top: 0;
+  transform: none;
+}
+
+.thiep[data-skin="sen"] .seal > span {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--t-cover);
+  font-family: var(--t-font-heading);
+  font-size: 28px;
+  letter-spacing: 0;
+  padding: 0;
+}
+
+.thiep[data-skin="sen"] .seal small {
+  top: 0;
+  margin: 0 2px;
+  font-family: var(--t-font-script);
+  font-size: 20px;
+}
+
+/* --- bìa có ảnh --- */
+.thiep[data-skin="sen"] .hero.has-photo:has(.ph--sen) {
+  height: auto;
+  min-height: min(900px, calc(100svh - 74px));
+}
+
+.thiep[data-skin="sen"] .hero.has-photo .hero-paper:has(.ph--sen) {
+  position: relative;
+  display: block;
+}
+
+.ph--sen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px 70px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.ph-sen-kicker {
+  font-family: var(--t-font-heading);
+  font-size: 12px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--t-accent);
+}
+
+.ph-sen-stage {
+  position: relative;
+  margin-top: 24px;
+}
+
+.ph-sen-stage .orn--hero {
+  inset: auto -22% -14%;
+  height: 50%;
+  z-index: 2;
+}
+
+.ph-sen-stage .orn-lotus {
+  width: 44%;
+  bottom: 2%;
+}
+
+.ph-sen-stage .orn-lotus--bl {
+  left: 0;
+}
+
+.ph-sen-stage .orn-lotus--br {
+  right: 0;
+}
+
+.ph-sen-stage .orn-ripples {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  bottom: 0;
+  width: 84%;
+}
+
+.ph-sen-arch {
+  position: relative;
+  margin: 0;
+  width: min(320px, 68vw);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 6px solid var(--t-bg);
+  border-radius: 50% 50% 10px 10px / 34% 34% 10px 10px;
+  outline: 1px solid var(--t-accent);
+  outline-offset: 6px;
+  background: var(--t-paper);
+  box-shadow: 0 34px 50px -30px color-mix(in srgb, var(--t-cover) 75%, transparent);
+}
+
+.ph-sen-arch img {
+  object-position: 50% 30%;
+}
+
+.ph-sen-names {
+  display: grid;
+  margin: 70px 0 18px;
+  font-family: var(--t-font-script) !important;
+  font-size: clamp(46px, 9vw, 74px);
+  line-height: 1.05;
+  color: var(--t-fg);
+}
+
+.ph-sen-names i {
+  font-family: var(--t-font-heading);
+  font-size: 0.42em;
+  font-style: italic;
+  color: var(--t-accent);
+}
+
+/* hoạt ảnh khi mở */
+.hero.is-open .ph-sen-kicker {
+  animation: ph-tracking 1.4s 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero.is-open .ph-sen-arch {
+  animation: sen-arch-in 1.6s 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero.is-open .ph-sen-arch img {
+  animation: ph-kenburns 3.2s 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero.is-open .ph-sen-stage .orn-lotus--bl {
+  animation: sen-bloom-l 1.6s 1.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero.is-open .ph-sen-stage .orn-lotus--br {
+  animation: sen-bloom-r 1.6s 1.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero.is-open .ph-sen-names,
+.hero.is-open .ph--sen .sen-date {
+  animation: ph-rise 1.2s 1.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes sen-arch-in {
+  from {
+    opacity: 0;
+    clip-path: inset(100% 0 0 0 round 160px 160px 10px 10px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0 round 160px 160px 10px 10px);
+  }
+}
+
+@keyframes sen-bloom-l {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sen-bloom-r {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(-0.7, 0.7);
+  }
+  to {
+    opacity: 1;
+    transform: scaleX(-1);
+  }
+}
+
+/* --- thanh ngày: thứ | ngày | tháng --- */
+.sen-date {
+  display: grid;
+  justify-items: center;
+}
+
+.sen-date-time {
+  font-family: var(--t-font-heading);
+  font-size: 34px;
+  line-height: 1.2;
+  color: var(--t-fg);
+}
+
+.sen-date-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: min(340px, 100%);
+  margin-top: 6px;
+  font-family: var(--t-font-heading);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--t-muted);
+}
+
+.sen-date-bar span:first-child {
+  padding-right: 16px;
+  text-align: right;
+  border-right: 1px solid var(--t-accent);
+}
+
+.sen-date-bar span:last-child {
+  padding-left: 16px;
+  text-align: left;
+  border-left: 1px solid var(--t-accent);
+}
+
+.sen-date-bar b {
+  padding: 0 16px;
+  font-size: 50px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--t-fg);
+}
+
+.sen-date-year {
+  margin-top: 4px;
+  font-family: var(--t-font-heading);
+  font-size: 20px;
+  letter-spacing: 0.3em;
+  color: var(--t-fg);
+}
+
+.sen-date-lunar {
+  margin-top: 8px;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--t-muted);
+}
+
+/* --- cô dâu chú rể: hai ảnh nghiêng chồng nhau trên dải màu --- */
+.couple--sen {
+  position: relative;
+  overflow-x: clip;
+}
+
+/* cụm sen góc trên phải và góc dưới trái của khối ảnh đôi, nằm sau ảnh */
+.couple--sen .orn--coupleDecor {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.couple--sen .orn--coupleDecor .orn-lotus {
+  width: clamp(150px, 42%, 230px);
+}
+
+.couple--sen > .script,
+.couple--sen > .sec-title {
+  position: relative;
+  z-index: 2;
+}
+
+.couple--sen .orn--coupleDecor .orn-lotus--tr {
+  top: -24%;
+  right: -14%;
+  transform: scaleX(-1);
+}
+
+.couple--sen .orn--coupleDecor .orn-lotus--bl {
+  left: -12%;
+  bottom: -14%;
+  transform: none;
+}
+
+.couple--sen .cp-person {
+  z-index: 1;
+}
+
+.couple--sen .cp-pair {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  max-width: 520px;
+  margin: 26px auto 0;
+}
+
+.couple--sen .cp-pair::before {
+  content: "";
+  position: absolute;
+  top: 41%;
+  left: 50%;
+  width: 100vw;
+  height: 78px;
+  transform: translateX(-50%);
+  background:
+    repeating-linear-gradient(90deg, transparent 0 22px, color-mix(in srgb, var(--t-cover-fg) 10%, transparent) 22px 23px),
+    var(--t-cover);
+  opacity: 0.92;
+}
+
+.couple--sen .cp-amp {
+  display: none;
+}
+
+.couple--sen .cp-person {
+  position: relative;
+  grid-template-columns: 56% 1fr;
+  align-items: end;
+  gap: 18px;
+  justify-items: stretch;
+}
+
+.couple--sen .cp-person:last-child {
+  grid-template-columns: 1fr 56%;
+  margin-top: -54px;
+}
+
+.couple--sen .cp-person:last-child .cp-frame {
+  grid-column: 2;
+  grid-row: 1;
+  transform: rotate(5deg);
+}
+
+.couple--sen .cp-person:last-child .cp-copy {
+  grid-column: 1;
+  grid-row: 1;
+  text-align: right;
+  align-self: start;
+  padding-top: 70px;
+}
+
+.couple--sen .cp-frame {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  border: 6px solid var(--t-bg);
+  outline: 1px solid color-mix(in srgb, var(--t-accent) 60%, transparent);
+  box-shadow: 0 22px 34px -20px rgba(60, 20, 30, 0.55);
+  transform: rotate(-6deg);
+}
+
+.couple--sen .cp-copy {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 96px;
+  text-align: left;
+}
+
+.couple--sen .cp-name {
+  font-family: var(--t-font-script);
+  font-size: clamp(34px, 6vw, 46px);
+  color: var(--t-fg);
+}
+
+.couple--sen .cp-full {
+  font-size: 14px;
+}
+
+.couple--sen .cp-parents {
+  font-size: 12px;
+}
+
+/* --- lời mời hai họ --- */
+.thiep[data-skin="sen"] .invitation h2 {
+  font-family: var(--t-font-script);
+  font-size: clamp(40px, 7.6vw, 58px);
+  line-height: 1.2;
+}
+
+.thiep[data-skin="sen"] .invitation h2 .script {
+  font-size: 0.5em;
+}
+
+.thiep[data-skin="sen"] .family-names {
+  font-family: var(--t-font-heading);
+}
+
+/* --- các khối sự kiện: thẻ vòm cánh sen --- */
+.sen-events {
+  display: grid;
+  justify-items: center;
+}
+
+.sen-event {
+  position: relative;
+  width: min(520px, 100%);
+  padding: 58px 8% 44px;
+  border: 1px solid var(--t-line);
+  border-radius: 999px 999px 10px 10px / 200px 200px 10px 10px;
+  outline: 1px solid color-mix(in srgb, var(--t-line) 60%, transparent);
+  outline-offset: -9px;
+  background: color-mix(in srgb, var(--t-paper) 50%, transparent);
+}
+
+.sen-event-kicker {
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--t-muted);
+}
+
+.sen-event h3 {
+  margin: 8px 0 14px;
+  font-size: clamp(26px, 5vw, 32px);
+  color: var(--t-fg);
+}
+
+.sen-event-at {
+  margin-bottom: 2px;
+  font-size: 12px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--t-accent);
+}
+
+.sen-event-venue {
+  margin-top: 24px;
+  font-family: var(--t-font-heading);
+  font-size: 19px;
+}
+
+.sen-event-address,
+.sen-event-note {
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--t-muted);
+}
+
+.sen-event-note {
+  font-style: italic;
+}
+
+.sen-events .orn--invitationFoot {
+  margin: 34px auto;
+}
+
+.sen-event .venue-links {
+  justify-content: center;
+  margin-top: 18px;
+}
+
+/* --- album khung vòm --- */
+.lotus-album {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+}
+
+.lotus-album-stage {
+  display: grid;
+  grid-template-columns: 40px auto 40px;
+  align-items: center;
+  gap: 12px;
+}
+
+.lotus-album-arch {
+  position: relative;
+  width: min(340px, 64vw);
+  aspect-ratio: 3 / 4;
+  padding: 0;
+  overflow: hidden;
+  border: 6px solid var(--t-bg);
+  border-radius: 50% 50% 10px 10px / 34% 34% 10px 10px;
+  outline: 1px solid var(--t-accent);
+  outline-offset: 6px;
+  background: var(--t-paper);
+  box-shadow: 0 30px 44px -28px color-mix(in srgb, var(--t-cover) 70%, transparent);
+  cursor: zoom-in;
+}
+
+.lotus-album-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.06);
+  transition:
+    opacity 1.2s ease,
+    transform 5s ease;
+}
+
+.lotus-album-slide.is-on {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.lotus-album-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lotus-album-nav {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--t-line);
+  border-radius: 50%;
+  background: var(--t-bg);
+  color: var(--t-accent);
+  transition: background 0.2s, color 0.2s;
+}
+
+.lotus-album-nav:hover {
+  background: var(--t-accent);
+  color: var(--t-bg);
+}
+
+.lotus-album-nav svg {
+  width: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lotus-album-count {
+  margin-top: 10px;
+  font-family: var(--t-font-heading);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  color: var(--t-muted);
+}
+
+.lotus-album-count b {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--t-fg);
+}
+
+.lotus-album-cap {
+  min-height: 1.4em;
+  font-family: var(--t-font-script);
+  font-size: 24px;
+  color: var(--t-accent);
+  animation: ph-fade 0.8s both;
+}
+
+.lotus-album-thumbs {
+  display: flex;
+  gap: 8px;
+  max-width: 100%;
+  padding: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.lotus-album-thumbs::-webkit-scrollbar {
+  display: none;
+}
+
+.lotus-album-thumbs button {
+  flex: 0 0 48px;
+  height: 62px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 24px 24px 6px 6px;
+  outline: 1px solid transparent;
+  outline-offset: 2px;
+  opacity: 0.5;
+  transition: opacity 0.3s, outline-color 0.3s;
+}
+
+.lotus-album-thumbs button[aria-selected="true"] {
+  opacity: 1;
+  outline-color: var(--t-accent);
+}
+
+.lotus-album-thumbs img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --- đếm ngược cánh sen + lịch tháng --- */
+.sen-count-grid {
+  display: flex;
+  justify-content: center;
+  gap: clamp(10px, 3vw, 22px);
+  margin-top: 20px;
+}
+
+.sen-count-grid > div {
+  display: grid;
+  place-content: center;
+  width: 74px;
+  height: 90px;
+  border: 1px solid var(--t-line);
+  border-radius: 50% 50% 46% 46% / 64% 64% 36% 36%;
+  background: color-mix(in srgb, var(--t-paper) 70%, transparent);
+}
+
+.sen-count-grid strong {
+  font-family: var(--t-font-heading);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+.sen-count-grid span {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--t-muted);
+}
+
+.sen-count .cal-card {
+  margin-top: 40px;
+  background: var(--t-bg);
+}
+
+.sen-count .cal-month {
+  font-family: var(--t-font-heading);
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  border-bottom-width: 1px;
+}
+
+/* --- lịch trình: trục giữa, giờ một bên, việc một bên --- */
+.thiep[data-skin="sen"] .timeline ol {
+  position: relative;
+  max-width: 520px;
+  margin: 34px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.thiep[data-skin="sen"] .timeline ol::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 50%;
+  width: 1px;
+  background: var(--t-line);
+}
+
+.thiep[data-skin="sen"] .timeline li {
+  display: block;
+  min-height: 0;
+  margin: 0;
+  padding: 14px 0;
+}
+
+.thiep[data-skin="sen"] .timeline-icon {
+  display: none;
+}
+
+.thiep[data-skin="sen"] .timeline-copy {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 48px;
+  padding: 0;
+  border: 0;
+  text-align: left;
+}
+
+.thiep[data-skin="sen"] .timeline-copy::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  width: 12px;
+  height: 16px;
+  border-radius: 50% 50% 50% 50% / 64% 64% 36% 36%;
+  background: var(--t-accent);
+  transform: translateX(-50%);
+}
+
+.thiep[data-skin="sen"] .timeline-copy time {
+  grid-row: 1 / span 2;
+  justify-self: end;
+  font-family: var(--t-font-heading);
+  font-size: 22px;
+  color: var(--t-fg);
+}
+
+.thiep[data-skin="sen"] .timeline-copy h3 {
+  font-size: 19px;
+  color: var(--t-fg);
+}
+
+.thiep[data-skin="sen"] .timeline-copy p {
+  grid-column: 2;
+  font-size: 14px;
+  color: var(--t-muted);
+}
+
+/* --- trang phục, mừng cưới, chân thiệp --- */
+.thiep[data-skin="sen"] .palette span {
+  border-radius: 50% 50% 50% 50% / 64% 64% 36% 36%;
+}
+
+.thiep[data-skin="sen"] .gb-box svg rect[fill="var(--t-cover)"] {
+  fill: var(--t-accent);
+}
+
+.thiep[data-skin="sen"] footer h2 {
+  font-family: var(--t-font-script);
+  font-size: clamp(44px, 8vw, 64px);
+}
+
+.thiep[data-skin="sen"] .orn--footer {
+  position: relative;
+  width: min(520px, 100%);
+  height: 150px;
+}
+
+.thiep[data-skin="sen"] .orn--footer .orn-lotus {
+  bottom: 0;
+}
+
+/* cánh sen rơi */
+.ambient--lotus .drift {
+  width: var(--size);
+  height: auto;
+}
+
+.ambient--lotus svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.ambient--lotus path {
+  fill: color-mix(in srgb, var(--t-accent) 70%, white);
+}
+
+.ambient--lotus .drift--1 path {
+  fill: color-mix(in srgb, var(--t-accent) 40%, white);
+}
+
+.ambient--lotus .drift--2 path {
+  fill: var(--t-accent);
+}
+
+.ambient--lotus .vein {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.5);
+  stroke-width: 0.8;
+}
+
+@media (max-width: 640px) {
+  .ph--sen {
+    padding-top: 40px;
+  }
+
+  .couple--sen .cp-person {
+    gap: 12px;
+  }
+
+  .couple--sen .cp-copy {
+    padding-bottom: 90px;
+  }
+
+  .couple--sen .cp-person:last-child .cp-copy {
+    padding-top: 64px;
+  }
+
+  .sen-event {
+    padding: 50px 6% 38px;
+  }
+
+  .lotus-album-stage {
+    grid-template-columns: 34px auto 34px;
+    gap: 8px;
+  }
+
+  .lotus-album-nav {
+    width: 34px;
+    height: 34px;
+  }
+
+  .sen-count-grid > div {
+    width: 64px;
+    height: 80px;
+  }
+
+  .thiep[data-skin="sen"] .timeline-copy {
+    column-gap: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lotus-album-slide {
+    transition: opacity 0.3s;
+    transform: none;
   }
 }

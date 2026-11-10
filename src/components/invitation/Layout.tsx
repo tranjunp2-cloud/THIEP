@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState, type ReactNode } from "react";
 import type { SkinId } from "@/lib/templates/registry";
 import { dateParts, dotDate, longDate, lunar, mainEvent, selfRef, time } from "@/lib/wedding/format";
 import type { WeddingEvent } from "@/lib/wedding/types";
-import { Album, CoupleIntro, MonthGrid, WeddingCalendar } from "./Photos";
+import { Album, CoupleIntro, DateBar, MonthGrid, WeddingCalendar } from "./Photos";
 import { Closing, CopyButton, Dress, EventLinks, Faq, Gifts, OtherEvents, Timeline, VenueMain, type SecProps } from "./Sections";
 import { Ornament } from "./skins";
 
@@ -324,6 +324,54 @@ function GiftBox({ w }: SecProps) {
   );
 }
 
+/** Sen Hồng: mỗi sự kiện một khối căn giữa — giờ lớn, thanh ngày, địa điểm; hoạ tiết sen ngăn giữa các khối. */
+function SenEvents({ w }: SecProps) {
+  const events = [...w.events].sort(byStart);
+  if (!events.length) return null;
+  return (
+    <section id="su-kien" className="sen-events section">
+      <p className="script">Trân trọng kính mời</p>
+      <h2 className="sec-title">Thông tin lễ cưới</h2>
+      {events.map((e, i) => (
+        <Fragment key={e.id}>
+          {i > 0 && <Ornament slot="invitationFoot" />}
+          <article className="sen-event">
+            <p className="sen-event-kicker">{e.subtitle || e.title}</p>
+            <h3>{e.title}</h3>
+            <p className="sen-event-at">vào lúc</p>
+            <DateBar iso={e.start} time={time(e.start)} />
+            <p className="sen-event-venue">{e.venue}</p>
+            <p className="sen-event-address">{e.address}</p>
+            {e.note && <p className="sen-event-note">{e.note}</p>}
+            <EventLinks w={w} e={e} />
+          </article>
+        </Fragment>
+      ))}
+    </section>
+  );
+}
+
+/** Sen Hồng: đếm ngược bốn ô cánh sen và lịch tháng đánh dấu ngày cưới. */
+function SenCountdown({ w, guest }: SecProps) {
+  const main = mainEvent(w);
+  const count = useCountdown(main.start);
+  return (
+    <section className="sen-count section" id="dem-nguoc">
+      <p className="script">Từng ngày đưa {selfRef(guest)} lại gần nhau</p>
+      <h2 className="sec-title">Cùng đếm ngược</h2>
+      <div className="sen-count-grid">
+        {["Ngày", "Giờ", "Phút", "Giây"].map((label, i) => (
+          <div key={label}>
+            <strong>{count ? String(count[i]).padStart(2, "0") : "--"}</strong>
+            <span>{label}</span>
+          </div>
+        ))}
+      </div>
+      <MonthGrid iso={main.start} />
+    </section>
+  );
+}
+
 /* ============================================================
    Bố cục của từng mẫu — thứ tự và phiên bản section
    ============================================================ */
@@ -337,6 +385,8 @@ const SECTIONS: Record<string, Sec> = {
   marquee: Marquee,
   party: PartyInfo,
   giftBox: GiftBox,
+  senEvents: SenEvents,
+  senCount: SenCountdown,
   families: FamiliesInvite,
   calendar: ({ w }) => <WeddingCalendar w={w} />,
   album: ({ w }) => <Album w={w} />,
@@ -374,7 +424,8 @@ export const LAYOUTS: Record<SkinId, string[]> = {
   "dem-sao": ["families", "couple", "album", "party", "otherCards", "dress", "timeline", "giftBox", "closing"],
   // Tạp chí: các mục đánh số, bảng sự kiện, đếm ngược một dòng.
   "toi-gian": ["countdownLine", "couple", "marquee", "families", "eventTable", "timeline", "album", "marquee", "dress", "gifts", "faq", "closing"],
-  sen: ["couple", "countdown", "families", "album", "venue", "timeline", "others", "dress", "gifts", "faq", "closing"],
+  // Sen Hồng: ảnh đôi nghiêng chồng nhau, báo hỷ hai họ, khối sự kiện thanh ngày, album khung vòm, lịch đếm ngược.
+  sen: ["couple", "families", "senEvents", "album", "senCount", "dress", "timeline", "giftBox", "faq", "closing"],
   truc: ["couple", "countdown", "families", "album", "venue", "timeline", "others", "dress", "gifts", "faq", "closing"],
 };
 

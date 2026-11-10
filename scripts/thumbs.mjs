@@ -20,6 +20,8 @@ const OUT = join(process.cwd(), "public/thiep/thumbs");
 const W = 430;
 const H = 764; // tỉ lệ ~ 9:16 như màn hình điện thoại
 const SCALE = 1.5;
+/** Dòng mẫu chụp thumbnail từ một khối riêng (selector) thay vì bìa — khối nổi bật nhất của mẫu đó. */
+const THUMB_SECTION = { "sen-hong": ".couple .cp-pair" };
 
 /** "lua-do-xanh-ngoc" → ["lua-do", "xanh-ngoc"], dựa trên danh sách dòng mẫu trong registry. */
 let FAMILY_IDS = [];
@@ -102,7 +104,27 @@ async function main() {
         await Promise.all([...document.querySelectorAll(".hero img")].map((i) => i.decode().catch(() => {})));
       })()`);
       await sleep(3600); // đợi animation mở thiệp chạy xong
-      const shot = await send("Page.captureScreenshot", { format: "jpeg", quality: 82, clip: { x: 0, y: 0, width: W, height: H, scale: 1 } });
+      // Mẫu có khối đặc trưng hơn bìa: chụp từ khối đó thay vì bìa.
+      let top = 0;
+      const section = THUMB_SECTION[family];
+      if (section) {
+        const r = await run(`(async () => {
+          const el = document.querySelector(${JSON.stringify(section)});
+          el.scrollIntoView({ block: "start" });
+          await new Promise((r) => setTimeout(r, 1800));
+          el.querySelectorAll("img").forEach((i) => (i.loading = "eager"));
+          await Promise.all([...el.querySelectorAll("img")].map((i) => i.decode().catch(() => {})));
+          return el.getBoundingClientRect().top + window.scrollY - 150;
+        })()`);
+        top = Math.max(0, Math.round(r.result.value));
+        await sleep(800);
+      }
+      const shot = await send("Page.captureScreenshot", {
+        format: "jpeg",
+        quality: 82,
+        captureBeyondViewport: top > 0,
+        clip: { x: 0, y: top, width: W, height: H, scale: 1 },
+      });
       writeFileSync(join(OUT, `${id}.jpg`), Buffer.from(shot.data, "base64"));
       console.log("✓", id);
     }

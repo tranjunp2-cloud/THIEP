@@ -14,6 +14,10 @@ import {
   HyGlyph,
   LatticeCorner,
   Lanterns,
+  LotusCluster,
+  LotusDivider,
+  LotusRipples,
+  LotusSeal,
   NightHorizon,
   SquareSeal,
   StarCorner,
@@ -38,6 +42,7 @@ export type Slot =
   | "giftFrame"
   | "rsvpTop"
   | "rsvpSide"
+  | "coupleDecor"
   | "footer";
 
 const SkinContext = createContext<SkinId>("botanical");
@@ -61,6 +66,7 @@ const BOTANICAL: Record<Slot, string | null> = {
   giftFrame: "gifts-frame",
   rsvpTop: "envelope",
   rsvpSide: "topiary",
+  coupleDecor: null,
   footer: "estate-panorama",
 };
 
@@ -109,6 +115,37 @@ const SVG_SKINS: Partial<Record<SkinId, Partial<Record<Slot, ReactNode>>>> = {
     rsvpTop: <Crescent className="orn-badge" />,
     footer: <NightHorizon className="orn-footer" />,
   },
+  sen: {
+    hero: (
+      <>
+        <LotusCluster className="orn-lotus orn-lotus--bl" />
+        <LotusCluster className="orn-lotus orn-lotus--br" />
+        <LotusRipples className="orn-ripples" />
+      </>
+    ),
+    countdownFoot: <LotusDivider className="orn-divider" />,
+    invitationFoot: <LotusDivider className="orn-divider" />,
+    venueFrame: (
+      <>
+        <LotusCluster className="orn-lotus orn-lotus--bl orn-lotus--sm" />
+        <LotusCluster className="orn-lotus orn-lotus--tr orn-lotus--sm" />
+      </>
+    ),
+    dressTop: <LotusDivider className="orn-divider" />,
+    giftFrame: <LotusCluster className="orn-lotus orn-lotus--br orn-lotus--sm" />,
+    coupleDecor: (
+      <>
+        <LotusCluster className="orn-lotus orn-lotus--tr" />
+        <LotusCluster className="orn-lotus orn-lotus--bl" />
+      </>
+    ),
+    footer: (
+      <>
+        <LotusCluster className="orn-lotus orn-lotus--bl" />
+        <LotusCluster className="orn-lotus orn-lotus--br" />
+      </>
+    ),
+  },
   "toi-gian": {
     hero: <Ampersand className="orn-hero-amp" />,
     countdownFoot: <HairRule className="orn-divider" />,
@@ -155,6 +192,13 @@ export function Seal({ g1, g2 }: { g1: string; g2: string }) {
     return (
       <>
         <StarSeal className="seal-art" />
+        {mono}
+      </>
+    );
+  if (skin === "sen")
+    return (
+      <>
+        <LotusSeal className="seal-art" />
         {mono}
       </>
     );

@@ -242,18 +242,26 @@ export const FAMILIES: TemplateFamily[] = [
     tags: ["Typography", "Tạp chí", "Ít hoạ tiết"],
     description:
       "Chữ lớn, nhiều khoảng trắng, đường kẻ mảnh kiểu tạp chí. Dành cho cặp đôi yêu sự tinh gọn và muốn nội dung là nhân vật chính.",
-    highlights: ["Typography lớn kiểu tạp chí", "Đường kẻ mảnh, không hoạ tiết rườm rà", "5 tông màu từ mực đến đỏ đô", "Tải nhanh nhất trong kho mẫu"],
+    highlights: ["Typography lớn kiểu tạp chí", "Đường kẻ mảnh, không hoạ tiết rườm rà", "5 tông màu từ be đến đỏ đô", "Tải nhanh nhất trong kho mẫu"],
     occasions: ["Lễ Thành Hôn", "Tiệc cưới hiện đại", "Save the date"],
+    music: {
+      src: "/thiep/audio/prelude-in-c-web.mp3",
+      title: "Prelude in C (BWV 846)",
+      artist: "Kevin MacLeod",
+      url: "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100689",
+      license: "CC BY 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    },
     fonts: { heading: "josefin", body: "lora", script: "lora" },
     faqs: [
       { q: "Mẫu tối giản có quá đơn điệu không?", a: "Mẫu dựa vào chữ và khoảng trắng để tạo cảm giác sang. Bạn có thể chọn tông nâu, navy hay đỏ đô để thiệp có cá tính hơn." },
     ],
     variants: [
       {
-        id: "muc",
-        label: "Mực",
+        id: "be",
+        label: "Be",
         color: "trung-tinh",
-        tokens: { bg: "#f7f5f0", paper: "#efebe3", fg: "#161616", muted: "#5c5a55", accent: "#161616", line: "#cfcbc2", cover: "#161616", coverFg: "#f7f5f0" },
+        tokens: { bg: "#f8f4ee", paper: "#efe7dc", fg: "#4a3f36", muted: "#857668", accent: "#8c7260", line: "#e0d4c4", cover: "#8c7260", coverFg: "#fbf7f1" },
       },
       {
         id: "nau",
@@ -324,22 +332,42 @@ export const FAMILIES: TemplateFamily[] = [
     group: "truyen-thong",
     skin: "sen",
     tier: "tieu-chuan",
-    status: "soon",
+    status: "ready",
+    featured: true,
     tagline: "Dịu dàng · Thuần Việt",
-    layout: "Đang hoàn thiện",
-    motion: "Đang hoàn thiện",
-    tags: ["Hoa sen", "Thuần Việt"],
-    description: "Đoá sen hồng giữa nền phấn nhạt — nét thuần Việt dịu dàng, thanh khiết. Hợp tiệc báo hỷ ấm cúng.",
-    highlights: ["Hoạ tiết sen vẽ tay", "Tông hồng phấn dịu mắt"],
-    occasions: ["Tiệc Báo Hỷ", "Lễ Thành Hôn"],
-    fonts: { heading: "playfair", body: "lora", script: "pinyon" },
-    faqs: [],
+    layout: "Thuần Việt: ảnh cưới trong khung vòm cánh sen, ảnh đôi nghiêng chồng nhau, khối sự kiện với thanh ngày lớn, album khung vòm, lịch đếm ngược đánh dấu ngày cưới.",
+    motion: "Ảnh cưới hiện dần trong khung vòm, cụm sen nở hai bên bìa, cánh sen hồng rơi nhẹ",
+    tags: ["Hoa sen", "Thuần Việt", "Hồng phấn"],
+    description:
+      "Đoá sen hồng giữa nền phấn nhạt — nét thuần Việt dịu dàng, thanh khiết. Hoạ tiết sen vẽ riêng, ảnh cưới đặt trong khung vòm cánh sen, ngày cưới ghi rõ cả âm lịch. Hợp lễ vu quy, tiệc báo hỷ ấm cúng.",
+    highlights: ["Hoạ tiết sen vẽ riêng, đổi màu theo tông", "Khung vòm cánh sen cho ảnh cưới", "Ngày dương và âm lịch trên mọi sự kiện", "Cánh sen rơi nhẹ khi mở thiệp"],
+    occasions: ["Lễ Vu Quy", "Tiệc Báo Hỷ", "Lễ Thành Hôn"],
+    music: {
+      src: "/thiep/audio/morning-web.mp3",
+      title: "Morning",
+      artist: "Kevin MacLeod",
+      url: "https://incompetech.com/music/royalty-free/index.html?isrc=USUAN2300003",
+      license: "CC BY 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    },
+    fonts: { heading: "prata", body: "garamond", script: "imperial" },
+    faqs: [
+      { q: "Mẫu Sen Hồng hợp với lễ nào?", a: "Hợp nhất với lễ vu quy, lễ thành hôn và tiệc báo hỷ mang nét truyền thống nhưng nhẹ nhàng — áo dài, hoa sen, tông hồng phấn." },
+      { q: "Có đổi được sang tông màu khác không?", a: "Có. Ngoài hồng phấn còn tông xanh lá sen; hoạ tiết sen tự đổi màu theo tông bạn chọn." },
+    ],
     variants: [
       {
         id: "hong",
-        label: "Hồng",
+        label: "Hồng phấn",
         color: "hong",
-        tokens: { bg: "#fbf3f1", paper: "#f6e2df", fg: "#6e2c3a", muted: "#8a6168", accent: "#c4707c", line: "#e2c0bf", cover: "#7b3442", coverFg: "#fbe9e6" },
+        tokens: { bg: "#fcf5f3", paper: "#f7e4e1", fg: "#6b2d3a", muted: "#8d6670", accent: "#c76f7f", line: "#e8c6c4", cover: "#7a3343", coverFg: "#fcebe7" },
+      },
+      {
+        id: "la-sen",
+        label: "Lá sen",
+        color: "xanh-la",
+        isNew: true,
+        tokens: { bg: "#f6f6f0", paper: "#e7ece0", fg: "#2f4a3b", muted: "#66766b", accent: "#c27a86", line: "#cfd8c6", cover: "#33503f", coverFg: "#f4efe4" },
       },
     ],
   },
@@ -385,6 +413,10 @@ for (const family of FAMILIES)
 export const ALL_TEMPLATES: TemplateRef[] = [...index.values()];
 export const READY_TEMPLATES = ALL_TEMPLATES.filter((t) => t.family.status === "ready");
 export const FEATURED_FAMILIES = FAMILIES.filter((f) => f.featured);
+
+/** Mã cũ đã bỏ → mẫu thay thế, để thiệp đã lưu với mã cũ vẫn mở đúng mẫu. */
+const LEGACY_IDS: Record<string, string> = { "toi-gian-muc": "toi-gian-be" };
+for (const [oldId, newId] of Object.entries(LEGACY_IDS)) index.set(oldId, index.get(newId)!);
 
 export const findTemplate = (id: string | undefined | null) => (id ? index.get(id) : undefined);
 export const isReadyTemplate = (id: string | undefined | null) => findTemplate(id)?.family.status === "ready";

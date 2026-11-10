@@ -100,7 +100,7 @@ const PERSONAS: Record<string, Persona> = {
     input: {
       faqs: [
         { q: "Mình nên đến lúc mấy giờ?", a: "Đón khách từ 17:30 với welcome drink và photobooth, nghi thức bắt đầu lúc 18:15." },
-        { q: "Dress code thế nào?", a: "Đen, trắng hoặc be — đơn giản là đẹp nhất." },
+        { q: "Dress code thế nào?", a: "Trắng, kem hoặc be — nhẹ nhàng là đẹp nhất." },
         { q: "Có chỗ đỗ xe không?", a: "Toà nhà có hầm gửi xe, bạn báo bảo vệ là khách dự tiệc cưới nhé." },
       ],
       groom: { name: "Phạm Gia Huy", short: "Gia Huy", title: "Con trai út" },
@@ -130,7 +130,7 @@ const PERSONAS: Record<string, Persona> = {
         { time: "20:00", title: "First dance", detail: "Nhảy cùng chúng mình" },
         { time: "21:30", title: "Kết thúc", detail: "Hẹn gặp lại" },
       ],
-      dress: { title: "Black & White", note: "Dress code đen, trắng hoặc be. Chúng mình muốn mọi khung hình đều thật tinh gọn." },
+      dress: { title: "Trắng & Be", note: "Dress code trắng, kem hoặc be. Chúng mình muốn mọi khung hình đều thật nhẹ nhàng, tinh gọn." },
       gifts: {
         message: "Món quà lớn nhất là bạn có mặt. Nếu muốn gửi lời chúc từ xa, bạn có thể dùng thông tin dưới đây.",
         accounts: [
@@ -140,8 +140,8 @@ const PERSONAS: Record<string, Persona> = {
       },
       photos: {
         cover: demoPhoto("toi", 1, 1200, 801, "Hai bạn tựa trán vào nhau bên hồ", "50% 40%"),
-        groom: demoPhoto("toi", 2, 1200, 801, "Chú rể cầm bó hoa", "30% 30%", 1.25),
-        bride: demoPhoto("toi", 3, 1200, 801, "Cô dâu mỉm cười", "38% 32%", 1.35),
+        groom: demoPhoto("toi", 2, 1200, 1607, "Chú rể cầm bó hoa", "50% 28%", 1.35),
+        bride: demoPhoto("toi", 3, 1200, 1607, "Cô dâu mỉm cười", "45% 30%", 1.35),
         album: [
           demoPhoto("toi", 6, 1200, 800, "Ôm nhau trước bức tường trái tim"),
           demoPhoto("toi", 4, 1200, 801, "Chú rể trao hoa"),
@@ -156,7 +156,7 @@ const PERSONAS: Record<string, Persona> = {
       },
       rsvpDeadline: "2026-12-30",
     },
-    dressPalette: ["#161616", "#5c5a55", "#cfcbc2", "#efebe3", "#ffffff"],
+    dressPalette: ["#8c7260", "#b8a48f", "#e0d4c4", "#efe7dc", "#ffffff"],
   },
 
   /* ---------- Đêm Sao: tiệc tối khách sạn ---------- */
@@ -204,8 +204,8 @@ const PERSONAS: Record<string, Persona> = {
       },
       photos: {
         cover: demoPhoto("sao", 4, 1200, 1800, "Nụ hôn trước vòm hoa", "50% 18%"),
-        groom: demoPhoto("sao", 2, 1200, 1800, "Chân dung chú rể", "50% 25%"),
-        bride: demoPhoto("sao", 3, 1200, 1800, "Cô dâu mỉm cười", "45% 35%"),
+        groom: demoPhoto("sao", 11, 1176, 1568, "Chú rể trong áo dài trắng", "50% 28%"),
+        bride: demoPhoto("sao", 12, 1176, 1568, "Cô dâu áo dài trắng ôm hoa", "50% 28%"),
         album: [
           demoPhoto("sao", 4, 1200, 1800, "Nụ hôn trước vòm hoa"),
           demoPhoto("sao", 8, 1200, 800, "Vui cùng bạn bè trong đêm tiệc"),
@@ -221,6 +221,64 @@ const PERSONAS: Record<string, Persona> = {
       rsvpDeadline: "2026-12-18",
     },
     dressPalette: ["#0f1a36", "#1c1530", "#d8b878", "#f1e6c8", "#161616"],
+  },
+
+  /* ---------- Sen Hồng: lễ vu quy miền Tây, đất sen Đồng Tháp ---------- */
+  "sen-hong": {
+    input: {
+      faqs: [
+        { q: "Lễ vu quy bắt đầu lúc mấy giờ?", a: "Lễ gia tiên tại tư gia nhà gái lúc 8:00, đoàn nhà trai rước dâu khoảng 9:00." },
+        { q: "Tiệc cưới tổ chức ở đâu?", a: "Nhà hàng Sen Hồng Garden bên hồ Văn Miếu, đón khách từ 10:30, khai tiệc lúc 11:00." },
+        { q: "Có chỗ gửi xe không?", a: "Nhà hàng có bãi gửi ô tô và xe máy miễn phí ngay cổng chính." },
+      ],
+      groom: { name: "Hoàng Gia Bảo", short: "Gia Bảo", title: "Trưởng nam" },
+      bride: { name: "Trần Ngọc Diệp", short: "Ngọc Diệp", title: "Út nữ" },
+      city: "Đồng Tháp",
+      families: [
+        { father: "Ông Hoàng Văn Phúc", mother: "Bà Lê Thị Mai", address: "TP. Sa Đéc, Đồng Tháp" },
+        { father: "Ông Trần Minh Tâm", mother: "Bà Nguyễn Thị Sen", address: "TP. Cao Lãnh, Đồng Tháp" },
+      ],
+      events: [
+        {
+          title: "Lễ Vu Quy",
+          subtitle: "Tại tư gia nhà gái",
+          date: "2027-01-16",
+          start: "08:00",
+          end: "09:30",
+          venue: "Tư gia nhà gái",
+          address: "Số 18 đường Lý Thường Kiệt, Phường 1, TP. Cao Lãnh, Đồng Tháp",
+          note: "Lễ gia tiên ấm cúng giữa hai họ, trao trầu cau và rước dâu.",
+        },
+        {
+          title: "Tiệc Cưới",
+          subtitle: "Lễ thành hôn & tiệc mừng",
+          date: "2027-01-16",
+          start: "11:00",
+          end: "14:00",
+          venue: "Nhà hàng Sen Hồng Garden",
+          address: "Số 5 đường Nguyễn Huệ, Phường 2, TP. Cao Lãnh, Đồng Tháp",
+          note: "",
+        },
+      ],
+      mainIndex: 1,
+      timeline: [
+        { time: "10:30", title: "Đón khách", detail: "Chụp ảnh lưu niệm bên hồ sen" },
+        { time: "11:00", title: "Lễ thành hôn", detail: "Trao nhẫn và lời hứa trăm năm" },
+        { time: "11:30", title: "Khai tiệc", detail: "Nâng ly chúc mừng cùng hai họ" },
+        { time: "12:30", title: "Văn nghệ", detail: "Đờn ca tài tử từ bạn bè quê nhà" },
+        { time: "13:30", title: "Tiễn khách", detail: "Cảm ơn quý khách đã về chung vui" },
+      ],
+      dress: { title: "Áo dài & sắc sen", note: "Rất mong quý khách chọn áo dài hoặc trang phục tông hồng phấn, trắng, xanh lá sen để ngày vui thêm dịu dàng." },
+      gifts: {
+        message: "Sự hiện diện của quý khách là niềm vui lớn nhất của gia đình. Nếu ở xa, quý khách có thể gửi lời chúc mừng qua thông tin dưới đây.",
+        accounts: [
+          { side: "Nhà trai", bank: "Ngân hàng ABC (demo)", number: "0277 456 789", holder: "HOANG GIA BAO" },
+          { side: "Nhà gái", bank: "Ngân hàng XYZ (demo)", number: "0939 112 233", holder: "TRAN NGOC DIEP" },
+        ],
+      },
+      rsvpDeadline: "2027-01-08",
+    },
+    dressPalette: ["#c76f7f", "#f2c9cf", "#fcf5f3", "#a9bfa3", "#6d8f68"],
   },
 };
 
